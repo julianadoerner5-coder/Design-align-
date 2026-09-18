@@ -544,7 +544,133 @@ footer span {
     font-size: 10px;
     letter-spacing: .12em;
 }
+/* ACCOUNT */
 
+.account-button {
+    border: 1px solid var(--charcoal);
+    background: transparent;
+    color: var(--charcoal);
+    padding: 9px 13px;
+    font-family: inherit;
+    font-size: 10px;
+    letter-spacing: .12em;
+    font-weight: 700;
+    cursor: pointer;
+    transition: .25s ease;
+}
+
+.account-button:hover {
+    background: var(--charcoal);
+    color: white;
+}
+    .auth-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(37,36,34,.72);
+    backdrop-filter: blur(8px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 25px;
+    z-index: 1000;
+}
+
+.auth-overlay.active {
+    display: flex;
+}
+
+.auth-box {
+    width: min(460px, 100%);
+    background: var(--ivory);
+    padding: 50px;
+    position: relative;
+    box-shadow: 0 30px 80px rgba(0,0,0,.25);
+}
+
+.auth-close {
+    position: absolute;
+    top: 18px;
+    right: 20px;
+    border: none;
+    background: none;
+    font-size: 28px;
+    cursor: pointer;
+    color: var(--charcoal);
+}
+
+.auth-label {
+    color: var(--gold);
+    font-size: 10px;
+    letter-spacing: .2em;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.auth-box h2 {
+    font-size: 42px;
+    line-height: .95;
+    letter-spacing: -.05em;
+}
+
+.auth-box > p {
+    color: #716b64;
+    margin: 15px 0 28px;
+    font-size: 14px;
+}
+
+.auth-box input {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 12px;
+    border: 1px solid var(--gray);
+    background: white;
+    font-family: inherit;
+    font-size: 14px;
+    outline: none;
+}
+
+.auth-box input:focus {
+    border-color: var(--gold);
+}
+
+.auth-submit {
+    width: 100%;
+    padding: 16px;
+    border: none;
+    background: var(--espresso);
+    color: white;
+    font-family: inherit;
+    font-size: 11px;
+    letter-spacing: .15em;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 8px;
+}
+
+.auth-submit:hover {
+    background: var(--gold);
+}
+
+.auth-switch {
+    text-align: center;
+    font-size: 12px !important;
+    margin-top: 22px !important;
+}
+
+.auth-switch button {
+    border: none;
+    background: none;
+    color: var(--gold);
+    font-family: inherit;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.auth-message {
+    text-align: center;
+    font-size: 12px !important;
+    margin-top: 18px !important;
+}
 /* MOBILE */
 
 @media(max-width: 850px) {
@@ -617,12 +743,20 @@ footer span {
     <div class="logo">ALIGN</div>
 
     <div class="nav-links">
-        <a href="#experience">EXPLORE</a>
-        <a href="#journal">JOURNAL</a>
-        <a href="#mindset">MINDSET</a>
-        <a href="#goals">GOALS</a>
-        <a href="#beyond">BEYOND</a>
-    </div>
+
+    <a href="#experience">EXPLORE</a>
+
+    <a href="#journal">JOURNAL</a>
+
+    <a href="#mindset">MINDSET</a>
+
+    <a href="#goals">GOALS</a>
+
+    <a href="#beyond">BEYOND</a>
+
+    <button class="account-button" onclick="openAuth()">MY ALIGN</button>
+
+</div>
 </nav>
 
 
@@ -991,7 +1125,57 @@ footer span {
 
 </section>
 
+<!-- AUTHENTICATION -->
 
+<div class="auth-overlay" id="authOverlay">
+
+    <div class="auth-box">
+
+        <button class="auth-close" onclick="closeAuth()">×</button>
+
+        <div class="auth-label">ALIGN / YOUR SPACE</div>
+
+        <h2 id="authTitle">WELCOME BACK.</h2>
+
+        <p id="authSubtitle">
+            Sign in to continue your ALIGN journey.
+        </p>
+
+        <form id="authForm">
+
+            <input
+                type="email"
+                id="authEmail"
+                placeholder="Email address"
+                required
+            >
+
+            <input
+                type="password"
+                id="authPassword"
+                placeholder="Password"
+                minlength="10"
+                required
+            >
+
+            <button type="submit" class="auth-submit" id="authSubmit">
+                SIGN IN →
+            </button>
+
+        </form>
+
+        <p class="auth-switch" id="authSwitch">
+            Don't have an account?
+            <button type="button" onclick="toggleAuthMode()">
+                CREATE ONE
+            </button>
+        </p>
+
+        <p class="auth-message" id="authMessage"></p>
+
+    </div>
+
+</div>
 <!-- FOOTER -->
 
 <footer>
@@ -1006,13 +1190,139 @@ footer span {
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
+
   const SUPABASE_URL = "https://dyfgwzmtugwclftwxxkb.supabase.co";
+
   const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_7YS1BkWSn8hIAtSMb3Zn8w_YXknLQJM";
 
   const supabaseClient = window.supabase.createClient(
+
     SUPABASE_URL,
+
     SUPABASE_PUBLISHABLE_KEY
+
   );
+
+</script>
+
+<script>
+
+let authMode = "signin";
+
+function openAuth() {
+    document.getElementById("authOverlay").classList.add("active");
+}
+
+function closeAuth() {
+    document.getElementById("authOverlay").classList.remove("active");
+    document.getElementById("authMessage").textContent = "";
+}
+
+function toggleAuthMode() {
+
+    authMode = authMode === "signin" ? "signup" : "signin";
+
+    const title = document.getElementById("authTitle");
+    const subtitle = document.getElementById("authSubtitle");
+    const submit = document.getElementById("authSubmit");
+    const switchText = document.getElementById("authSwitch");
+
+    if (authMode === "signup") {
+
+        title.textContent = "START YOUR JOURNEY.";
+
+        subtitle.textContent =
+            "Create your private ALIGN account.";
+
+        submit.textContent = "CREATE ACCOUNT →";
+
+        switchText.innerHTML =
+            `Already have an account?
+             <button type="button" onclick="toggleAuthMode()">
+             SIGN IN
+             </button>`;
+
+    } else {
+
+        title.textContent = "WELCOME BACK.";
+
+        subtitle.textContent =
+            "Sign in to continue your ALIGN journey.";
+
+        submit.textContent = "SIGN IN →";
+
+        switchText.innerHTML =
+            `Don't have an account?
+             <button type="button" onclick="toggleAuthMode()">
+             CREATE ONE
+             </button>`;
+    }
+
+    document.getElementById("authMessage").textContent = "";
+}
+
+
+document.getElementById("authForm").addEventListener("submit", async function(event) {
+
+    event.preventDefault();
+
+    const email =
+        document.getElementById("authEmail").value.trim();
+
+    const password =
+        document.getElementById("authPassword").value;
+
+    const message =
+        document.getElementById("authMessage");
+
+    const button =
+        document.getElementById("authSubmit");
+
+    message.textContent = "";
+    button.disabled = true;
+
+    if (authMode === "signup") {
+
+        const { error } =
+            await supabaseClient.auth.signUp({
+                email: email,
+                password: password
+            });
+
+        if (error) {
+            message.textContent = error.message;
+            button.disabled = false;
+            return;
+        }
+
+        message.textContent =
+            "Account created! Check your email to confirm your account.";
+
+    } else {
+
+        const { error } =
+            await supabaseClient.auth.signInWithPassword({
+                email: email,
+                password: password
+            });
+
+        if (error) {
+            message.textContent = error.message;
+            button.disabled = false;
+            return;
+        }
+
+        message.textContent = "You're signed in.";
+
+        setTimeout(() => {
+            closeAuth();
+        }, 1000);
+    }
+
+    button.disabled = false;
+
+});
+
 </script>
 </body>
 </html>
