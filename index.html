@@ -1511,6 +1511,17 @@ function signOut() {
     });
 
 }
+
+function handleAccountClick() {
+
+    if (currentUser) {
+        openDashboard();
+    } else {
+        openAuth();
+    }
+
+}
+
 let authMode = "signin";
 
 function openAuth() {
