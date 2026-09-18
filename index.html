@@ -4,14 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>ALIGN — The Student Athlete Project</title>
+<title>ALIGN | The Student Athlete Project</title>
 
 <style>
 
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:wght@500;600&display=swap');
+
 * {
-  box-sizing: border-box;
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 
 html {
@@ -19,10 +21,9 @@ html {
 }
 
 body {
-  font-family: Arial, Helvetica, sans-serif;
-  background: #f7f4ed;
-  color: #24352e;
-  line-height: 1.6;
+  background: #f8f5ee;
+  color: #26352f;
+  font-family: 'DM Sans', sans-serif;
 }
 
 /* NAVIGATION */
@@ -30,147 +31,188 @@ body {
 nav {
   position: sticky;
   top: 0;
-  z-index: 10;
-  background: rgba(247,244,237,0.95);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid #d9e5de;
-  padding: 18px 7%;
+  z-index: 100;
+  background: rgba(248,245,238,.94);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid #dce5df;
+
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  padding: 18px 7%;
 }
 
 .logo {
-  font-size: 22px;
-  font-weight: bold;
-  letter-spacing: 4px;
+  font-weight: 600;
+  letter-spacing: 5px;
+  font-size: 21px;
 }
 
-nav a {
-  color: #24352e;
+.nav-links {
+  display: flex;
+  gap: 30px;
+}
+
+.nav-links a {
+  color: #26352f;
   text-decoration: none;
-  margin-left: 25px;
-  font-size: 14px;
+  font-size: 13px;
 }
 
-nav a:hover {
-  color: #6f9b88;
+.nav-links a:hover {
+  color: #769a87;
 }
 
 /* HERO */
 
 .hero {
-  min-height: 88vh;
+  min-height: 92vh;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
   text-align: center;
-  padding: 60px 25px;
+
+  padding: 80px 25px;
+
   background:
-    radial-gradient(circle at top right, #dceee5, transparent 35%),
-    #f7f4ed;
+    radial-gradient(
+      circle at 15% 20%,
+      #dceee5 0,
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 85% 80%,
+      #e5efe9 0,
+      transparent 30%
+    ),
+    #f8f5ee;
 }
 
-.hero-content {
-  max-width: 850px;
+.hero-inner {
+  max-width: 900px;
 }
 
-.small-title {
+.eyebrow {
   text-transform: uppercase;
   letter-spacing: 5px;
-  font-size: 13px;
-  color: #6f9b88;
-  margin-bottom: 20px;
-}
-
-.hero h1 {
-  font-size: clamp(55px, 12vw, 120px);
-  letter-spacing: 12px;
-  line-height: 1;
-  margin-bottom: 20px;
-}
-
-.hero h2 {
-  font-size: clamp(18px, 3vw, 27px);
-  font-weight: normal;
-  letter-spacing: 3px;
+  font-size: 12px;
+  color: #769a87;
   margin-bottom: 25px;
 }
 
-.hero p {
-  max-width: 650px;
-  margin: auto;
-  color: #607169;
-  font-size: 18px;
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(70px, 15vw, 150px);
+  letter-spacing: 12px;
+  line-height: .95;
 }
 
-.button {
+.hero h2 {
+  margin-top: 25px;
+  font-size: clamp(18px, 3vw, 27px);
+  font-weight: 500;
+  letter-spacing: 2px;
+}
+
+.hero p {
+  max-width: 620px;
+  margin: 25px auto 0;
+  color: #64736c;
+  font-size: 17px;
+  line-height: 1.8;
+}
+
+.primary-button {
   display: inline-block;
   margin-top: 35px;
-  padding: 14px 30px;
-  border-radius: 50px;
-  background: #24352e;
+
+  background: #26352f;
   color: white;
+
   text-decoration: none;
-  transition: 0.3s;
+
+  padding: 15px 30px;
+
+  border-radius: 50px;
+
+  font-size: 13px;
+  letter-spacing: 1px;
+
+  transition: .25s;
 }
 
-.button:hover {
-  background: #6f9b88;
+.primary-button:hover {
+  background: #769a87;
   transform: translateY(-2px);
 }
 
-/* GENERAL SECTIONS */
+/* SECTIONS */
 
 section {
-  padding: 90px 7%;
+  padding: 100px 7%;
 }
 
-.section-title {
+.section-heading {
   text-align: center;
-  margin-bottom: 50px;
+  max-width: 700px;
+  margin: 0 auto 55px;
 }
 
-.section-title span {
-  color: #6f9b88;
+.section-heading span {
   text-transform: uppercase;
   letter-spacing: 4px;
-  font-size: 12px;
+  font-size: 11px;
+  color: #769a87;
 }
 
-.section-title h2 {
-  font-size: 42px;
-  margin-top: 10px;
+.section-heading h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 43px;
+  margin-top: 12px;
+}
+
+.section-heading p {
+  color: #64736c;
+  margin-top: 15px;
 }
 
 /* ABOUT */
 
 .about {
-  background: #e8f1ec;
+  background: #e7f0eb;
 }
 
 .about-grid {
-  max-width: 1000px;
+  max-width: 1050px;
   margin: auto;
+
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 35px;
+  grid-template-columns: repeat(2,1fr);
+
+  gap: 25px;
 }
 
-.card {
-  background: #f7f4ed;
-  padding: 35px;
+.info-card {
+  background: #f8f5ee;
+  padding: 40px;
+
   border-radius: 25px;
-  border: 1px solid #d9e5de;
+
+  border: 1px solid #d8e4dd;
 }
 
-.card h3 {
-  margin-bottom: 15px;
-  font-size: 23px;
+.info-card h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 26px;
+  margin-bottom: 14px;
 }
 
-.card p {
-  color: #607169;
+.info-card p {
+  color: #64736c;
+  line-height: 1.8;
 }
 
 /* BALANCE */
@@ -178,77 +220,125 @@ section {
 .balance-grid {
   max-width: 1100px;
   margin: auto;
+
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3,1fr);
+
   gap: 25px;
 }
 
 .balance-card {
-  padding: 35px;
-  border-radius: 25px;
+  padding: 40px;
+
   background: white;
-  border: 1px solid #e2e8e4;
+
+  border-radius: 25px;
+
+  border: 1px solid #e1e7e3;
+
+  transition: .25s;
+}
+
+.balance-card:hover {
+  transform: translateY(-5px);
 }
 
 .number {
-  font-size: 45px;
-  font-weight: bold;
-  color: #a7c8b8;
-  margin-bottom: 15px;
+  font-size: 13px;
+  letter-spacing: 3px;
+  color: #8eaf9d;
+  margin-bottom: 20px;
 }
 
 .balance-card h3 {
-  margin-bottom: 10px;
+  font-family: 'Playfair Display', serif;
+  font-size: 27px;
+  margin-bottom: 12px;
+}
+
+.balance-card p {
+  color: #64736c;
+  line-height: 1.8;
 }
 
 /* BEYOND */
 
 .beyond {
-  background: #24352e;
+  background: #26352f;
   color: white;
+
   text-align: center;
 }
 
-.beyond .section-title span {
-  color: #a7c8b8;
+.beyond .section-heading span {
+  color: #a9c8b7;
 }
 
-.beyond-content {
-  max-width: 750px;
+.beyond .section-heading p {
+  color: #d5e2dc;
+}
+
+.beyond-box {
+  max-width: 760px;
   margin: auto;
 }
 
-.beyond p {
-  color: #dce8e2;
+.beyond-box p {
+  color: #d5e2dc;
   font-size: 18px;
+  line-height: 1.9;
+}
+
+.light-button {
+  display: inline-block;
+  margin-top: 35px;
+
+  background: #dceee5;
+  color: #26352f;
+
+  padding: 15px 30px;
+
+  border-radius: 50px;
+
+  text-decoration: none;
+
+  font-size: 13px;
 }
 
 /* FOOTER */
 
 footer {
-  text-align: center;
-  padding: 35px;
   background: #dceee5;
-  color: #40564c;
-  font-size: 13px;
-  letter-spacing: 1px;
+
+  text-align: center;
+
+  padding: 35px;
+
+  color: #4f665b;
+
+  font-size: 12px;
+
+  letter-spacing: 2px;
 }
 
 /* MOBILE */
 
-@media (max-width: 700px) {
+@media(max-width:700px) {
 
   nav {
     padding: 15px 5%;
   }
 
-  nav a {
-    margin-left: 10px;
-    font-size: 12px;
+  .nav-links {
+    gap: 12px;
+  }
+
+  .nav-links a {
+    font-size: 11px;
   }
 
   .hero {
-    min-height: 80vh;
+    min-height: 85vh;
   }
 
   .hero h1 {
@@ -256,7 +346,7 @@ footer {
   }
 
   section {
-    padding: 65px 6%;
+    padding: 75px 6%;
   }
 
   .about-grid,
@@ -264,8 +354,8 @@ footer {
     grid-template-columns: 1fr;
   }
 
-  .section-title h2 {
-    font-size: 34px;
+  .section-heading h2 {
+    font-size: 35px;
   }
 
 }
@@ -273,18 +363,25 @@ footer {
 </style>
 </head>
 
+
 <body>
 
 <!-- NAVIGATION -->
 
 <nav>
 
-<div class="logo">ALIGN</div>
+<div class="logo">
+ALIGN
+</div>
 
-<div>
-<a href="#about">About</a>
-<a href="#balance">Balance</a>
-<a href="#beyond">Beyond</a>
+<div class="nav-links">
+
+<a href="#about">ABOUT</a>
+
+<a href="#balance">BALANCE</a>
+
+<a href="#beyond">BEYOND</a>
+
 </div>
 
 </nav>
@@ -294,10 +391,10 @@ footer {
 
 <header class="hero">
 
-<div class="hero-content">
+<div class="hero-inner">
 
-<div class="small-title">
-The Student Athlete Project
+<div class="eyebrow">
+THE STUDENT ATHLETE PROJECT
 </div>
 
 <h1>ALIGN</h1>
@@ -309,8 +406,8 @@ Exploring the balance between athletics, academics,
 identity, and life beyond performance.
 </p>
 
-<a class="button" href="#about">
-Explore the Project
+<a class="primary-button" href="#about">
+EXPLORE THE PROJECT
 </a>
 
 </div>
@@ -322,36 +419,39 @@ Explore the Project
 
 <section class="about" id="about">
 
-<div class="section-title">
+<div class="section-heading">
 
-<span>01 — The Idea</span>
+<span>01 — THE IDEA</span>
 
-<h2>What is ALIGN?</h2>
+<h2>More Than Performance</h2>
+
+<p>
+Being a student athlete is about more than what happens
+on the field, track, court, or classroom.
+</p>
 
 </div>
 
 <div class="about-grid">
 
-<div class="card">
+<div class="info-card">
 
-<h3>More Than Performance</h3>
+<h3>The Athlete</h3>
 
 <p>
-Student athletes are often defined by times, scores,
-grades, and accomplishments. ALIGN looks beyond
-those measurements to explore the person behind them.
+Training, competition, discipline, setbacks,
+growth, and the constant pursuit of improvement.
 </p>
 
 </div>
 
-<div class="card">
+<div class="info-card">
 
-<h3>Finding Balance</h3>
+<h3>The Person</h3>
 
 <p>
-Athletics can shape confidence, identity, friendships,
-goals, and everyday life. Finding balance means creating
-space for every part of who you are.
+Friendships, interests, values, personality,
+goals, and discovering who you are outside of sport.
 </p>
 
 </div>
@@ -365,51 +465,58 @@ space for every part of who you are.
 
 <section id="balance">
 
-<div class="section-title">
+<div class="section-heading">
 
-<span>02 — The Balance</span>
+<span>02 — THE BALANCE</span>
 
 <h2>Different Parts. One Person.</h2>
 
+<p>
+A student athlete carries multiple identities at once.
+</p>
+
 </div>
+
 
 <div class="balance-grid">
 
 <div class="balance-card">
 
-<div class="number">01</div>
+<div class="number">01 / ATHLETICS</div>
 
-<h3>Athletics</h3>
+<h3>Performance</h3>
 
 <p>
-Training, competition, discipline, setbacks,
-growth, and the pursuit of improvement.
+The training, competition, discipline, and
+resilience that come with being an athlete.
 </p>
 
 </div>
 
+
 <div class="balance-card">
 
-<div class="number">02</div>
+<div class="number">02 / ACADEMICS</div>
 
-<h3>Academics</h3>
+<h3>Education</h3>
 
 <p>
-Learning, studying, future goals, responsibilities,
-and building a life beyond the playing field.
+Learning, studying, responsibilities, and
+building a future beyond athletics.
 </p>
 
 </div>
 
+
 <div class="balance-card">
 
-<div class="number">03</div>
+<div class="number">03 / IDENTITY</div>
 
-<h3>Identity</h3>
+<h3>Individuality</h3>
 
 <p>
-Friendships, interests, personality, values,
-and discovering who you are outside of sport.
+The interests, relationships, values, and
+personality that make each athlete unique.
 </p>
 
 </div>
@@ -423,33 +530,31 @@ and discovering who you are outside of sport.
 
 <section class="beyond" id="beyond">
 
-<div class="section-title">
+<div class="section-heading">
 
-<span>03 — Beyond</span>
+<span>03 — BEYOND</span>
 
 <h2>Who Are You Beyond the Finish Line?</h2>
 
 </div>
 
-<div class="beyond-content">
+<div class="beyond-box">
 
 <p>
-Being a student athlete is only one part of a much
-bigger story. ALIGN encourages athletes to recognize
-their identity, protect their well-being, pursue their
-goals, and build a future that extends beyond sport.
+Your sport can be a huge part of your identity
+without being your entire identity. ALIGN encourages
+student athletes to recognize every part of themselves
+and create a future that extends beyond competition.
 </p>
 
-<a class="button" href="#top">
-Back to Top
+<a class="light-button" href="#top">
+BACK TO TOP
 </a>
 
 </div>
 
 </section>
 
-
-<!-- FOOTER -->
 
 <footer>
 
