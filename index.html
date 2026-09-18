@@ -1206,7 +1206,41 @@ footer span {
 </script>
 
 <script>
+let currentUser = null;
 
+async function loadAuthState() {
+
+    const { data: { session } } =
+        await supabaseClient.auth.getSession();
+
+    currentUser = session?.user ?? null;
+
+    updateAccountButton();
+}
+
+function updateAccountButton() {
+
+    const button =
+        document.querySelector(".account-button");
+
+    if (!button) return;
+
+    if (currentUser) {
+        button.textContent = "MY ALIGN · ACCOUNT";
+    } else {
+        button.textContent = "MY ALIGN";
+    }
+}
+
+supabaseClient.auth.onAuthStateChange((event, session) => {
+
+    currentUser = session?.user ?? null;
+
+    updateAccountButton();
+
+});
+
+loadAuthState();
 let authMode = "signin";
 
 function openAuth() {
