@@ -4,524 +4,968 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>ALIGN | The Student Athlete Project</title>
+<title>ALIGN — The Student Athlete Project</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet">
 
 <style>
 
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:wght@500;600&display=swap');
+:root {
+    --ivory: #f7f4ee;
+    --white: #ffffff;
+    --charcoal: #252422;
+    --espresso: #302820;
+    --taupe: #9a8e82;
+    --gray: #e5e1db;
+    --gold: #a58a5c;
+}
 
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 html {
-  scroll-behavior: smooth;
+    scroll-behavior: smooth;
 }
 
 body {
-  background: #f8f5ee;
-  color: #26352f;
-  font-family: 'DM Sans', sans-serif;
+    background: var(--ivory);
+    color: var(--charcoal);
+    font-family: "DM Sans", sans-serif;
+    line-height: 1.6;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
 }
 
 /* NAVIGATION */
 
 nav {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  background: rgba(248,245,238,.94);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid #dce5df;
-
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  padding: 18px 7%;
+    height: 78px;
+    padding: 0 6%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--gray);
+    background: rgba(247,244,238,.94);
+    backdrop-filter: blur(12px);
+    position: sticky;
+    top: 0;
+    z-index: 100;
 }
 
 .logo {
-  font-weight: 600;
-  letter-spacing: 5px;
-  font-size: 21px;
+    font-size: 21px;
+    font-weight: 700;
+    letter-spacing: .18em;
 }
 
 .nav-links {
-  display: flex;
-  gap: 30px;
+    display: flex;
+    gap: 32px;
+    font-size: 12px;
+    letter-spacing: .12em;
+    font-weight: 600;
 }
 
 .nav-links a {
-  color: #26352f;
-  text-decoration: none;
-  font-size: 13px;
+    transition: .25s ease;
 }
 
 .nav-links a:hover {
-  color: #769a87;
+    color: var(--gold);
 }
 
 /* HERO */
 
 .hero {
-  min-height: 92vh;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  text-align: center;
-
-  padding: 80px 25px;
-
-  background:
-    radial-gradient(
-      circle at 15% 20%,
-      #dceee5 0,
-      transparent 30%
-    ),
-    radial-gradient(
-      circle at 85% 80%,
-      #e5efe9 0,
-      transparent 30%
-    ),
-    #f8f5ee;
+    min-height: calc(100vh - 78px);
+    padding: 7% 6%;
+    display: grid;
+    grid-template-columns: 1.05fr .95fr;
+    gap: 6%;
+    align-items: center;
 }
 
-.hero-inner {
-  max-width: 900px;
-}
-
-.eyebrow {
-  text-transform: uppercase;
-  letter-spacing: 5px;
-  font-size: 12px;
-  color: #769a87;
-  margin-bottom: 25px;
+.hero-label {
+    font-size: 11px;
+    letter-spacing: .2em;
+    font-weight: 700;
+    margin-bottom: 28px;
+    color: var(--taupe);
 }
 
 .hero h1 {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(70px, 15vw, 150px);
-  letter-spacing: 12px;
-  line-height: .95;
+    font-size: clamp(70px, 11vw, 150px);
+    line-height: .83;
+    letter-spacing: -.065em;
+    font-weight: 700;
+    margin-bottom: 34px;
 }
 
 .hero h2 {
-  margin-top: 25px;
-  font-size: clamp(18px, 3vw, 27px);
-  font-weight: 500;
-  letter-spacing: 2px;
+    font-family: "Playfair Display", serif;
+    font-size: clamp(30px, 4vw, 55px);
+    line-height: 1.05;
+    font-weight: 500;
+    max-width: 620px;
+    margin-bottom: 24px;
 }
 
 .hero p {
-  max-width: 620px;
-  margin: 25px auto 0;
-  color: #64736c;
-  font-size: 17px;
-  line-height: 1.8;
+    max-width: 560px;
+    color: #67625c;
+    font-size: 17px;
+    margin-bottom: 34px;
 }
 
-.primary-button {
-  display: inline-block;
-  margin-top: 35px;
-
-  background: #26352f;
-  color: white;
-
-  text-decoration: none;
-
-  padding: 15px 30px;
-
-  border-radius: 50px;
-
-  font-size: 13px;
-  letter-spacing: 1px;
-
-  transition: .25s;
+.button {
+    display: inline-flex;
+    align-items: center;
+    gap: 18px;
+    background: var(--espresso);
+    color: white;
+    padding: 17px 24px;
+    font-size: 11px;
+    letter-spacing: .16em;
+    font-weight: 700;
+    transition: .3s ease;
 }
 
-.primary-button:hover {
-  background: #769a87;
-  transform: translateY(-2px);
+.button:hover {
+    transform: translateY(-3px);
+    background: var(--gold);
 }
 
-/* SECTIONS */
+/* HERO IMAGE */
 
-section {
-  padding: 100px 7%;
+.hero-image {
+    min-height: 650px;
+    position: relative;
+    overflow: hidden;
+    background:
+        linear-gradient(135deg, rgba(48,40,32,.08), rgba(48,40,32,.35)),
+        url("https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&w=1200&q=85");
+    background-size: cover;
+    background-position: center;
 }
 
-.section-heading {
-  text-align: center;
-  max-width: 700px;
-  margin: 0 auto 55px;
+.hero-image::after {
+    content: "01 / ALIGN";
+    position: absolute;
+    bottom: 22px;
+    left: 22px;
+    color: white;
+    font-size: 10px;
+    letter-spacing: .18em;
 }
 
-.section-heading span {
-  text-transform: uppercase;
-  letter-spacing: 4px;
-  font-size: 11px;
-  color: #769a87;
+/* INTRO */
+
+.section {
+    padding: 120px 8%;
 }
 
-.section-heading h2 {
-  font-family: 'Playfair Display', serif;
-  font-size: 43px;
-  margin-top: 12px;
+.intro {
+    display: grid;
+    grid-template-columns: .8fr 1.2fr;
+    gap: 12%;
+    align-items: start;
 }
 
-.section-heading p {
-  color: #64736c;
-  margin-top: 15px;
+.section-label {
+    font-size: 10px;
+    letter-spacing: .2em;
+    color: var(--taupe);
+    font-weight: 700;
 }
 
-/* ABOUT */
-
-.about {
-  background: #e7f0eb;
+.intro h2 {
+    font-size: clamp(42px, 6vw, 78px);
+    line-height: .95;
+    letter-spacing: -.05em;
+    max-width: 850px;
 }
 
-.about-grid {
-  max-width: 1050px;
-  margin: auto;
-
-  display: grid;
-  grid-template-columns: repeat(2,1fr);
-
-  gap: 25px;
+.intro-text {
+    margin-top: 35px;
+    font-size: 18px;
+    color: #66615b;
+    max-width: 650px;
 }
 
-.info-card {
-  background: #f8f5ee;
-  padding: 40px;
+/* EXPERIENCE */
 
-  border-radius: 25px;
-
-  border: 1px solid #d8e4dd;
+.experience {
+    background: var(--espresso);
+    color: white;
 }
 
-.info-card h3 {
-  font-family: 'Playfair Display', serif;
-  font-size: 26px;
-  margin-bottom: 14px;
+.experience-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+    margin-bottom: 70px;
 }
 
-.info-card p {
-  color: #64736c;
-  line-height: 1.8;
+.experience-header h2 {
+    font-size: clamp(44px, 6vw, 80px);
+    line-height: .95;
+    letter-spacing: -.05em;
 }
 
-/* BALANCE */
-
-.balance-grid {
-  max-width: 1100px;
-  margin: auto;
-
-  display: grid;
-  grid-template-columns: repeat(3,1fr);
-
-  gap: 25px;
+.experience-header p {
+    max-width: 360px;
+    color: #c5beb5;
 }
 
-.balance-card {
-  padding: 40px;
-
-  background: white;
-
-  border-radius: 25px;
-
-  border: 1px solid #e1e7e3;
-
-  transition: .25s;
+.experience-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    border-top: 1px solid #665c52;
 }
 
-.balance-card:hover {
-  transform: translateY(-5px);
+.experience-card {
+    min-height: 290px;
+    padding: 28px;
+    border-right: 1px solid #665c52;
+    transition: .3s ease;
 }
 
-.number {
-  font-size: 13px;
-  letter-spacing: 3px;
-  color: #8eaf9d;
-  margin-bottom: 20px;
+.experience-card:hover {
+    background: #3b3128;
+    transform: translateY(-5px);
 }
 
-.balance-card h3 {
-  font-family: 'Playfair Display', serif;
-  font-size: 27px;
-  margin-bottom: 12px;
+.card-number {
+    color: var(--gold);
+    font-size: 11px;
+    letter-spacing: .16em;
 }
 
-.balance-card p {
-  color: #64736c;
-  line-height: 1.8;
+.experience-card h3 {
+    margin-top: 80px;
+    font-size: 23px;
+}
+
+.experience-card p {
+    margin-top: 12px;
+    color: #bdb5ac;
+    font-size: 14px;
+}
+
+/* CHALLENGES */
+
+.challenge-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    margin-bottom: 55px;
+}
+
+.challenge-header h2 {
+    font-size: clamp(45px, 6vw, 78px);
+    letter-spacing: -.05em;
+    line-height: .95;
+}
+
+.challenge-header p {
+    max-width: 350px;
+    color: #716b64;
+}
+
+.challenge-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+}
+
+.challenge-card {
+    background: white;
+    border: 1px solid var(--gray);
+    padding: 32px;
+    transition: .3s ease;
+}
+
+.challenge-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 40px rgba(40,30,20,.08);
+}
+
+.challenge-tag {
+    font-size: 10px;
+    letter-spacing: .15em;
+    color: var(--gold);
+    font-weight: 700;
+}
+
+.challenge-card h3 {
+    font-size: 25px;
+    margin: 28px 0 10px;
+}
+
+.challenge-card p {
+    color: #716b64;
+    font-size: 14px;
+    min-height: 68px;
+}
+
+.progress-label {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 25px;
+    font-size: 10px;
+    letter-spacing: .1em;
+    font-weight: 700;
+}
+
+.progress {
+    height: 5px;
+    background: var(--gray);
+    margin-top: 10px;
+}
+
+.progress span {
+    display: block;
+    height: 100%;
+    background: var(--gold);
+}
+
+/* JOURNAL */
+
+.journal {
+    background: #e8e3da;
+}
+
+.journal-grid {
+    display: grid;
+    grid-template-columns: .8fr 1.2fr;
+    gap: 10%;
+    align-items: center;
+}
+
+.journal h2 {
+    font-size: clamp(45px, 6vw, 80px);
+    line-height: .9;
+    letter-spacing: -.05em;
+    margin: 25px 0;
+}
+
+.journal p {
+    color: #69635c;
+    max-width: 470px;
+}
+
+.journal-card {
+    background: white;
+    padding: 42px;
+    border: 1px solid #d8d1c7;
+    box-shadow: 0 20px 50px rgba(50,40,30,.07);
+}
+
+.journal-card small {
+    color: var(--taupe);
+    letter-spacing: .15em;
+    font-size: 9px;
+    font-weight: 700;
+}
+
+.journal-card h3 {
+    font-family: "Playfair Display", serif;
+    font-size: 29px;
+    margin: 12px 0 30px;
+}
+
+.question {
+    padding: 18px 0;
+    border-top: 1px solid var(--gray);
+    font-size: 14px;
+}
+
+.line {
+    height: 1px;
+    background: #cfc8bf;
+    margin-top: 18px;
+}
+
+/* MINDSET */
+
+.mindset-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-top: 60px;
+}
+
+.mindset-card {
+    min-height: 300px;
+    padding: 32px;
+    background: white;
+    border: 1px solid var(--gray);
+    position: relative;
+}
+
+.mindset-card span {
+    font-size: 10px;
+    letter-spacing: .16em;
+    color: var(--gold);
+}
+
+.mindset-card h3 {
+    position: absolute;
+    bottom: 60px;
+    font-family: "Playfair Display", serif;
+    font-size: 35px;
+}
+
+.mindset-card p {
+    position: absolute;
+    bottom: 25px;
+    font-size: 12px;
+    color: #77716a;
+}
+
+/* GOALS */
+
+.goals {
+    background: var(--espresso);
+    color: white;
+}
+
+.goals-grid {
+    display: grid;
+    grid-template-columns: .8fr 1.2fr;
+    gap: 12%;
+}
+
+.goals h2 {
+    font-size: clamp(50px, 7vw, 90px);
+    line-height: .88;
+    letter-spacing: -.06em;
+}
+
+.goals-intro {
+    color: #c3bbb1;
+    margin-top: 30px;
+    max-width: 430px;
+}
+
+.goal-list {
+    margin-top: 10px;
+}
+
+.goal {
+    padding: 25px 0;
+    border-bottom: 1px solid #62584e;
+}
+
+.goal-top {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    font-size: 13px;
+}
+
+.goal-bar {
+    height: 5px;
+    background: #51483f;
+}
+
+.goal-bar span {
+    display: block;
+    height: 100%;
+    background: var(--gold);
 }
 
 /* BEYOND */
 
 .beyond {
-  background: #26352f;
-  color: white;
-
-  text-align: center;
+    min-height: 700px;
+    display: grid;
+    place-items: center;
+    text-align: center;
+    background:
+        linear-gradient(rgba(48,40,32,.72), rgba(48,40,32,.72)),
+        url("https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1600&q=85");
+    background-size: cover;
+    background-position: center;
+    color: white;
 }
 
-.beyond .section-heading span {
-  color: #a9c8b7;
+.beyond-inner {
+    max-width: 1000px;
+    padding: 40px;
 }
 
-.beyond .section-heading p {
-  color: #d5e2dc;
+.beyond-label {
+    font-size: 10px;
+    letter-spacing: .2em;
+    color: #d6c5a8;
 }
 
-.beyond-box {
-  max-width: 760px;
-  margin: auto;
+.beyond h2 {
+    font-size: clamp(55px, 9vw, 125px);
+    line-height: .82;
+    letter-spacing: -.065em;
+    margin: 35px 0;
 }
 
-.beyond-box p {
-  color: #d5e2dc;
-  font-size: 18px;
-  line-height: 1.9;
-}
-
-.light-button {
-  display: inline-block;
-  margin-top: 35px;
-
-  background: #dceee5;
-  color: #26352f;
-
-  padding: 15px 30px;
-
-  border-radius: 50px;
-
-  text-decoration: none;
-
-  font-size: 13px;
+.beyond p {
+    max-width: 570px;
+    margin: auto;
+    color: #e3ddd5;
+    font-size: 16px;
 }
 
 /* FOOTER */
 
 footer {
-  background: #dceee5;
+    background: var(--charcoal);
+    color: white;
+    padding: 55px 8%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
-  text-align: center;
+footer strong {
+    letter-spacing: .2em;
+    font-size: 18px;
+}
 
-  padding: 35px;
-
-  color: #4f665b;
-
-  font-size: 12px;
-
-  letter-spacing: 2px;
+footer span {
+    color: #9c958d;
+    font-size: 10px;
+    letter-spacing: .12em;
 }
 
 /* MOBILE */
 
-@media(max-width:700px) {
+@media(max-width: 850px) {
 
-  nav {
-    padding: 15px 5%;
-  }
+    .nav-links {
+        gap: 13px;
+        font-size: 9px;
+    }
 
-  .nav-links {
-    gap: 12px;
-  }
+    .hero,
+    .intro,
+    .journal-grid,
+    .goals-grid {
+        grid-template-columns: 1fr;
+    }
 
-  .nav-links a {
-    font-size: 11px;
-  }
+    .hero {
+        padding-top: 70px;
+    }
 
-  .hero {
-    min-height: 85vh;
-  }
+    .hero-image {
+        min-height: 450px;
+    }
 
-  .hero h1 {
-    letter-spacing: 7px;
-  }
+    .experience-grid,
+    .challenge-grid,
+    .mindset-grid {
+        grid-template-columns: 1fr;
+    }
 
-  section {
-    padding: 75px 6%;
-  }
+    .experience-card {
+        border-right: none;
+        border-bottom: 1px solid #665c52;
+    }
 
-  .about-grid,
-  .balance-grid {
-    grid-template-columns: 1fr;
-  }
+    .experience-card h3 {
+        margin-top: 50px;
+    }
 
-  .section-heading h2 {
-    font-size: 35px;
-  }
+    .experience-header,
+    .challenge-header {
+        display: block;
+    }
 
+    .experience-header p,
+    .challenge-header p {
+        margin-top: 25px;
+    }
+
+    .section {
+        padding: 85px 7%;
+    }
+
+    footer {
+        display: block;
+    }
+
+    footer span {
+        display: block;
+        margin-top: 15px;
+    }
 }
 
 </style>
 </head>
 
-
 <body>
 
-<!-- NAVIGATION -->
-
 <nav>
+    <div class="logo">ALIGN</div>
 
-<div class="logo">
-ALIGN
-</div>
-
-<div class="nav-links">
-
-<a href="#about">ABOUT</a>
-
-<a href="#balance">BALANCE</a>
-
-<a href="#beyond">BEYOND</a>
-
-</div>
-
+    <div class="nav-links">
+        <a href="#experience">EXPLORE</a>
+        <a href="#journal">JOURNAL</a>
+        <a href="#mindset">MINDSET</a>
+        <a href="#goals">GOALS</a>
+        <a href="#beyond">BEYOND</a>
+    </div>
 </nav>
 
 
 <!-- HERO -->
 
-<header class="hero">
+<section class="hero">
 
-<div class="hero-inner">
+    <div>
+        <div class="hero-label">THE STUDENT ATHLETE PROJECT / 01</div>
 
-<div class="eyebrow">
-THE STUDENT ATHLETE PROJECT
-</div>
+        <h1>ALIGN</h1>
 
-<h1>ALIGN</h1>
+        <h2>More Than Your Performance.</h2>
 
-<h2>More Than an Athlete.</h2>
+        <p>
+            A space for student-athletes to reflect, grow,
+            build confidence, set goals, and discover who
+            they are beyond their sport.
+        </p>
 
-<p>
-Exploring the balance between athletics, academics,
-identity, and life beyond performance.
-</p>
+        <a href="#experience" class="button">
+            START YOUR JOURNEY →
+        </a>
+    </div>
 
-<a class="primary-button" href="#about">
-EXPLORE THE PROJECT
-</a>
-
-</div>
-
-</header>
-
-
-<!-- ABOUT -->
-
-<section class="about" id="about">
-
-<div class="section-heading">
-
-<span>01 — THE IDEA</span>
-
-<h2>More Than Performance</h2>
-
-<p>
-Being a student athlete is about more than what happens
-on the field, track, court, or classroom.
-</p>
-
-</div>
-
-<div class="about-grid">
-
-<div class="info-card">
-
-<h3>The Athlete</h3>
-
-<p>
-Training, competition, discipline, setbacks,
-growth, and the constant pursuit of improvement.
-</p>
-
-</div>
-
-<div class="info-card">
-
-<h3>The Person</h3>
-
-<p>
-Friendships, interests, values, personality,
-goals, and discovering who you are outside of sport.
-</p>
-
-</div>
-
-</div>
+    <div class="hero-image"></div>
 
 </section>
 
 
-<!-- BALANCE -->
+<!-- INTRO -->
 
-<section id="balance">
+<section class="section">
 
-<div class="section-heading">
+    <div class="intro">
 
-<span>02 — THE BALANCE</span>
+        <div>
+            <div class="section-label">02 / THE IDEA</div>
+        </div>
 
-<h2>Different Parts. One Person.</h2>
+        <div>
+            <h2>You are an athlete.<br>You are also a person.</h2>
 
-<p>
-A student athlete carries multiple identities at once.
-</p>
+            <p class="intro-text">
+                ALIGN was created for the space between
+                practices, competitions, classrooms, goals,
+                friendships, pressure, and everything else
+                that makes you who you are.
+                <br><br>
+                Your sport can be an important part of your
+                identity without becoming your entire identity.
+            </p>
+        </div>
 
-</div>
+    </div>
 
-
-<div class="balance-grid">
-
-<div class="balance-card">
-
-<div class="number">01 / ATHLETICS</div>
-
-<h3>Performance</h3>
-
-<p>
-The training, competition, discipline, and
-resilience that come with being an athlete.
-</p>
-
-</div>
+</section>
 
 
-<div class="balance-card">
+<!-- EXPERIENCE -->
 
-<div class="number">02 / ACADEMICS</div>
+<section class="section experience" id="experience">
 
-<h3>Education</h3>
+    <div class="experience-header">
 
-<p>
-Learning, studying, responsibilities, and
-building a future beyond athletics.
-</p>
+        <div>
+            <div class="section-label">03 / EXPLORE ALIGN</div>
+            <h2>Built for<br>the whole athlete.</h2>
+        </div>
 
-</div>
+        <p>
+            Five spaces designed to help you understand
+            yourself, create momentum, and build a life
+            that extends beyond your performance.
+        </p>
+
+    </div>
+
+    <div class="experience-grid">
+
+        <div class="experience-card">
+            <div class="card-number">01</div>
+            <h3>JOURNAL</h3>
+            <p>Reflect on your experiences and understand what they are teaching you.</p>
+        </div>
+
+        <div class="experience-card">
+            <div class="card-number">02</div>
+            <h3>CHALLENGES</h3>
+            <p>Small actions designed to create meaningful progress.</p>
+        </div>
+
+        <div class="experience-card">
+            <div class="card-number">03</div>
+            <h3>MINDSET</h3>
+            <p>Explore confidence, pressure, motivation, identity, and perspective.</p>
+        </div>
+
+        <div class="experience-card">
+            <div class="card-number">04</div>
+            <h3>GOALS</h3>
+            <p>Turn the things you want into clear steps and milestones.</p>
+        </div>
+
+        <div class="experience-card">
+            <div class="card-number">05</div>
+            <h3>BEYOND</h3>
+            <p>Discover the person you are becoming outside your sport.</p>
+        </div>
+
+    </div>
+
+</section>
 
 
-<div class="balance-card">
+<!-- CHALLENGES -->
 
-<div class="number">03 / IDENTITY</div>
+<section class="section" id="challenges">
 
-<h3>Individuality</h3>
+    <div class="challenge-header">
 
-<p>
-The interests, relationships, values, and
-personality that make each athlete unique.
-</p>
+        <div>
+            <div class="section-label">04 / CHALLENGES</div>
+            <h2>Make your<br>move.</h2>
+        </div>
 
-</div>
+        <p>
+            Progress doesn't always have to mean
+            getting faster, stronger, or better.
+            Sometimes it means becoming more aware.
+        </p>
 
-</div>
+    </div>
+
+    <div class="challenge-grid">
+
+        <div class="challenge-card">
+            <div class="challenge-tag">WEEK 01</div>
+            <h3>RESET YOUR ROUTINE</h3>
+            <p>Create one habit that makes your week feel more intentional.</p>
+
+            <div class="progress-label">
+                <span>PROGRESS</span>
+                <span>4 / 7</span>
+            </div>
+
+            <div class="progress">
+                <span style="width:57%"></span>
+            </div>
+        </div>
+
+        <div class="challenge-card">
+            <div class="challenge-tag">WEEK 02</div>
+            <h3>ONE THING FOR YOU</h3>
+            <p>Make time for something you enjoy that has nothing to do with your sport.</p>
+
+            <div class="progress-label">
+                <span>PROGRESS</span>
+                <span>3 / 7</span>
+            </div>
+
+            <div class="progress">
+                <span style="width:43%"></span>
+            </div>
+        </div>
+
+        <div class="challenge-card">
+            <div class="challenge-tag">WEEK 03</div>
+            <h3>LOOK BACK</h3>
+            <p>Write down three things you've learned about yourself this season.</p>
+
+            <div class="progress-label">
+                <span>PROGRESS</span>
+                <span>1 / 7</span>
+            </div>
+
+            <div class="progress">
+                <span style="width:14%"></span>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- JOURNAL -->
+
+<section class="section journal" id="journal">
+
+    <div class="journal-grid">
+
+        <div>
+
+            <div class="section-label">05 / JOURNAL</div>
+
+            <h2>Make space<br>to reflect.</h2>
+
+            <p>
+                Your experiences matter beyond the scoreboard.
+                Use reflection to understand your progress,
+                recognize what you're learning, and check in
+                with yourself.
+            </p>
+
+        </div>
+
+        <div class="journal-card">
+
+            <small>TODAY'S REFLECTION</small>
+
+            <h3>What is something you are proud of?</h3>
+
+            <div class="question">
+                What went well today?
+                <div class="line"></div>
+            </div>
+
+            <div class="question">
+                What challenged you?
+                <div class="line"></div>
+            </div>
+
+            <div class="question">
+                What do you want to carry into tomorrow?
+                <div class="line"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- MINDSET -->
+
+<section class="section" id="mindset">
+
+    <div class="section-label">06 / MINDSET</div>
+
+    <div class="mindset-grid">
+
+        <div class="mindset-card">
+            <span>01 / CONFIDENCE</span>
+            <h3>Trust your work.</h3>
+            <p>Confidence can be built through preparation, reflection, and experience.</p>
+        </div>
+
+        <div class="mindset-card">
+            <span>02 / PRESSURE</span>
+            <h3>Separate the moment from yourself.</h3>
+            <p>A performance is an experience. It isn't your entire identity.</p>
+        </div>
+
+        <div class="mindset-card">
+            <span>03 / IDENTITY</span>
+            <h3>Keep discovering yourself.</h3>
+            <p>There is more to you than what happens during competition.</p>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- GOALS -->
+
+<section class="section goals" id="goals">
+
+    <div class="goals-grid">
+
+        <div>
+
+            <div class="section-label">07 / GOALS</div>
+
+            <h2>Where are<br>you going?</h2>
+
+            <p class="goals-intro">
+                Big goals become more manageable when you
+                turn them into small actions you can actually
+                take.
+            </p>
+
+        </div>
+
+        <div class="goal-list">
+
+            <div class="goal">
+
+                <div class="goal-top">
+                    <span>ATHLETICS</span>
+                    <span>80%</span>
+                </div>
+
+                <div class="goal-bar">
+                    <span style="width:80%"></span>
+                </div>
+
+            </div>
+
+            <div class="goal">
+
+                <div class="goal-top">
+                    <span>ACADEMICS</span>
+                    <span>65%</span>
+                </div>
+
+                <div class="goal-bar">
+                    <span style="width:65%"></span>
+                </div>
+
+            </div>
+
+            <div class="goal">
+
+                <div class="goal-top">
+                    <span>PERSONAL</span>
+                    <span>90%</span>
+                </div>
+
+                <div class="goal-bar">
+                    <span style="width:90%"></span>
+                </div>
+
+            </div>
+
+            <div class="goal">
+
+                <div class="goal-top">
+                    <span>BEYOND SPORT</span>
+                    <span>45%</span>
+                </div>
+
+                <div class="goal-bar">
+                    <span style="width:45%"></span>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
 
 </section>
 
@@ -530,35 +974,33 @@ personality that make each athlete unique.
 
 <section class="beyond" id="beyond">
 
-<div class="section-heading">
+    <div class="beyond-inner">
 
-<span>03 — BEYOND</span>
+        <div class="beyond-label">08 / BEYOND</div>
 
-<h2>Who Are You Beyond the Finish Line?</h2>
+        <h2>WHO ARE YOU<br>WHEN THE CLOCK STOPS?</h2>
 
-</div>
+        <p>
+            Your sport is part of your story.
+            It doesn't have to be the whole story.
+            There is a future beyond the finish line,
+            the final whistle, and the scoreboard.
+        </p>
 
-<div class="beyond-box">
-
-<p>
-Your sport can be a huge part of your identity
-without being your entire identity. ALIGN encourages
-student athletes to recognize every part of themselves
-and create a future that extends beyond competition.
-</p>
-
-<a class="light-button" href="#top">
-BACK TO TOP
-</a>
-
-</div>
+    </div>
 
 </section>
 
 
+<!-- FOOTER -->
+
 <footer>
 
-ALIGN — THE STUDENT ATHLETE PROJECT
+    <strong>ALIGN</strong>
+
+    <span>
+        THE STUDENT ATHLETE PROJECT / 2026
+    </span>
 
 </footer>
 
