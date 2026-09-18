@@ -522,7 +522,65 @@ nav {
     color: #e3ddd5;
     font-size: 16px;
 }
+<!-- MY ALIGN DASHBOARD -->
 
+<div class="dashboard-overlay" id="dashboardOverlay">
+
+    <div class="dashboard-box">
+
+        <button class="dashboard-close" onclick="closeDashboard()">×</button>
+
+        <div class="dashboard-label">ALIGN / YOUR SPACE</div>
+
+        <h2>MY ALIGN.</h2>
+
+        <p class="dashboard-intro">
+            Your progress, your goals, your journey.
+        </p>
+
+        <div class="dashboard-grid">
+
+            <button class="dashboard-card">
+                <span class="dashboard-icon">01</span>
+                <strong>JOURNAL</strong>
+                <small>Write & reflect</small>
+            </button>
+
+            <button class="dashboard-card">
+                <span class="dashboard-icon">02</span>
+                <strong>GOALS</strong>
+                <small>Set & track</small>
+            </button>
+
+            <button class="dashboard-card">
+                <span class="dashboard-icon">03</span>
+                <strong>MINDSET</strong>
+                <small>Check in with yourself</small>
+            </button>
+
+            <button class="dashboard-card">
+                <span class="dashboard-icon">04</span>
+                <strong>CHALLENGES</strong>
+                <small>Build your momentum</small>
+            </button>
+
+        </div>
+
+        <div class="dashboard-footer">
+
+            <button class="profile-button">
+                PROFILE
+            </button>
+
+            <button class="signout-button" onclick="signOut()">
+                SIGN OUT →
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
 /* FOOTER */
 
 footer {
@@ -671,6 +729,139 @@ footer span {
     font-size: 12px !important;
     margin-top: 18px !important;
 }
+    /* MY ALIGN DASHBOARD */
+
+.dashboard-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(37,36,34,.72);
+    backdrop-filter: blur(8px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 25px;
+    z-index: 1100;
+}
+
+.dashboard-overlay.active {
+    display: flex;
+}
+
+.dashboard-box {
+    width: min(720px, 100%);
+    max-height: 90vh;
+    overflow-y: auto;
+    background: var(--ivory);
+    padding: 55px;
+    position: relative;
+    box-shadow: 0 30px 80px rgba(0,0,0,.25);
+}
+
+.dashboard-close {
+    position: absolute;
+    top: 18px;
+    right: 20px;
+    border: none;
+    background: none;
+    font-size: 28px;
+    cursor: pointer;
+    color: var(--charcoal);
+}
+
+.dashboard-label {
+    color: var(--gold);
+    font-size: 10px;
+    letter-spacing: .2em;
+    font-weight: 700;
+    margin-bottom: 18px;
+}
+
+.dashboard-box h2 {
+    font-family: "Playfair Display", serif;
+    font-size: 52px;
+    line-height: .95;
+    letter-spacing: -.05em;
+    margin-bottom: 12px;
+}
+
+.dashboard-intro {
+    color: #716b64;
+    font-size: 14px;
+    margin-bottom: 35px;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.dashboard-card {
+    min-height: 145px;
+    padding: 24px;
+    border: 1px solid var(--gray);
+    background: white;
+    text-align: left;
+    cursor: pointer;
+    transition: .25s ease;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--gold);
+}
+
+.dashboard-icon {
+    display: block;
+    color: var(--gold);
+    font-size: 10px;
+    letter-spacing: .15em;
+    margin-bottom: 25px;
+}
+
+.dashboard-card strong {
+    display: block;
+    font-size: 15px;
+    letter-spacing: .08em;
+    margin-bottom: 7px;
+}
+
+.dashboard-card small {
+    color: #716b64;
+    font-size: 12px;
+}
+
+.dashboard-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 28px;
+    padding-top: 22px;
+    border-top: 1px solid var(--gray);
+}
+
+.profile-button,
+.signout-button {
+    border: none;
+    background: transparent;
+    font-family: inherit;
+    font-size: 10px;
+    letter-spacing: .14em;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.profile-button {
+    color: var(--charcoal);
+}
+
+.signout-button {
+    color: var(--gold);
+}
+
+.signout-button:hover {
+    color: var(--charcoal);
+}
 /* MOBILE */
 
 @media(max-width: 850px) {
@@ -754,7 +945,7 @@ footer span {
 
     <a href="#beyond">BEYOND</a>
 
-    <button class="account-button" onclick="openAuth()">MY ALIGN</button>
+    <button class="account-button" onclick="handleAccountClick()">MY ALIGN</button>
 
 </div>
 </nav>
@@ -1124,7 +1315,65 @@ footer span {
     </div>
 
 </section>
+<!-- MY ALIGN DASHBOARD -->
 
+<div class="dashboard-overlay" id="dashboardOverlay">
+
+    <div class="dashboard-box">
+
+        <button class="dashboard-close" onclick="closeDashboard()">×</button>
+
+        <div class="dashboard-label">ALIGN / YOUR SPACE</div>
+
+        <h2>MY ALIGN.</h2>
+
+        <p class="dashboard-intro">
+            Your progress, your goals, your journey.
+        </p>
+
+        <div class="dashboard-grid">
+
+            <button class="dashboard-card">
+                <span class="dashboard-icon">01</span>
+                <strong>JOURNAL</strong>
+                <small>Write & reflect</small>
+            </button>
+
+            <button class="dashboard-card">
+                <span class="dashboard-icon">02</span>
+                <strong>GOALS</strong>
+                <small>Set & track</small>
+            </button>
+
+            <button class="dashboard-card">
+                <span class="dashboard-icon">03</span>
+                <strong>MINDSET</strong>
+                <small>Check in with yourself</small>
+            </button>
+
+            <button class="dashboard-card">
+                <span class="dashboard-icon">04</span>
+                <strong>CHALLENGES</strong>
+                <small>Build your momentum</small>
+            </button>
+
+        </div>
+
+        <div class="dashboard-footer">
+
+            <button class="profile-button">
+                PROFILE
+            </button>
+
+            <button class="signout-button" onclick="signOut()">
+                SIGN OUT →
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
 <!-- AUTHENTICATION -->
 
 <div class="auth-overlay" id="authOverlay">
@@ -1241,6 +1490,27 @@ supabaseClient.auth.onAuthStateChange((event, session) => {
 });
 
 loadAuthState();
+    function openDashboard() {
+    document.getElementById("dashboardOverlay").classList.add("active");
+}
+
+function closeDashboard() {
+    document.getElementById("dashboardOverlay").classList.remove("active");
+}
+
+function signOut() {
+
+    supabaseClient.auth.signOut().then(() => {
+
+        currentUser = null;
+
+        updateAccountButton();
+
+        closeDashboard();
+
+    });
+
+}
 let authMode = "signin";
 
 function openAuth() {
