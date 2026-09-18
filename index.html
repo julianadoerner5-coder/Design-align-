@@ -1003,6 +1003,16 @@ footer span {
     </span>
 
 </footer>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+<script>
+  const SUPABASE_URL = "https://dyfgwzmtugwclftwxxkb.supabase.co";
+  const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_7YS1BkWSn8hIAtSMb3Zn8w_YXknLQJM";
+
+  const supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+  );
+</script>
 </body>
 </html>
