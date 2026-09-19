@@ -2039,7 +2039,9 @@ function closeJournal() {
     document.getElementById("journalMessage").textContent = "";
 }
 
-document.getElementById("journalForm").addEventListener("submit", async function(event) {
+window.addEventListener("DOMContentLoaded", function() {
+
+    document.getElementById("journalForm").addEventListener("submit", async function(event) {
 
     event.preventDefault();
 
@@ -2085,7 +2087,9 @@ document.getElementById("journalForm").addEventListener("submit", async function
 
     await loadJournalEntries();
 
-    button.disabled = false;
+        button.disabled = false;
+
+    });
 
 });
 
