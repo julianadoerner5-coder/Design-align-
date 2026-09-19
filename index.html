@@ -540,11 +540,11 @@ nav {
 
         <div class="dashboard-grid">
 
-            <button class="dashboard-card">
-                <span class="dashboard-icon">01</span>
-                <strong>JOURNAL</strong>
-                <small>Write & reflect</small>
-            </button>
+            <button class="dashboard-card" onclick="openJournal()">
+    <span class="dashboard-icon">01</span>
+    <strong>JOURNAL</strong>
+    <small>Write & reflect</small>
+</button>
 
             <button class="dashboard-card">
                 <span class="dashboard-icon">02</span>
@@ -861,6 +861,177 @@ footer span {
 
 .signout-button:hover {
     color: var(--charcoal);
+}
+    /* JOURNAL */
+
+.journal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(37,36,34,.72);
+    backdrop-filter: blur(8px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 25px;
+    z-index: 1200;
+}
+
+.journal-overlay.active {
+    display: flex;
+}
+
+.journal-box {
+    width: min(720px, 100%);
+    max-height: 90vh;
+    overflow-y: auto;
+    background: var(--ivory);
+    padding: 55px;
+    position: relative;
+    box-shadow: 0 30px 80px rgba(0,0,0,.25);
+}
+
+.journal-close {
+    position: absolute;
+    top: 18px;
+    right: 20px;
+    border: none;
+    background: none;
+    font-size: 28px;
+    cursor: pointer;
+    color: var(--charcoal);
+}
+
+.journal-label {
+    color: var(--gold);
+    font-size: 10px;
+    letter-spacing: .2em;
+    font-weight: 700;
+    margin-bottom: 18px;
+}
+
+.journal-box h2 {
+    font-family: "Playfair Display", serif;
+    font-size: 52px;
+    line-height: .95;
+    letter-spacing: -.05em;
+    margin-bottom: 12px;
+}
+
+.journal-intro {
+    color: #716b64;
+    font-size: 14px;
+    margin-bottom: 30px;
+}
+
+#journalForm input,
+#journalForm textarea {
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid var(--gray);
+    background: white;
+    padding: 15px;
+    font-family: inherit;
+    font-size: 14px;
+    outline: none;
+    margin-bottom: 12px;
+}
+
+#journalForm textarea {
+    resize: vertical;
+    min-height: 180px;
+    line-height: 1.6;
+}
+
+#journalForm input:focus,
+#journalForm textarea:focus {
+    border-color: var(--gold);
+}
+
+.journal-save {
+    width: 100%;
+    padding: 16px;
+    border: none;
+    background: var(--espresso);
+    color: white;
+    font-family: inherit;
+    font-size: 11px;
+    letter-spacing: .15em;
+    font-weight: 700;
+    cursor: pointer;
+    transition: .25s ease;
+}
+
+.journal-save:hover {
+    background: var(--gold);
+}
+
+.journal-save:disabled {
+    opacity: .6;
+    cursor: wait;
+}
+
+.journal-message {
+    text-align: center;
+    color: #716b64;
+    font-size: 12px;
+    margin-top: 15px;
+}
+
+.journal-entries {
+    margin-top: 35px;
+    padding-top: 25px;
+    border-top: 1px solid var(--gray);
+}
+
+.journal-entries-label {
+    color: var(--gold);
+    font-size: 10px;
+    letter-spacing: .18em;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+#journalEntriesList {
+    display: grid;
+    gap: 10px;
+}
+
+.journal-entry {
+    background: white;
+    border: 1px solid var(--gray);
+    padding: 18px;
+}
+
+.journal-entry-title {
+    font-weight: 700;
+    font-size: 14px;
+    margin-bottom: 7px;
+}
+
+.journal-entry-date {
+    color: #8a8178;
+    font-size: 10px;
+    letter-spacing: .08em;
+    margin-bottom: 10px;
+}
+
+.journal-entry-content {
+    color: #716b64;
+    font-size: 13px;
+    line-height: 1.6;
+    white-space: pre-wrap;
+}
+
+@media (max-width: 700px) {
+
+    .journal-box {
+        padding: 38px 24px;
+    }
+
+    .journal-box h2 {
+        font-size: 40px;
+    }
+
 }
 /* MOBILE */
 
@@ -1425,6 +1596,60 @@ footer span {
     </div>
 
 </div>
+    <!-- JOURNAL -->
+
+<div class="journal-overlay" id="journalOverlay">
+
+    <div class="journal-box">
+
+        <button class="journal-close" onclick="closeJournal()">×</button>
+
+        <div class="journal-label">ALIGN / JOURNAL</div>
+
+        <h2>YOUR JOURNAL.</h2>
+
+        <p class="journal-intro">
+            A place to slow down, reflect, and keep moving forward.
+        </p>
+
+        <form id="journalForm">
+
+            <input
+                type="text"
+                id="journalTitle"
+                placeholder="Entry title"
+                maxlength="100"
+                required
+            >
+
+            <textarea
+                id="journalContent"
+                placeholder="What's on your mind?"
+                rows="8"
+                required
+            ></textarea>
+
+            <button type="submit" class="journal-save">
+                SAVE ENTRY →
+            </button>
+
+        </form>
+
+        <div id="journalMessage" class="journal-message"></div>
+
+        <div class="journal-entries">
+
+            <div class="journal-entries-label">
+                YOUR ENTRIES
+            </div>
+
+            <div id="journalEntriesList"></div>
+
+        </div>
+
+    </div>
+
+</div>
 <!-- FOOTER -->
 
 <footer>
@@ -1622,7 +1847,161 @@ document.getElementById("authForm").addEventListener("submit", async function(ev
             });
 
         if (error) {
-            message.textContent = error.message;
+      function openJournal() {
+
+    if (!currentUser) {
+        openAuth();
+        return;
+    }
+
+    document.getElementById("journalOverlay").classList.add("active");
+
+    loadJournalEntries();
+}
+
+function closeJournal() {
+
+    document.getElementById("journalOverlay").classList.remove("active");
+
+    document.getElementById("journalMessage").textContent = "";
+}
+
+document.getElementById("journalForm").addEventListener("submit", async function(event) {
+
+    event.preventDefault();
+
+    if (!currentUser) {
+        openAuth();
+        return;
+    }
+
+    const title =
+        document.getElementById("journalTitle").value.trim();
+
+    const content =
+        document.getElementById("journalContent").value.trim();
+
+    const message =
+        document.getElementById("journalMessage");
+
+    const button =
+        document.querySelector(".journal-save");
+
+    if (!title || !content) return;
+
+    button.disabled = true;
+    message.textContent = "SAVING...";
+
+    const { error } =
+        await supabaseClient
+            .from("Journal")
+            .insert({
+                user_id: currentUser.id,
+                title: title,
+                content: content
+            });
+
+    if (error) {
+
+        console.error(error);
+
+        message.textContent =
+            "Something went wrong. Please try again.";
+
+        button.disabled = false;
+
+        return;
+    }
+
+    message.textContent = "ENTRY SAVED.";
+
+    document.getElementById("journalTitle").value = "";
+    document.getElementById("journalContent").value = "";
+
+    await loadJournalEntries();
+
+    button.disabled = false;
+
+});
+
+async function loadJournalEntries() {
+
+    if (!currentUser) return;
+
+    const list =
+        document.getElementById("journalEntriesList");
+
+    list.innerHTML = "<p>Loading entries...</p>";
+
+    const { data, error } =
+        await supabaseClient
+            .from("Journal")
+            .select("*")
+            .eq("user_id", currentUser.id)
+            .order("created_at", { ascending: false });
+
+    if (error) {
+
+        console.error(error);
+
+        list.innerHTML =
+            "<p>Unable to load entries.</p>";
+
+        return;
+    }
+
+    if (!data || data.length === 0) {
+
+        list.innerHTML =
+            "<p>No entries yet. Start writing above.</p>";
+
+        return;
+    }
+
+    list.innerHTML = "";
+
+    data.forEach(entry => {
+
+        const article =
+            document.createElement("article");
+
+        article.className = "journal-entry";
+
+        const title =
+            document.createElement("div");
+
+        title.className = "journal-entry-title";
+        title.textContent = entry.title;
+
+        const date =
+            document.createElement("div");
+
+        date.className = "journal-entry-date";
+
+        date.textContent =
+            new Date(entry.created_at).toLocaleDateString(
+                undefined,
+                {
+                    month: "long",
+                    day: "numeric",
+                    year: "numeric"
+                }
+            );
+
+        const content =
+            document.createElement("div");
+
+        content.className = "journal-entry-content";
+        content.textContent = entry.content;
+
+        article.appendChild(title);
+        article.appendChild(date);
+        article.appendChild(content);
+
+        list.appendChild(article);
+    });
+
+}      message.textContent = error.message;
             button.disabled = false;
             return;
         }
@@ -1634,10 +2013,151 @@ document.getElementById("authForm").addEventListener("submit", async function(ev
         }, 1000);
     }
 
+        button.disabled = false;
+
+});
+
+
+// JOURNAL JAVASCRIPT
+
+function openJournal() {
+
+    if (!currentUser) {
+        openAuth();
+        return;
+    }
+
+    document.getElementById("journalOverlay").classList.add("active");
+
+    loadJournalEntries();
+}
+
+function closeJournal() {
+
+    document.getElementById("journalOverlay").classList.remove("active");
+
+    document.getElementById("journalMessage").textContent = "";
+}
+
+document.getElementById("journalForm").addEventListener("submit", async function(event) {
+
+    event.preventDefault();
+
+    if (!currentUser) {
+        openAuth();
+        return;
+    }
+
+    const title = document.getElementById("journalTitle").value.trim();
+    const content = document.getElementById("journalContent").value.trim();
+
+    const message = document.getElementById("journalMessage");
+    const button = document.querySelector(".journal-save");
+
+    if (!title || !content) return;
+
+    button.disabled = true;
+    message.textContent = "SAVING...";
+
+    const { error } = await supabaseClient
+        .from("Journal")
+        .insert({
+            user_id: currentUser.id,
+            title: title,
+            content: content
+        });
+
+    if (error) {
+
+        console.error(error);
+
+        message.textContent =
+            "Something went wrong. Please try again.";
+
+        button.disabled = false;
+        return;
+    }
+
+    message.textContent = "ENTRY SAVED.";
+
+    document.getElementById("journalTitle").value = "";
+    document.getElementById("journalContent").value = "";
+
+    await loadJournalEntries();
+
     button.disabled = false;
 
 });
 
+async function loadJournalEntries() {
+
+    if (!currentUser) return;
+
+    const list = document.getElementById("journalEntriesList");
+
+    list.innerHTML = "<p>Loading entries...</p>";
+
+    const { data, error } = await supabaseClient
+        .from("Journal")
+        .select("*")
+        .eq("user_id", currentUser.id)
+        .order("created_at", { ascending: false });
+
+    if (error) {
+
+        console.error(error);
+
+        list.innerHTML =
+            "<p>Unable to load entries.</p>";
+
+        return;
+    }
+
+    if (!data || data.length === 0) {
+
+        list.innerHTML =
+            "<p>No entries yet. Start writing above.</p>";
+
+        return;
+    }
+
+    list.innerHTML = "";
+
+    data.forEach(entry => {
+
+        const article = document.createElement("article");
+        article.className = "journal-entry";
+
+        const title = document.createElement("div");
+        title.className = "journal-entry-title";
+        title.textContent = entry.title;
+
+        const date = document.createElement("div");
+        date.className = "journal-entry-date";
+
+        date.textContent = new Date(entry.created_at)
+            .toLocaleDateString(undefined, {
+                month: "long",
+                day: "numeric",
+                year: "numeric"
+            });
+
+        const content = document.createElement("div");
+        content.className = "journal-entry-content";
+        content.textContent = entry.content;
+
+        article.appendChild(title);
+        article.appendChild(date);
+        article.appendChild(content);
+
+        list.appendChild(article);
+
+    });
+
+}
+
+
 </script>
 </body>
 </html>
+
