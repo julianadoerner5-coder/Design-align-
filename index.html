@@ -1190,7 +1190,35 @@ footer span {
     font-size: 13px;
     line-height: 1.6;
 }
+.goal-card {
+    position: relative;
+}
 
+.goal-complete {
+    margin-top: 15px;
+    border: 1px solid var(--gray);
+    background: transparent;
+    padding: 9px 12px;
+    font-family: inherit;
+    font-size: 10px;
+    letter-spacing: .12em;
+    font-weight: 700;
+    cursor: pointer;
+    color: var(--charcoal);
+}
+
+.goal-complete:hover {
+    background: var(--charcoal);
+    color: white;
+}
+
+.goal-card.completed {
+    opacity: .65;
+}
+
+.goal-card.completed .goal-card-title {
+    text-decoration: line-through;
+}
 @media (max-width: 700px) {
     .goals-box {
         padding: 38px 24px;
@@ -2536,7 +2564,35 @@ async function loadGoals() {
         card.appendChild(title);
         card.appendChild(category);
         card.appendChild(description);
+const completeButton = document.createElement("button");
 
+completeButton.className = "goal-complete";
+completeButton.textContent =
+    goal.completed ? "COMPLETED ✓" : "MARK COMPLETE";
+
+completeButton.onclick = async function() {
+
+    const { error } = await supabaseClient
+        .from("Goals")
+        .update({
+            completed: !goal.completed
+        })
+        .eq("id", goal.id)
+        .eq("user_id", currentUser.id);
+
+    if (error) {
+        console.error(error);
+        return;
+    }
+
+    await loadGoals();
+};
+
+if (goal.completed) {
+    card.classList.add("completed");
+}
+
+card.appendChild(completeButton);
         list.appendChild(card);
 
     });
