@@ -2116,6 +2116,7 @@ document.getElementById("authForm").addEventListener("submit", async function(ev
         message.textContent =
             "Account created! Check your email to confirm your account.";
 
+
     } else {
 
         const { error } =
@@ -2125,33 +2126,12 @@ document.getElementById("authForm").addEventListener("submit", async function(ev
             });
 
         if (error) {
-            const journalPrompts = [
-    "What is something you're proud of yourself for today?",
-    "What is one thing you want to improve this week?",
-    "What made you feel confident today?",
-    "What is something you've learned about yourself recently?",
-    "What is one goal you're working toward right now?",
-    "What challenged you recently, and what did you learn from it?",
-    "What is one thing you can do today to take care of yourself?",
-    "What is something you're grateful for right now?",
-    "What does success mean to you outside of sports?",
-    "What is one thing you want your future self to remember?",
-    "When do you feel most like yourself?",
-    "What is something you're looking forward to?",
-    "What is one habit you'd like to build?",
-    "What is something you handled better than you would have in the past?"
-];
-
-function getDailyPrompt() {
-    const today = new Date();
-    const start = new Date(today.getFullYear(), 0, 0);
-    const difference = today - start;
-    const dayOfYear =
-        Math.floor(difference / (1000 * 60 * 60 * 24));
-
-    return journalPrompts[dayOfYear % journalPrompts.length];
+                message.textContent = error.message;
+    button.disabled = false;
+    return;
 }
-      function openJournal() {
+      
+function openJournal() {
 
     if (!currentUser) {
         openAuth();
@@ -2159,12 +2139,37 @@ function getDailyPrompt() {
     }
 
     document.getElementById("journalOverlay").classList.add("active");
-document.getElementById("dailyPromptText").textContent =
-    getDailyPrompt();
+
+    const journalPrompts = [
+        "What is something you're proud of yourself for today?",
+        "What is one thing you want to improve this week?",
+        "What made you feel confident today?",
+        "What is something you've learned about yourself recently?",
+        "What is one goal you're working toward right now?",
+        "What challenged you recently, and what did you learn from it?",
+        "What is one thing you can do today to take care of yourself?",
+        "What is something you're grateful for right now?",
+        "What does success mean to you outside of sports?",
+        "What is one thing you want your future self to remember?",
+        "When do you feel most like yourself?",
+        "What is something you're looking forward to?",
+        "What is one habit you'd like to build?",
+        "What is something you handled better than you would have in the past?"
+    ];
+
+    const today = new Date();
+    const start = new Date(today.getFullYear(), 0, 0);
+    const difference = today - start;
+    const dayOfYear =
+        Math.floor(difference / (1000 * 60 * 60 * 24));
+
+    document.getElementById("dailyPromptText").textContent =
+        journalPrompts[dayOfYear % journalPrompts.length];
+
     loadJournalEntries();
 }
-
 function closeJournal() {
+
 
     document.getElementById("journalOverlay").classList.remove("active");
 
