@@ -862,6 +862,163 @@ footer span {
 .signout-button:hover {
     color: var(--charcoal);
 }
+    /* MINDSET */
+
+.mindset-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(37,36,34,.72);
+    backdrop-filter: blur(8px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 25px;
+    z-index: 1200;
+}
+
+.mindset-overlay.active {
+    display: flex;
+}
+
+.mindset-box {
+    width: min(620px, 100%);
+    max-height: 90vh;
+    overflow-y: auto;
+    background: var(--ivory);
+    padding: 55px;
+    position: relative;
+    box-shadow: 0 30px 80px rgba(0,0,0,.25);
+}
+
+.mindset-close {
+    position: absolute;
+    top: 18px;
+    right: 20px;
+    border: none;
+    background: none;
+    font-size: 28px;
+    cursor: pointer;
+    color: var(--charcoal);
+}
+
+.mindset-label {
+    color: var(--gold);
+    font-size: 10px;
+    letter-spacing: .2em;
+    font-weight: 700;
+    margin-bottom: 18px;
+}
+
+.mindset-box h2 {
+    font-family: "Playfair Display", serif;
+    font-size: 46px;
+    line-height: .98;
+    letter-spacing: -.04em;
+    margin-bottom: 15px;
+}
+
+.mindset-intro {
+    color: #716b64;
+    font-size: 14px;
+    margin-bottom: 30px;
+}
+
+.mindset-question {
+    margin-bottom: 24px;
+}
+
+.mindset-question label,
+.mindset-word label {
+    display: block;
+    color: var(--gold);
+    font-size: 9px;
+    letter-spacing: .18em;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.mindset-scale {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+}
+
+.mindset-scale button {
+    border: 1px solid var(--gray);
+    background: white;
+    padding: 13px;
+    font-family: inherit;
+    font-size: 13px;
+    cursor: pointer;
+    transition: .2s ease;
+}
+
+.mindset-scale button:hover {
+    border-color: var(--gold);
+}
+
+.mindset-scale button.selected {
+    background: var(--espresso);
+    color: white;
+    border-color: var(--espresso);
+}
+
+.mindset-word {
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+
+#mindsetWord {
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid var(--gray);
+    background: white;
+    padding: 15px;
+    font-family: inherit;
+    font-size: 14px;
+    outline: none;
+}
+
+#mindsetWord:focus {
+    border-color: var(--gold);
+}
+
+.mindset-save {
+    width: 100%;
+    padding: 16px;
+    border: none;
+    background: var(--espresso);
+    color: white;
+    font-family: inherit;
+    font-size: 11px;
+    letter-spacing: .15em;
+    font-weight: 700;
+    cursor: pointer;
+    transition: .25s ease;
+}
+
+.mindset-save:hover {
+    background: var(--gold);
+}
+
+.mindset-message {
+    text-align: center;
+    color: #716b64;
+    font-size: 12px;
+    margin-top: 15px;
+}
+
+@media (max-width: 700px) {
+
+    .mindset-box {
+        padding: 38px 24px;
+    }
+
+    .mindset-box h2 {
+        font-size: 38px;
+    }
+
+}
     /* JOURNAL */
 .daily-prompt {
     background: white;
@@ -1731,11 +1888,11 @@ footer span {
                 <small>Set & track</small>
             </button>
 
-            <button class="dashboard-card">
-                <span class="dashboard-icon">03</span>
-                <strong>MINDSET</strong>
-                <small>Check in with yourself</small>
-            </button>
+            <button class="dashboard-card" onclick="openMindset()">
+    <span class="dashboard-icon">03</span>
+    <strong>MINDSET</strong>
+    <small>Check in with yourself</small>
+</button>
 
             <button class="dashboard-card">
                 <span class="dashboard-icon">04</span>
@@ -1811,13 +1968,92 @@ footer span {
     </div>
 
 </div>
-    <!-- JOURNAL -->
+
+<!-- MINDSET -->
+
+<div class="mindset-overlay" id="mindsetOverlay">
+
+    <div class="mindset-box">
+
+        <button class="mindset-close" onclick="closeMindset()">×</button>
+
+        <div class="mindset-label">ALIGN / MINDSET</div>
+
+        <h2>HOW ARE YOU SHOWING UP TODAY?</h2>
+
+        <p class="mindset-intro">
+            Check in with yourself before you check the scoreboard.
+        </p>
+
+        <div class="mindset-question">
+            <label>CONFIDENCE</label>
+            <div class="mindset-scale" data-field="confidence">
+                <button type="button" data-value="1">1</button>
+                <button type="button" data-value="2">2</button>
+                <button type="button" data-value="3">3</button>
+                <button type="button" data-value="4">4</button>
+                <button type="button" data-value="5">5</button>
+            </div>
+        </div>
+
+        <div class="mindset-question">
+            <label>ENERGY</label>
+            <div class="mindset-scale" data-field="energy">
+                <button type="button" data-value="1">1</button>
+                <button type="button" data-value="2">2</button>
+                <button type="button" data-value="3">3</button>
+                <button type="button" data-value="4">4</button>
+                <button type="button" data-value="5">5</button>
+            </div>
+        </div>
+
+        <div class="mindset-question">
+            <label>FOCUS</label>
+            <div class="mindset-scale" data-field="focus">
+                <button type="button" data-value="1">1</button>
+                <button type="button" data-value="2">2</button>
+                <button type="button" data-value="3">3</button>
+                <button type="button" data-value="4">4</button>
+                <button type="button" data-value="5">5</button>
+            </div>
+        </div>
+
+        <div class="mindset-question">
+            <label>PRESSURE</label>
+            <div class="mindset-scale" data-field="pressure">
+                <button type="button" data-value="1">1</button>
+                <button type="button" data-value="2">2</button>
+                <button type="button" data-value="3">3</button>
+                <button type="button" data-value="4">4</button>
+                <button type="button" data-value="5">5</button>
+            </div>
+        </div>
+
+        <div class="mindset-word">
+            <label for="mindsetWord">ONE WORD FOR YOUR MINDSET TODAY</label>
+            <input
+                type="text"
+                id="mindsetWord"
+                maxlength="30"
+                placeholder="Focused, calm, motivated..."
+            >
+        </div>
+
+        <button type="button" class="mindset-save" onclick="saveMindset()">
+            SAVE CHECK-IN →
+        </button>
+
+        <div id="mindsetMessage" class="mindset-message"></div>
+
+    </div>
+
+</div>
+
+<!-- JOURNAL -->
 
 <div class="journal-overlay" id="journalOverlay">
 
     <div class="journal-box">
-
-        <button class="journal-close" onclick="closeJournal()">×</button>
 
         <div class="journal-label">ALIGN / JOURNAL</div>
 
@@ -2295,7 +2531,37 @@ async function loadJournalEntries() {
 
 });
 
+// MINDSET JAVASCRIPT
 
+const mindsetValues = {
+    confidence: null,
+    energy: null,
+    focus: null,
+    pressure: null
+};
+
+document.querySelectorAll(".mindset-scale").forEach(scale => {
+
+    const field = scale.dataset.field;
+
+    scale.querySelectorAll("button").forEach(button => {
+
+        button.addEventListener("click", function() {
+
+            const value = Number(this.dataset.value);
+
+            mindsetValues[field] = value;
+
+            scale.querySelectorAll("button").forEach(btn => {
+                btn.classList.remove("selected");
+            });
+
+            this.classList.add("selected");
+        });
+
+    });
+
+});
 // JOURNAL JAVASCRIPT
 
 function openJournal() {
