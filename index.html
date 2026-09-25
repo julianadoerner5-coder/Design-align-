@@ -2530,7 +2530,19 @@ async function loadJournalEntries() {
         button.disabled = false;
 
 });
+function openMindset() {
+    if (!currentUser) {
+        openAuth();
+        return;
+    }
 
+    document.getElementById("mindsetOverlay").classList.add("active");
+}
+
+function closeMindset() {
+    document.getElementById("mindsetOverlay").classList.remove("active");
+    document.getElementById("mindsetMessage").textContent = "";
+}
 // MINDSET JAVASCRIPT
 
 const mindsetValues = {
