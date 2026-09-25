@@ -863,7 +863,27 @@ footer span {
     color: var(--charcoal);
 }
     /* JOURNAL */
+.daily-prompt {
+    background: white;
+    border: 1px solid var(--gray);
+    padding: 22px;
+    margin-bottom: 25px;
+}
 
+.daily-prompt-label {
+    color: var(--gold);
+    font-size: 9px;
+    letter-spacing: .18em;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+#dailyPromptText {
+    font-family: "Playfair Display", serif;
+    font-size: 21px;
+    line-height: 1.35;
+    color: var(--charcoal);
+}
 .journal-overlay {
     position: fixed;
     inset: 0;
@@ -1802,7 +1822,10 @@ footer span {
         <div class="journal-label">ALIGN / JOURNAL</div>
 
         <h2>YOUR JOURNAL.</h2>
-
+<div class="daily-prompt">
+    <div class="daily-prompt-label">TODAY'S PROMPT</div>
+    <div id="dailyPromptText"></div>
+</div>
         <p class="journal-intro">
             A place to slow down, reflect, and keep moving forward.
         </p>
