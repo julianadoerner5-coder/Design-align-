@@ -1030,6 +1030,39 @@ footer span {
     line-height: 1.7;
     letter-spacing: .08em;
 }
+    #mindsetHistoryList {
+    max-height: 280px;
+    overflow-y: auto;
+}
+
+.mindset-history-entry {
+    background: white;
+    border: 1px solid var(--gray);
+    padding: 18px 20px;
+    margin-bottom: 10px;
+}
+
+.mindset-history-date {
+    color: var(--gold);
+    font-size: 9px;
+    letter-spacing: .15em;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.mindset-history-scores {
+    color: #716b64;
+    font-size: 11px;
+    line-height: 1.7;
+    letter-spacing: .05em;
+}
+
+.mindset-history-word {
+    margin-top: 8px;
+    color: var(--charcoal);
+    font-weight: 700;
+    font-size: 12px;
+}
 
 #mindsetLatest div {
     display: flex;
@@ -2093,6 +2126,17 @@ footer span {
     </div>
 
 </div>
+        <div class="mindset-history">
+
+    <div class="mindset-history-label">
+        CHECK-IN HISTORY
+    </div>
+
+    <div id="mindsetHistoryList">
+        No check-ins yet.
+    </div>
+
+</div>
     </div>
 
 </div>
@@ -2586,6 +2630,7 @@ function openMindset() {
 
     document.getElementById("mindsetOverlay").classList.add("active");
     loadLatestMindset();
+    loadMindsetHistory();
 }
 
 function closeMindset() {
@@ -2716,7 +2761,67 @@ async function loadLatestMindset() {
     <div>MINDSET <strong>${data.word || "—"}</strong></div>
 `;
 }
+async function loadMindsetHistory() {
 
+    if (!currentUser) return;
+
+    const list = document.getElementById("mindsetHistoryList");
+
+    list.textContent = "Loading...";
+
+    const { data, error } = await supabaseClient
+        .from("Mindset")
+        .select("*")
+        .eq("user_id", currentUser.id)
+        .order("created_at", { ascending: false });
+
+    if (error) {
+        console.error(error);
+        list.textContent = "Unable to load your check-in history.";
+        return;
+    }
+
+    if (!data || data.length === 0) {
+        list.textContent = "No check-ins yet.";
+        return;
+    }
+
+    list.innerHTML = "";
+
+    data.forEach(entry => {
+
+        const card = document.createElement("div");
+        card.className = "mindset-history-entry";
+
+        const date = document.createElement("div");
+        date.className = "mindset-history-date";
+
+        date.textContent = new Date(entry.created_at)
+            .toLocaleDateString(undefined, {
+                month: "long",
+                day: "numeric",
+                year: "numeric"
+            });
+
+        const scores = document.createElement("div");
+        scores.className = "mindset-history-scores";
+
+        scores.textContent =
+            `Confidence ${entry.confidence}/5 · Energy ${entry.energy}/5 · Focus ${entry.focus}/5 · Pressure ${entry.pressure}/5`;
+
+        const word = document.createElement("div");
+        word.className = "mindset-history-word";
+
+        word.textContent =
+            `Mindset: ${entry.word || "—"}`;
+
+        card.appendChild(date);
+        card.appendChild(scores);
+        card.appendChild(word);
+
+        list.appendChild(card);
+    });
+}
 // JOURNAL JAVASCRIPT
 
 function openJournal() {
