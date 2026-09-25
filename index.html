@@ -1007,7 +1007,28 @@ footer span {
     font-size: 12px;
     margin-top: 15px;
 }
+.mindset-history {
+    margin-top: 35px;
+    padding-top: 25px;
+    border-top: 1px solid var(--gray);
+}
 
+.mindset-history-label {
+    color: var(--gold);
+    font-size: 10px;
+    letter-spacing: .18em;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+#mindsetLatest {
+    background: white;
+    border: 1px solid var(--gray);
+    padding: 20px;
+    color: #716b64;
+    font-size: 13px;
+    line-height: 1.7;
+}
 @media (max-width: 700px) {
 
     .mindset-box {
@@ -2044,7 +2065,17 @@ footer span {
         </button>
 
         <div id="mindsetMessage" class="mindset-message"></div>
+<div class="mindset-history">
 
+    <div class="mindset-history-label">
+        YOUR RECENT CHECK-IN
+    </div>
+
+    <div id="mindsetLatest">
+        No check-ins yet.
+    </div>
+
+</div>
     </div>
 
 </div>
@@ -2537,6 +2568,7 @@ function openMindset() {
     }
 
     document.getElementById("mindsetOverlay").classList.add("active");
+    loadLatestMindset();
 }
 
 function closeMindset() {
@@ -2629,6 +2661,38 @@ document.querySelectorAll(".mindset-scale").forEach(scale => {
 
     button.disabled = false;
 }
+    
+async function loadLatestMindset() {
+
+    if (!currentUser) return;
+
+    const latest = document.getElementById("mindsetLatest");
+
+    latest.textContent = "Loading...";
+
+    const { data, error } = await supabaseClient
+        .from("Mindset")
+        .select("*")
+        .eq("user_id", currentUser.id)
+        .order("created_at", { ascending: false })
+        .limit(1)
+        .maybeSingle();
+
+    if (error) {
+        console.error(error);
+        latest.textContent = "Unable to load your recent check-in.";
+        return;
+    }
+
+    if (!data) {
+        latest.textContent = "No check-ins yet.";
+        return;
+    }
+
+    latest.textContent =
+        `Confidence: ${data.confidence}/5 | Energy: ${data.energy}/5 | Focus: ${data.focus}/5 | Pressure: ${data.pressure}/5 | Mindset: ${data.word || "—"}`;
+}
+
 // JOURNAL JAVASCRIPT
 
 function openJournal() {
