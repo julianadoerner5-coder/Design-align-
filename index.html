@@ -2574,6 +2574,61 @@ document.querySelectorAll(".mindset-scale").forEach(scale => {
     });
 
 });
+    async function saveMindset() {
+
+    if (!currentUser) {
+        openAuth();
+        return;
+    }
+
+    const word =
+        document.getElementById("mindsetWord").value.trim();
+
+    const message =
+        document.getElementById("mindsetMessage");
+
+    const button =
+        document.querySelector(".mindset-save");
+
+    if (
+        mindsetValues.confidence === null ||
+        mindsetValues.energy === null ||
+        mindsetValues.focus === null ||
+        mindsetValues.pressure === null
+    ) {
+        message.textContent =
+            "Please complete all four check-ins.";
+        return;
+    }
+
+    button.disabled = true;
+    message.textContent = "SAVING...";
+
+    const { error } =
+        await supabaseClient
+            .from("Mindset")
+            .insert({
+                user_id: currentUser.id,
+                confidence: mindsetValues.confidence,
+                energy: mindsetValues.energy,
+                focus: mindsetValues.focus,
+                pressure: mindsetValues.pressure,
+                word: word
+            });
+
+    if (error) {
+        console.error(error);
+        message.textContent =
+            "Something went wrong. Please try again.";
+        button.disabled = false;
+        return;
+    }
+
+    message.textContent =
+        "CHECK-IN SAVED.";
+
+    button.disabled = false;
+}
 // JOURNAL JAVASCRIPT
 
 function openJournal() {
