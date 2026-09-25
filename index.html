@@ -1026,8 +1026,25 @@ footer span {
     border: 1px solid var(--gray);
     padding: 20px;
     color: #716b64;
-    font-size: 13px;
+    font-size: 11px;
     line-height: 1.7;
+    letter-spacing: .08em;
+}
+
+#mindsetLatest div {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--gray);
+}
+
+#mindsetLatest div:last-child {
+    border-bottom: none;
+}
+
+#mindsetLatest strong {
+    color: var(--charcoal);
+    font-weight: 700;
 }
 @media (max-width: 700px) {
 
@@ -2657,9 +2674,11 @@ document.querySelectorAll(".mindset-scale").forEach(scale => {
     }
 
     message.textContent =
-        "CHECK-IN SAVED.";
+    "CHECK-IN SAVED.";
 
-    button.disabled = false;
+await loadLatestMindset();
+
+button.disabled = false;
 }
     
 async function loadLatestMindset() {
@@ -2689,8 +2708,13 @@ async function loadLatestMindset() {
         return;
     }
 
-    latest.textContent =
-        `Confidence: ${data.confidence}/5 | Energy: ${data.energy}/5 | Focus: ${data.focus}/5 | Pressure: ${data.pressure}/5 | Mindset: ${data.word || "—"}`;
+    latest.innerHTML = `
+    <div>CONFIDENCE <strong>${data.confidence}/5</strong></div>
+    <div>ENERGY <strong>${data.energy}/5</strong></div>
+    <div>FOCUS <strong>${data.focus}/5</strong></div>
+    <div>PRESSURE <strong>${data.pressure}/5</strong></div>
+    <div>MINDSET <strong>${data.word || "—"}</strong></div>
+`;
 }
 
 // JOURNAL JAVASCRIPT
