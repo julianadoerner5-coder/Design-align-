@@ -3225,6 +3225,33 @@ function openChallenge(name) {
         name + ".";
 
     document.getElementById("activeChallengeOverlay").classList.add("active");
+
+    const actions = [
+        "Drink a full glass of water when you wake up",
+        "Get outside for 15 minutes",
+        "Organize your backpack or athletic bag",
+        "Stretch or move for 10 minutes",
+        "Put your phone away 30 minutes before bed"
+    ];
+
+    const actionContainer =
+        document.getElementById("challengeActions");
+
+    actionContainer.innerHTML = "";
+
+    actions.forEach((action, index) => {
+
+        const button = document.createElement("button");
+
+        button.className = "challenge-action";
+
+        button.innerHTML = `
+            <span class="challenge-checkbox"></span>
+            <span class="challenge-action-text">${action}</span>
+        `;
+
+        actionContainer.appendChild(button);
+    });
 }
 
 function closeActiveChallenge() {
