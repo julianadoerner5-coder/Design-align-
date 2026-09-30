@@ -3258,6 +3258,12 @@ button.addEventListener("click", function() {
 
     checkbox.textContent =
         button.classList.contains("completed") ? "✓" : "";
+
+    const completedCount =
+        actionContainer.querySelectorAll(".challenge-action.completed").length;
+
+    document.getElementById("challengeProgress").textContent =
+        completedCount + " / 5 COMPLETE";
 });
         actionContainer.appendChild(button);
     });
