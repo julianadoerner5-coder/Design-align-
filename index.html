@@ -1214,6 +1214,171 @@ footer span {
     }
 
 }
+    /* ACTIVE CHALLENGE */
+
+.active-challenge-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(37,36,34,.72);
+    backdrop-filter: blur(8px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 25px;
+    z-index: 1250;
+}
+
+.active-challenge-overlay.active {
+    display: flex;
+}
+
+.active-challenge-box {
+    width: min(620px, 100%);
+    max-height: 90vh;
+    overflow-y: auto;
+    background: var(--ivory);
+    padding: 55px;
+    position: relative;
+    box-shadow: 0 30px 80px rgba(0,0,0,.25);
+}
+
+.active-challenge-close {
+    position: absolute;
+    top: 18px;
+    right: 20px;
+    border: none;
+    background: none;
+    font-size: 28px;
+    cursor: pointer;
+    color: var(--charcoal);
+}
+
+.active-challenge-label {
+    color: var(--gold);
+    font-size: 10px;
+    letter-spacing: .2em;
+    font-weight: 700;
+    margin-bottom: 18px;
+}
+
+.active-challenge-box h2 {
+    font-family: "Playfair Display", serif;
+    font-size: 46px;
+    line-height: .98;
+    letter-spacing: -.04em;
+    margin-bottom: 15px;
+}
+
+.active-challenge-intro {
+    color: #716b64;
+    font-size: 14px;
+    margin-bottom: 30px;
+}
+
+.challenge-day {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--gray);
+    border-bottom: 1px solid var(--gray);
+    padding: 15px 0;
+    margin-bottom: 25px;
+}
+
+.challenge-day span {
+    font-size: 10px;
+    letter-spacing: .12em;
+    font-weight: 700;
+}
+
+#challengeDay {
+    color: var(--gold);
+}
+
+#challengeProgress {
+    color: #716b64;
+}
+
+.challenge-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.challenge-action {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 17px;
+    border: 1px solid var(--gray);
+    background: white;
+    cursor: pointer;
+    text-align: left;
+    font-family: inherit;
+    color: var(--charcoal);
+    transition: .2s ease;
+}
+
+.challenge-action:hover {
+    border-color: var(--gold);
+}
+
+.challenge-action.completed {
+    background: var(--espresso);
+    color: white;
+    border-color: var(--espresso);
+}
+
+.challenge-checkbox {
+    width: 20px;
+    height: 20px;
+    border: 1px solid var(--gray);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 12px;
+}
+
+.challenge-action.completed .challenge-checkbox {
+    border-color: white;
+}
+
+.challenge-action-text {
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+.challenge-week {
+    margin-top: 35px;
+    padding-top: 25px;
+    border-top: 1px solid var(--gray);
+}
+
+.challenge-week-label {
+    color: var(--gold);
+    font-size: 9px;
+    letter-spacing: .18em;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+#challengeWeekProgress {
+    font-family: "Playfair Display", serif;
+    font-size: 30px;
+}
+
+@media (max-width: 700px) {
+
+    .active-challenge-box {
+        padding: 38px 24px;
+    }
+
+    .active-challenge-box h2 {
+        font-size: 38px;
+    }
+
+}
     /* JOURNAL */
 .daily-prompt {
     background: white;
@@ -2282,11 +2447,11 @@ footer span {
 
         <div class="challenge-list">
 
-            <button class="challenge-option">
-                <span class="challenge-number">01</span>
-                <strong>RESET</strong>
-                <small>7 DAYS · 5 DAILY ACTIONS</small>
-            </button>
+          <button class="challenge-option" onclick="openChallenge('RESET')">
+    <span class="challenge-number">01</span>
+    <strong>RESET</strong>
+    <small>7 DAYS · 5 DAILY ACTIONS</small>
+</button>
 
             <button class="challenge-option">
                 <span class="challenge-number">02</span>
@@ -2312,6 +2477,42 @@ footer span {
                 <small>7 DAYS · 5 DAILY ACTIONS</small>
             </button>
 
+        </div>
+
+    </div>
+
+</div>
+    <!-- ACTIVE CHALLENGE -->
+
+<div class="active-challenge-overlay" id="activeChallengeOverlay">
+
+    <div class="active-challenge-box">
+
+        <button class="active-challenge-close" onclick="closeActiveChallenge()">×</button>
+
+        <div class="active-challenge-label">ALIGN / CHALLENGE</div>
+
+        <h2 id="activeChallengeTitle">RESET.</h2>
+
+        <p class="active-challenge-intro">
+            Small actions. Repeated consistently.
+        </p>
+
+        <div class="challenge-day">
+            <span id="challengeDay">DAY 1 / 7</span>
+            <span id="challengeProgress">0 / 5 COMPLETE</span>
+        </div>
+
+        <div class="challenge-actions" id="challengeActions"></div>
+
+        <div class="challenge-week">
+            <div class="challenge-week-label">
+                WEEK PROGRESS
+            </div>
+
+            <div id="challengeWeekProgress">
+                0 / 35
+            </div>
         </div>
 
     </div>
@@ -3016,6 +3217,19 @@ function openChallenges() {
 function closeChallenges() {
 
     document.getElementById("challengesOverlay").classList.remove("active");
+}
+
+function openChallenge(name) {
+
+    document.getElementById("activeChallengeTitle").textContent =
+        name + ".";
+
+    document.getElementById("activeChallengeOverlay").classList.add("active");
+}
+
+function closeActiveChallenge() {
+
+    document.getElementById("activeChallengeOverlay").classList.remove("active");
 }
 
 // JOURNAL JAVASCRIPT
