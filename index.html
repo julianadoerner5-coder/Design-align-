@@ -3249,7 +3249,16 @@ function openChallenge(name) {
             <span class="challenge-checkbox"></span>
             <span class="challenge-action-text">${action}</span>
         `;
+button.addEventListener("click", function() {
 
+    button.classList.toggle("completed");
+
+    const checkbox =
+        button.querySelector(".challenge-checkbox");
+
+    checkbox.textContent =
+        button.classList.contains("completed") ? "✓" : "";
+});
         actionContainer.appendChild(button);
     });
 }
