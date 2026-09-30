@@ -1090,6 +1090,130 @@ footer span {
     }
 
 }
+    /* CHALLENGES */
+
+.challenges-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(37,36,34,.72);
+    backdrop-filter: blur(8px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 25px;
+    z-index: 1200;
+}
+
+.challenges-overlay.active {
+    display: flex;
+}
+
+.challenges-box {
+    width: min(620px, 100%);
+    max-height: 90vh;
+    overflow-y: auto;
+    background: var(--ivory);
+    padding: 55px;
+    position: relative;
+    box-shadow: 0 30px 80px rgba(0,0,0,.25);
+}
+
+.challenges-close {
+    position: absolute;
+    top: 18px;
+    right: 20px;
+    border: none;
+    background: none;
+    font-size: 28px;
+    cursor: pointer;
+    color: var(--charcoal);
+}
+
+.challenges-label {
+    color: var(--gold);
+    font-size: 10px;
+    letter-spacing: .2em;
+    font-weight: 700;
+    margin-bottom: 18px;
+}
+
+.challenges-box h2 {
+    font-family: "Playfair Display", serif;
+    font-size: 46px;
+    line-height: .98;
+    letter-spacing: -.04em;
+    margin-bottom: 15px;
+}
+
+.challenges-intro {
+    color: #716b64;
+    font-size: 14px;
+    margin-bottom: 30px;
+}
+
+.challenge-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.challenge-option {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 45px 1fr auto;
+    align-items: center;
+    gap: 15px;
+    padding: 18px;
+    border: 1px solid var(--gray);
+    background: white;
+    color: var(--charcoal);
+    text-align: left;
+    cursor: pointer;
+    transition: .2s ease;
+}
+
+.challenge-option:hover {
+    border-color: var(--gold);
+    transform: translateY(-1px);
+}
+
+.challenge-number {
+    color: var(--gold);
+    font-size: 10px;
+    letter-spacing: .12em;
+    font-weight: 700;
+}
+
+.challenge-option strong {
+    font-size: 12px;
+    letter-spacing: .08em;
+}
+
+.challenge-option small {
+    color: #716b64;
+    font-size: 9px;
+    letter-spacing: .08em;
+}
+
+@media (max-width: 700px) {
+
+    .challenges-box {
+        padding: 38px 24px;
+    }
+
+    .challenges-box h2 {
+        font-size: 38px;
+    }
+
+    .challenge-option {
+        grid-template-columns: 35px 1fr;
+    }
+
+    .challenge-option small {
+        grid-column: 2;
+    }
+
+}
     /* JOURNAL */
 .daily-prompt {
     background: white;
@@ -1965,11 +2089,11 @@ footer span {
     <small>Check in with yourself</small>
 </button>
 
-            <button class="dashboard-card">
-                <span class="dashboard-icon">04</span>
-                <strong>CHALLENGES</strong>
-                <small>Build your momentum</small>
-            </button>
+            <button class="dashboard-card" onclick="openChallenges()">
+    <span class="dashboard-icon">04</span>
+    <strong>CHALLENGES</strong>
+    <small>Build your momentum</small>
+</button>
 
         </div>
 
@@ -2140,7 +2264,59 @@ footer span {
     </div>
 
 </div>
+<!-- CHALLENGES -->
 
+<div class="challenges-overlay" id="challengesOverlay">
+
+    <div class="challenges-box">
+
+        <button class="challenges-close" onclick="closeChallenges()">×</button>
+
+        <div class="challenges-label">ALIGN / CHALLENGES</div>
+
+        <h2>TAKE ACTION.</h2>
+
+        <p class="challenges-intro">
+            Small actions. Repeated consistently.
+        </p>
+
+        <div class="challenge-list">
+
+            <button class="challenge-option">
+                <span class="challenge-number">01</span>
+                <strong>RESET</strong>
+                <small>7 DAYS · 5 DAILY ACTIONS</small>
+            </button>
+
+            <button class="challenge-option">
+                <span class="challenge-number">02</span>
+                <strong>CONFIDENCE</strong>
+                <small>7 DAYS · 5 DAILY ACTIONS</small>
+            </button>
+
+            <button class="challenge-option">
+                <span class="challenge-number">03</span>
+                <strong>BALANCE</strong>
+                <small>7 DAYS · 5 DAILY ACTIONS</small>
+            </button>
+
+            <button class="challenge-option">
+                <span class="challenge-number">04</span>
+                <strong>ATHLETE</strong>
+                <small>7 DAYS · 5 DAILY ACTIONS</small>
+            </button>
+
+            <button class="challenge-option">
+                <span class="challenge-number">05</span>
+                <strong>BEYOND THE SCOREBOARD</strong>
+                <small>7 DAYS · 5 DAILY ACTIONS</small>
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
 <!-- JOURNAL -->
 
 <div class="journal-overlay" id="journalOverlay">
@@ -2824,6 +3000,24 @@ async function loadMindsetHistory() {
         list.appendChild(card);
     });
 }
+    
+// CHALLENGES JAVASCRIPT
+
+function openChallenges() {
+
+    if (!currentUser) {
+        openAuth();
+        return;
+    }
+
+    document.getElementById("challengesOverlay").classList.add("active");
+}
+
+function closeChallenges() {
+
+    document.getElementById("challengesOverlay").classList.remove("active");
+}
+
 // JOURNAL JAVASCRIPT
 
 function openJournal() {
