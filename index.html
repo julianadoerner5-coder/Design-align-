@@ -2453,25 +2453,25 @@ footer span {
     <small>7 DAYS · 5 DAILY ACTIONS</small>
 </button>
 
-            <button class="challenge-option">
-                <span class="challenge-number">02</span>
-                <strong>CONFIDENCE</strong>
-                <small>7 DAYS · 5 DAILY ACTIONS</small>
-            </button>
+            <button class="challenge-option" onclick="openChallenge('CONFIDENCE')">
+    <span class="challenge-number">02</span>
+    <strong>CONFIDENCE</strong>
+    <small>7 DAYS · 5 DAILY ACTIONS</small>
+</button>
 
-            <button class="challenge-option">
-                <span class="challenge-number">03</span>
-                <strong>BALANCE</strong>
-                <small>7 DAYS · 5 DAILY ACTIONS</small>
-            </button>
+            <button class="challenge-option" onclick="openChallenge('BALANCE')">
+    <span class="challenge-number">03</span>
+    <strong>BALANCE</strong>
+    <small>7 DAYS · 5 DAILY ACTIONS</small>
+</button>
 
-            <button class="challenge-option">
+            <button class="challenge-option" onclick="openChallenge('ATHLETE')">
                 <span class="challenge-number">04</span>
                 <strong>ATHLETE</strong>
                 <small>7 DAYS · 5 DAILY ACTIONS</small>
             </button>
 
-            <button class="challenge-option">
+            <button class="challenge-option" onclick="openChallenge('BEYOND THE SCOREBOARD')">
                 <span class="challenge-number">05</span>
                 <strong>BEYOND THE SCOREBOARD</strong>
                 <small>7 DAYS · 5 DAILY ACTIONS</small>
@@ -3226,20 +3226,56 @@ function openChallenge(name) {
 
     document.getElementById("activeChallengeOverlay").classList.add("active");
 
-    const actions = [
+    const challengeActions = {
+
+    RESET: [
         "Drink a full glass of water when you wake up",
         "Get outside for 15 minutes",
         "Organize your backpack or athletic bag",
         "Stretch or move for 10 minutes",
         "Put your phone away 30 minutes before bed"
-    ];
+    ],
+
+    CONFIDENCE: [
+        "Give someone a genuine compliment",
+        "Do something slightly outside your comfort zone",
+        "Practice something you're working to improve",
+        "Spend 10 minutes doing something you're good at",
+        "Encourage a teammate"
+    ],
+
+    BALANCE: [
+        "Spend 20 minutes on something unrelated to sports",
+        "Get schoolwork done before relaxing",
+        "Take a real break during the day",
+        "Spend time with someone you care about",
+        "Do something just because you enjoy it"
+    ],
+
+    ATHLETE: [
+        "Complete your normal warm-up or recovery routine",
+        "Drink water throughout the day",
+        "Get intentional movement",
+        "Do 10 minutes of mobility or stretching",
+        "Encourage a teammate"
+    ],
+
+    "BEYOND THE SCOREBOARD": [
+        "Do something connected to another interest",
+        "Spend time with a friend or family member",
+        "Learn something unrelated to your sport",
+        "Try something new",
+        "Spend time completely away from athletics"
+    ]
+
+};
 
     const actionContainer =
         document.getElementById("challengeActions");
 
     actionContainer.innerHTML = "";
 
-    actions.forEach((action, index) => {
+    challengeActions[name].forEach((action, index) => {
 
         const button = document.createElement("button");
 
