@@ -1290,6 +1290,22 @@ footer span {
     letter-spacing: .12em;
     font-weight: 700;
 }
+    .challenge-nav {
+    border: 1px solid var(--gray);
+    background: white;
+    color: var(--charcoal);
+    width: 34px;
+    height: 34px;
+    font-family: inherit;
+    font-size: 16px;
+    cursor: pointer;
+    transition: .2s ease;
+}
+
+.challenge-nav:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+}
 
 #challengeDay {
     color: var(--gold);
@@ -2499,9 +2515,28 @@ footer span {
         </p>
 
         <div class="challenge-day">
-            <span id="challengeDay">DAY 1 / 7</span>
-            <span id="challengeProgress">0 / 5 COMPLETE</span>
-        </div>
+
+    <button
+        type="button"
+        class="challenge-nav"
+        onclick="changeChallengeDay(-1)"
+    >
+        ←
+    </button>
+
+    <span id="challengeDay">DAY 1 / 7</span>
+
+    <span id="challengeProgress">0 / 5 COMPLETE</span>
+
+    <button
+        type="button"
+        class="challenge-nav"
+        onclick="changeChallengeDay(1)"
+    >
+        →
+    </button>
+
+</div>
 
         <div class="challenge-actions" id="challengeActions"></div>
 
@@ -3218,14 +3253,14 @@ function closeChallenges() {
 
     document.getElementById("challengesOverlay").classList.remove("active");
 }
-
+let currentChallengeDay = 1;
 async function openChallenge(name) {
 
     document.getElementById("activeChallengeTitle").textContent =
         name + ".";
 
     document.getElementById("activeChallengeOverlay").classList.add("active");
-
+currentChallengeDay = 1;
     const challengeActions = {
 
     RESET: [
@@ -3345,6 +3380,20 @@ button.addEventListener("click", async function() {
 function closeActiveChallenge() {
 
     document.getElementById("activeChallengeOverlay").classList.remove("active");
+}
+    function changeChallengeDay(direction) {
+
+    const newDay =
+        currentChallengeDay + direction;
+
+    if (newDay < 1 || newDay > 7) {
+        return;
+    }
+
+    currentChallengeDay = newDay;
+
+    document.getElementById("challengeDay").textContent =
+        "DAY " + currentChallengeDay + " / 7";
 }
 
 // JOURNAL JAVASCRIPT
