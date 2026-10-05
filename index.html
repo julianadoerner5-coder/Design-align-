@@ -3219,7 +3219,7 @@ function closeChallenges() {
     document.getElementById("challengesOverlay").classList.remove("active");
 }
 
-function openChallenge(name) {
+async function openChallenge(name) {
 
     document.getElementById("activeChallengeTitle").textContent =
         name + ".";
@@ -3274,32 +3274,69 @@ function openChallenge(name) {
         document.getElementById("challengeActions");
 
     actionContainer.innerHTML = "";
+const { data: savedProgress, error: progressError } =
+    await supabaseClient
+        .from("ChallengeProgress")
+        .select("action_index, completed")
+        .eq("user_id", currentUser.id)
+        .eq("challenge_name", name)
+        .eq("day", 1);
 
+if (progressError) {
+    console.error(progressError);
+}
     challengeActions[name].forEach((action, index) => {
+const savedAction =
+    savedProgress?.find(item => item.action_index === index + 1);
 
+const isSavedCompleted =
+    savedAction?.completed === true;
         const button = document.createElement("button");
 
-        button.className = "challenge-action";
+        button.className =
+    isSavedCompleted
+        ? "challenge-action completed"
+        : "challenge-action";
 
         button.innerHTML = `
             <span class="challenge-checkbox"></span>
             <span class="challenge-action-text">${action}</span>
         `;
-button.addEventListener("click", function() {
+        if (isSavedCompleted) {
+    button.querySelector(".challenge-checkbox").textContent = "✓";
+}
+button.addEventListener("click", async function() {
 
-    button.classList.toggle("completed");
+    const isCompleted =
+        button.classList.toggle("completed");
 
     const checkbox =
         button.querySelector(".challenge-checkbox");
 
     checkbox.textContent =
-        button.classList.contains("completed") ? "✓" : "";
+        isCompleted ? "✓" : "";
 
     const completedCount =
         actionContainer.querySelectorAll(".challenge-action.completed").length;
 
     document.getElementById("challengeProgress").textContent =
         completedCount + " / 5 COMPLETE";
+
+    const { error } = await supabaseClient
+        .from("ChallengeProgress")
+        .upsert({
+            user_id: currentUser.id,
+            challenge_name: name,
+            day: 1,
+            action_index: index + 1,
+            completed: isCompleted
+        }, {
+            onConflict: "user_id,challenge_name,day,action_index"
+        });
+
+    if (error) {
+        console.error(error);
+    }
 });
         actionContainer.appendChild(button);
     });
