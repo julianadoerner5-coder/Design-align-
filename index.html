@@ -3239,29 +3239,7 @@ async function loadMindsetHistory() {
     
 // CHALLENGES JAVASCRIPT
 
-function openChallenges() {
-
-    if (!currentUser) {
-        openAuth();
-        return;
-    }
-
-    document.getElementById("challengesOverlay").classList.add("active");
-}
-
-function closeChallenges() {
-
-    document.getElementById("challengesOverlay").classList.remove("active");
-}
-let currentChallengeDay = 1;
-async function openChallenge(name) {
-
-    document.getElementById("activeChallengeTitle").textContent =
-        name + ".";
-
-    document.getElementById("activeChallengeOverlay").classList.add("active");
-currentChallengeDay = 1;
-    const challengeActions = {
+const challengeActions = {
 
     RESET: [
         "Drink a full glass of water when you wake up",
@@ -3305,83 +3283,152 @@ currentChallengeDay = 1;
 
 };
 
+let currentChallengeDay = 1;
+let currentChallengeName = "";
+
+
+function openChallenges() {
+
+    if (!currentUser) {
+        openAuth();
+        return;
+    }
+
+    document.getElementById("challengesOverlay").classList.add("active");
+}
+
+
+function closeChallenges() {
+
+    document.getElementById("challengesOverlay").classList.remove("active");
+}
+
+
+async function openChallenge(name) {
+
+    document.getElementById("activeChallengeTitle").textContent =
+        name + ".";
+
+    document.getElementById("activeChallengeOverlay").classList.add("active");
+
+    currentChallengeDay = 1;
+    currentChallengeName = name;
+
+    document.getElementById("challengeDay").textContent =
+        "DAY 1 / 7";
+
+    await openChallengeDay(name);
+}
+
+
+async function openChallengeDay(name) {
+
     const actionContainer =
         document.getElementById("challengeActions");
 
     actionContainer.innerHTML = "";
-const { data: savedProgress, error: progressError } =
-    await supabaseClient
-        .from("ChallengeProgress")
-        .select("action_index, completed")
-        .eq("user_id", currentUser.id)
-        .eq("challenge_name", name)
-        .eq("day", 1);
 
-if (progressError) {
-    console.error(progressError);
-}
-    challengeActions[name].forEach((action, index) => {
-const savedAction =
-    savedProgress?.find(item => item.action_index === index + 1);
-
-const isSavedCompleted =
-    savedAction?.completed === true;
-        const button = document.createElement("button");
-
-        button.className =
-    isSavedCompleted
-        ? "challenge-action completed"
-        : "challenge-action";
-
-        button.innerHTML = `
-            <span class="challenge-checkbox"></span>
-            <span class="challenge-action-text">${action}</span>
-        `;
-        if (isSavedCompleted) {
-    button.querySelector(".challenge-checkbox").textContent = "✓";
-}
-button.addEventListener("click", async function() {
-
-    const isCompleted =
-        button.classList.toggle("completed");
-
-    const checkbox =
-        button.querySelector(".challenge-checkbox");
-
-    checkbox.textContent =
-        isCompleted ? "✓" : "";
-
-    const completedCount =
-        actionContainer.querySelectorAll(".challenge-action.completed").length;
-
-    document.getElementById("challengeProgress").textContent =
-        completedCount + " / 5 COMPLETE";
-
-    const { error } = await supabaseClient
-        .from("ChallengeProgress")
-        .upsert({
-            user_id: currentUser.id,
-            challenge_name: name,
-            day: 1,
-            action_index: index + 1,
-            completed: isCompleted
-        }, {
-            onConflict: "user_id,challenge_name,day,action_index"
-        });
+    const { data: savedProgress, error } =
+        await supabaseClient
+            .from("ChallengeProgress")
+            .select("action_index, completed")
+            .eq("user_id", currentUser.id)
+            .eq("challenge_name", name)
+            .eq("day", currentChallengeDay);
 
     if (error) {
         console.error(error);
+        return;
     }
-});
+
+    challengeActions[name].forEach((action, index) => {
+
+        const savedAction =
+            savedProgress?.find(
+                item => item.action_index === index + 1
+            );
+
+        const isCompleted =
+            savedAction?.completed === true;
+
+        const button =
+            document.createElement("button");
+
+        button.className =
+            isCompleted
+                ? "challenge-action completed"
+                : "challenge-action";
+
+        button.innerHTML = `
+            <span class="challenge-checkbox">
+                ${isCompleted ? "✓" : ""}
+            </span>
+            <span class="challenge-action-text">
+                ${action}
+            </span>
+        `;
+
+        button.addEventListener("click", async function() {
+
+            const nowCompleted =
+                button.classList.toggle("completed");
+
+            button.querySelector(".challenge-checkbox")
+                .textContent =
+                nowCompleted ? "✓" : "";
+
+            const completedCount =
+                actionContainer.querySelectorAll(
+                    ".challenge-action.completed"
+                ).length;
+
+            document.getElementById("challengeProgress")
+                .textContent =
+                completedCount + " / 5 COMPLETE";
+
+            const { error } =
+                await supabaseClient
+                    .from("ChallengeProgress")
+                    .upsert({
+                        user_id: currentUser.id,
+                        challenge_name: name,
+                        day: currentChallengeDay,
+                        action_index: index + 1,
+                        completed: nowCompleted
+                    }, {
+                        onConflict:
+                            "user_id,challenge_name,day,action_index"
+                    });
+
+            if (error) {
+                console.error(error);
+            }
+
+        });
+
         actionContainer.appendChild(button);
+
     });
+
+    const completedCount =
+        actionContainer.querySelectorAll(
+            ".challenge-action.completed"
+        ).length;
+
+    document.getElementById("challengeProgress")
+        .textContent =
+        completedCount + " / 5 COMPLETE";
 }
+
 
 function closeActiveChallenge() {
 
-    document.getElementById("activeChallengeOverlay").classList.remove("active");
+    document.getElementById("activeChallengeOverlay")
+        .classList.remove("active");
 }
-    function changeChallengeDay(direction) {
+
+
+function changeChallengeDay(direction) {
 
     const newDay =
         currentChallengeDay + direction;
@@ -3394,6 +3441,8 @@ function closeActiveChallenge() {
 
     document.getElementById("challengeDay").textContent =
         "DAY " + currentChallengeDay + " / 7";
+
+    openChallengeDay(currentChallengeName);
 }
 
 // JOURNAL JAVASCRIPT
