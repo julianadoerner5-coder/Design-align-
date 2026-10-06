@@ -1395,6 +1395,28 @@ footer span {
     }
 
 }
+    .challenge-complete-message {
+    display: none;
+    margin-top: 25px;
+    padding: 22px;
+    border: 1px solid var(--gold);
+    background: white;
+    text-align: center;
+}
+
+.challenge-complete-message strong {
+    display: block;
+    color: var(--gold);
+    font-size: 11px;
+    letter-spacing: .16em;
+    margin-bottom: 8px;
+}
+
+.challenge-complete-message span {
+    color: #716b64;
+    font-size: 12px;
+    line-height: 1.5;
+}
     /* JOURNAL */
 .daily-prompt {
     background: white;
@@ -2549,7 +2571,10 @@ footer span {
                 0 / 35
             </div>
         </div>
-
+<div id="challengeCompleteMessage" class="challenge-complete-message">
+    <strong>CHALLENGE COMPLETE.</strong>
+    <span>You showed up for yourself for seven days.</span>
+</div>
     </div>
 
 </div>
@@ -3403,7 +3428,28 @@ async function openChallengeDay(name) {
             if (error) {
                 console.error(error);
             }
+const { data: updatedWeekProgress } =
+    await supabaseClient
+        .from("ChallengeProgress")
+        .select("completed")
+        .eq("user_id", currentUser.id)
+        .eq("challenge_name", name)
+        .eq("completed", true);
 
+const updatedTotal =
+    updatedWeekProgress?.length || 0;
+
+document.getElementById("challengeWeekProgress")
+    .textContent =
+    updatedTotal + " / 35";
+
+if (updatedTotal === 35) {
+    document.getElementById("challengeCompleteMessage")
+        .style.display = "block";
+} else {
+    document.getElementById("challengeCompleteMessage")
+        .style.display = "none";
+}
         });
 
         actionContainer.appendChild(button);
@@ -3418,6 +3464,30 @@ async function openChallengeDay(name) {
     document.getElementById("challengeProgress")
         .textContent =
         completedCount + " / 5 COMPLETE";
+    const weekProgress =
+    await supabaseClient
+        .from("ChallengeProgress")
+        .select("completed")
+        .eq("user_id", currentUser.id)
+        .eq("challenge_name", name)
+        .eq("completed", true);
+
+const totalCompleted =
+    weekProgress.data?.length || 0;
+
+document.getElementById("challengeWeekProgress")
+    .textContent =
+    totalCompleted + " / 35";
+
+if (totalCompleted === 35) {
+    document.getElementById("challengeCompleteMessage")
+        .style.display = "block";
+} else {
+    document.getElementById("challengeCompleteMessage")
+        .style.display = "none";
+}
+
+
 }
 
 
