@@ -1194,7 +1194,16 @@ footer span {
     font-size: 9px;
     letter-spacing: .08em;
 }
-
+.challenge-completed-badge {
+    display: none;
+    color: var(--gold);
+    border: 1px solid var(--gold);
+    padding: 6px 8px;
+    font-size: 8px;
+    letter-spacing: .12em;
+    font-weight: 700;
+    text-align: center;
+}
 @media (max-width: 700px) {
 
     .challenges-box {
@@ -2489,30 +2498,35 @@ footer span {
     <span class="challenge-number">01</span>
     <strong>RESET</strong>
     <small>7 DAYS · 5 DAILY ACTIONS</small>
+    <span class="challenge-completed-badge" id="completed-RESET">COMPLETED</span>
 </button>
 
             <button class="challenge-option" onclick="openChallenge('CONFIDENCE')">
     <span class="challenge-number">02</span>
     <strong>CONFIDENCE</strong>
     <small>7 DAYS · 5 DAILY ACTIONS</small>
+     <span class="challenge-completed-badge" id="completed-CONFIDENCE">COMPLETED</span>
 </button>
 
             <button class="challenge-option" onclick="openChallenge('BALANCE')">
     <span class="challenge-number">03</span>
     <strong>BALANCE</strong>
     <small>7 DAYS · 5 DAILY ACTIONS</small>
+    <span class="challenge-completed-badge" id="completed-BALANCE">COMPLETED</span>
 </button>
 
             <button class="challenge-option" onclick="openChallenge('ATHLETE')">
                 <span class="challenge-number">04</span>
                 <strong>ATHLETE</strong>
                 <small>7 DAYS · 5 DAILY ACTIONS</small>
+                <span class="challenge-completed-badge" id="completed-ATHLETE">COMPLETED</span>
             </button>
 
             <button class="challenge-option" onclick="openChallenge('BEYOND THE SCOREBOARD')">
                 <span class="challenge-number">05</span>
                 <strong>BEYOND THE SCOREBOARD</strong>
                 <small>7 DAYS · 5 DAILY ACTIONS</small>
+                <span class="challenge-completed-badge" id="completed-BEYOND THE SCOREBOARD">COMPLETED</span>
             </button>
 
         </div>
@@ -3319,9 +3333,54 @@ function openChallenges() {
         return;
     }
 
-    document.getElementById("challengesOverlay").classList.add("active");
-}
+        document.getElementById("challengesOverlay").classList.add("active");
 
+    updateChallengeBadges();
+}
+async function updateChallengeBadges() {
+    if (!currentUser) return;
+    const { data: progress, error } =
+        await supabaseClient
+            .from("ChallengeProgress")
+            .select("challenge_name, completed")
+            .eq("user_id", currentUser.id)
+            .eq("completed", true);
+
+    if (error) {
+        console.error(error);
+        return;
+    }
+
+    const challengeNames = [
+        "RESET",
+        "CONFIDENCE",
+        "BALANCE",
+        "ATHLETE",
+        "BEYOND THE SCOREBOARD"
+    ];
+
+    challengeNames.forEach(name => {
+
+        const completedCount =
+            progress.filter(item =>
+                item.challenge_name === name
+            ).length;
+
+        const badgeId =
+            name === "BEYOND THE SCOREBOARD"
+                ? "completed-BEYOND THE SCOREBOARD"
+                : "completed-" + name;
+
+        const badge =
+            document.getElementById(badgeId);
+
+        if (badge) {
+            badge.style.display =
+                completedCount >= 35 ? "inline-block" : "none";
+        }
+
+    });
+}
 
 function closeChallenges() {
 
@@ -3426,8 +3485,11 @@ async function openChallengeDay(name) {
                     });
 
             if (error) {
-                console.error(error);
-            }
+    console.error(error);
+}
+
+updateChallengeBadges();
+
 const { data: updatedWeekProgress } =
     await supabaseClient
         .from("ChallengeProgress")
