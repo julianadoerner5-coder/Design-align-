@@ -537,6 +537,38 @@ nav {
         <p class="dashboard-intro">
             Your progress, your goals, your journey.
         </p>
+    <div class="dashboard-progress">
+
+    <div class="dashboard-progress-label">
+        YOUR ALIGN PROGRESS
+    </div>
+
+    <div class="dashboard-progress-stats">
+
+        <div class="dashboard-stat">
+            <strong id="dashboardChallengesCompleted">0 / 5</strong>
+            <span>CHALLENGES COMPLETED</span>
+        </div>
+
+        <div class="dashboard-stat">
+            <strong id="dashboardActionsCompleted">0 / 175</strong>
+            <span>ACTIONS COMPLETED</span>
+        </div>
+
+    </div>
+
+    <div class="dashboard-progress-track">
+        <div
+            class="dashboard-progress-fill"
+            id="dashboardProgressFill"
+        ></div>
+    </div>
+
+    <div class="dashboard-progress-caption" id="dashboardProgressCaption">
+        Every small action counts.
+    </div>
+
+</div>
 
         <div class="dashboard-grid">
 
@@ -755,6 +787,77 @@ footer span {
     padding: 55px;
     position: relative;
     box-shadow: 0 30px 80px rgba(0,0,0,.25);
+}
+    /* DASHBOARD PROGRESS */
+
+.dashboard-progress {
+    margin: 28px 0 32px;
+    padding: 24px;
+    background: #ffffff;
+    border: 1px solid var(--gray);
+}
+
+.dashboard-progress-label {
+    color: var(--gold);
+    font-size: 9px;
+    letter-spacing: .18em;
+    font-weight: 700;
+    margin-bottom: 22px;
+}
+
+.dashboard-progress-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.dashboard-stat strong {
+    display: block;
+    font-family: "Playfair Display", serif;
+    font-size: 28px;
+    font-weight: 400;
+    color: var(--charcoal);
+    margin-bottom: 7px;
+}
+
+.dashboard-stat span {
+    display: block;
+    color: #716b64;
+    font-size: 8px;
+    letter-spacing: .1em;
+    line-height: 1.5;
+}
+
+.dashboard-progress-track {
+    width: 100%;
+    height: 4px;
+    margin-top: 24px;
+    background: var(--gray);
+    overflow: hidden;
+}
+
+.dashboard-progress-fill {
+    width: 0%;
+    height: 100%;
+    background: var(--gold);
+    transition: width .4s ease;
+}
+
+.dashboard-progress-caption {
+    margin-top: 12px;
+    color: #716b64;
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+@media (max-width: 500px) {
+    .dashboard-progress {
+        padding: 18px;
+    }
+
+    .dashboard-stat strong {
+        font-size: 24px;
+    }
 }
 
 .dashboard-close {
@@ -2774,8 +2877,53 @@ supabaseClient.auth.onAuthStateChange((event, session) => {
 });
 
 loadAuthState();
-    function openDashboard() {
+    async function updateDashboardProgress() {
+    if (!currentUser) return;
+
+    const { data: progress, error } = await supabaseClient
+        .from("ChallengeProgress")
+        .select("challenge_name, completed")
+        .eq("user_id", currentUser.id)
+        .eq("completed", true);
+
+    if (error) {
+        console.error("Dashboard progress error:", error);
+        return;
+    }
+
+    const completedActions = progress.length;
+    const challengeNames = [
+        "RESET",
+        "CONFIDENCE",
+        "BALANCE",
+        "ATHLETE",
+        "BEYOND THE SCOREBOARD"
+    ];
+
+    const completedChallenges = challengeNames.filter(name =>
+        progress.filter(item => item.challenge_name === name).length >= 35
+    ).length;
+
+    document.getElementById("dashboardChallengesCompleted").textContent =
+        completedChallenges + " / 5";
+
+    document.getElementById("dashboardActionsCompleted").textContent =
+        completedActions + " / 175";
+
+    const percentage = Math.min((completedActions / 175) * 100, 100);
+
+    document.getElementById("dashboardProgressFill").style.width =
+        percentage + "%";
+
+    document.getElementById("dashboardProgressCaption").textContent =
+        percentage === 100
+            ? "You've completed every ALIGN action. Keep growing."
+            : "You're " + Math.round(percentage) +
+              "% of the way through your ALIGN actions.";
+}
+    async function openDashboard() {
     document.getElementById("dashboardOverlay").classList.add("active");
+    await updateDashboardProgress();
 }
 
 function closeDashboard() {
