@@ -984,6 +984,57 @@ footer span {
     letter-spacing: .04em;
 }
 
+/* DASHBOARD ATHLETE IDENTITY CARD */
+
+.dashboard-athlete-card {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 24px;
+    margin: 28px 0;
+    background: #eee8de;
+    border: 1px solid #d8cbb8;
+    text-align: left;
+}
+
+.dashboard-athlete-avatar {
+    width: 58px;
+    height: 58px;
+    min-width: 58px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #c5ad83;
+    border-radius: 50%;
+    background: #f8f5ef;
+    color: var(--charcoal);
+    font-family: "Playfair Display", serif;
+    font-size: 22px;
+}
+
+.dashboard-athlete-info h3 {
+    margin: 0 0 7px;
+    color: var(--charcoal);
+    font-family: "Playfair Display", serif;
+    font-size: 21px;
+    font-weight: 500;
+}
+
+.dashboard-athlete-info p {
+    margin: 0 0 7px;
+    color: #716b64;
+    font-size: 11px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+.dashboard-athlete-info span {
+    color: #716b64;
+    font-size: 9px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+}
+
 /* ATHLETE PROFILE */
 
 .profile-overlay {
@@ -2524,6 +2575,21 @@ footer span {
         <p class="dashboard-intro">
             Your progress, your goals, your journey.
         </p>
+        <!-- ATHLETE IDENTITY CARD -->
+
+<div class="dashboard-athlete-card" id="dashboardAthleteCard">
+
+    <div class="dashboard-athlete-avatar" id="dashboardAthleteAvatar">
+        A
+    </div>
+
+    <div class="dashboard-athlete-info">
+        <h3 id="dashboardAthleteName">YOUR NAME</h3>
+        <p id="dashboardAthleteSport">YOUR SPORT / EVENT</p>
+        <span id="dashboardAthleteTeam">YOUR TEAM · CLASS OF YEAR</span>
+    </div>
+
+</div>
 
 <div class="dashboard-progress">
 
@@ -3137,9 +3203,50 @@ loadAuthState();
             : "You're " + Math.round(percentage) +
               "% of the way through your ALIGN actions.";
 }
+    
+async function updateDashboardAthleteCard() {
+    if (!currentUser) return;
+
+    const { data, error } = await supabaseClient
+        .from("Profiles")
+        .select("athlete_name, sport, event_position, graduation_year, team_name")
+        .eq("id", currentUser.id)
+        .maybeSingle();
+
+    if (error) {
+        console.error("Dashboard athlete card error:", error);
+        return;
+    }
+
+    const name = data?.athlete_name || "";
+    const initials = name
+        ? name.split(/\s+/).map(part => part[0]).join("").slice(0, 2).toUpperCase()
+        : "A";
+
+    document.getElementById("dashboardAthleteAvatar").textContent = initials;
+    document.getElementById("dashboardAthleteName").textContent = name || "YOUR NAME";
+
+    const sportEvent = [data?.sport, data?.event_position]
+        .filter(Boolean)
+        .join(" / ");
+
+    document.getElementById("dashboardAthleteSport").textContent =
+        sportEvent || "YOUR SPORT / EVENT";
+
+    const teamYear = [
+        data?.team_name || "YOUR TEAM",
+        data?.graduation_year
+            ? `CLASS OF ${data.graduation_year}`
+            : "CLASS OF YEAR"
+    ].join(" · ");
+
+    document.getElementById("dashboardAthleteTeam").textContent = teamYear;
+}
+
     async function openDashboard() {
     document.getElementById("dashboardOverlay").classList.add("active");
     await updateDashboardProgress();
+        await updateDashboardAthleteCard();
 }
 
 function closeDashboard() {
