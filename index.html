@@ -966,6 +966,24 @@ footer span {
     color: var(--charcoal);
 }
     
+/* ATHLETE INITIALS BADGE */
+
+.profile-avatar {
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+    border: 1px solid #c5ad83;
+    border-radius: 50%;
+    background: #eee8de;
+    color: var(--charcoal);
+    font-family: "Playfair Display", serif;
+    font-size: 24px;
+    letter-spacing: .04em;
+}
+
 /* ATHLETE PROFILE */
 
 .profile-overlay {
@@ -2588,7 +2606,7 @@ footer span {
     <div class="profile-box">
 
         <button class="profile-close" onclick="closeProfile()">×</button>
-
+<div class="profile-avatar" id="profileAvatar">A</div>
         <div class="profile-label">ALIGN / YOUR IDENTITY</div>
 
         <h2>ATHLETE PROFILE.</h2>
@@ -2600,7 +2618,7 @@ footer span {
         <div class="profile-form">
 
             <label for="profileName">YOUR NAME</label>
-            <input id="profileName" type="text" placeholder="Enter your name">
+            <input id="profileName" type="text" placeholder="Enter your name" oninput="updateProfileInitials()">
 
             <label for="profileSport">YOUR SPORT</label>
             <input id="profileSport" type="text" placeholder="e.g. Track & Field">
@@ -3127,7 +3145,15 @@ loadAuthState();
 function closeDashboard() {
     document.getElementById("dashboardOverlay").classList.remove("active");
 }
+function updateProfileInitials() {
+    const name = document.getElementById("profileName").value.trim();
 
+    const initials = name
+        ? name.split(/\s+/).map(part => part[0]).join("").slice(0, 2).toUpperCase()
+        : "A";
+
+    document.getElementById("profileAvatar").textContent = initials;
+}
 async function openProfile() {
     if (!currentUser) {
         openAuth();
@@ -3151,6 +3177,7 @@ async function openProfile() {
     }
 
     document.getElementById("profileName").value = data?.athlete_name || "";
+    updateProfileInitials();
     document.getElementById("profileSport").value = data?.sport || "";
     document.getElementById("profileEvent").value = data?.event_position || "";
 document.getElementById("profileGraduation").value = data?.graduation_year || "";
