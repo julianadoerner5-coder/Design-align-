@@ -2607,6 +2607,10 @@ footer span {
 
             <label for="profileEvent">POSITION / EVENT</label>
             <input id="profileEvent" type="text" placeholder="e.g. 100m / 200m">
+            <label for="profileGraduation">GRADUATION YEAR</label>
+<input id="profileGraduation" type="number" placeholder="e.g. 2028">
+            <label for="profileTeam">YOUR TEAM</label>
+<input id="profileTeam" type="text" placeholder="Enter your team name">
 
             <label for="profileGoal">YOUR BIGGEST GOAL</label>
             <textarea id="profileGoal" rows="3" placeholder="What are you working toward?"></textarea>
@@ -3135,7 +3139,7 @@ async function openProfile() {
 
     const { data, error } = await supabaseClient
         .from("Profiles")
-        .select("athlete_name, sport, event_position, biggest_goal")
+        .select("athlete_name, sport, event_position, graduation_year, team_name, biggest_goal")
         .eq("id", currentUser.id)
         .maybeSingle();
 
@@ -3149,7 +3153,9 @@ async function openProfile() {
     document.getElementById("profileName").value = data?.athlete_name || "";
     document.getElementById("profileSport").value = data?.sport || "";
     document.getElementById("profileEvent").value = data?.event_position || "";
-    document.getElementById("profileGoal").value = data?.biggest_goal || "";
+document.getElementById("profileGraduation").value = data?.graduation_year || "";
+document.getElementById("profileTeam").value = data?.team_name || "";
+document.getElementById("profileGoal").value = data?.biggest_goal || "";
 
     document.getElementById("profileMessage").textContent =
         "Your athlete profile.";
@@ -3169,12 +3175,16 @@ async function saveProfile() {
     message.textContent = "Saving your profile...";
 
     const profileData = {
-        id: currentUser.id,
-        athlete_name: document.getElementById("profileName").value.trim(),
-        sport: document.getElementById("profileSport").value.trim(),
-        event_position: document.getElementById("profileEvent").value.trim(),
-        biggest_goal: document.getElementById("profileGoal").value.trim()
-    };
+    id: currentUser.id,
+    athlete_name: document.getElementById("profileName").value.trim(),
+    sport: document.getElementById("profileSport").value.trim(),
+    event_position: document.getElementById("profileEvent").value.trim(),
+    graduation_year: document.getElementById("profileGraduation").value
+        ? Number(document.getElementById("profileGraduation").value)
+        : null,
+    team_name: document.getElementById("profileTeam").value.trim(),
+    biggest_goal: document.getElementById("profileGoal").value.trim()
+};
 
     const { error } = await supabaseClient
         .from("Profiles")
