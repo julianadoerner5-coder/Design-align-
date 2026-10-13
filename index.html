@@ -965,6 +965,129 @@ footer span {
 .signout-button:hover {
     color: var(--charcoal);
 }
+    
+/* ATHLETE PROFILE */
+
+.profile-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(37, 36, 34, .72);
+    backdrop-filter: blur(8px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 25px;
+    z-index: 1200;
+}
+
+.profile-overlay.active {
+    display: flex;
+}
+
+.profile-box {
+    width: min(620px, 100%);
+    max-height: 90vh;
+    overflow-y: auto;
+    background: var(--ivory);
+    padding: 45px;
+    position: relative;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, .25);
+}
+
+.profile-close {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    border: none;
+    background: none;
+    font-size: 28px;
+    cursor: pointer;
+    color: var(--charcoal);
+}
+
+.profile-label {
+    color: var(--gold);
+    font-size: 10px;
+    letter-spacing: .2em;
+    font-weight: 700;
+    margin-bottom: 18px;
+}
+
+.profile-box h2 {
+    font-family: "Playfair Display", serif;
+    font-size: clamp(32px, 6vw, 48px);
+    line-height: 1;
+    letter-spacing: -.04em;
+    margin-bottom: 14px;
+}
+
+.profile-intro {
+    color: #716b64;
+    font-size: 13px;
+    line-height: 1.7;
+    margin-bottom: 30px;
+}
+
+.profile-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.profile-form label {
+    margin-top: 12px;
+    color: var(--charcoal);
+    font-size: 9px;
+    letter-spacing: .14em;
+    font-weight: 700;
+}
+
+.profile-form input,
+.profile-form textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 13px 14px;
+    border: 1px solid var(--gray);
+    background: white;
+    color: var(--charcoal);
+    font: inherit;
+    font-size: 13px;
+}
+
+.profile-form textarea {
+    resize: vertical;
+}
+
+.profile-save {
+    margin-top: 18px;
+    padding: 15px;
+    border: 1px solid var(--charcoal);
+    background: var(--charcoal);
+    color: white;
+    font: inherit;
+    font-size: 10px;
+    letter-spacing: .16em;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.profile-save:hover {
+    background: var(--gold);
+    border-color: var(--gold);
+}
+
+.profile-message {
+    color: #716b64;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+@media (max-width: 500px) {
+    .profile-box {
+        padding: 35px 22px;
+    }
+}
+
     /* MINDSET */
 
 .mindset-overlay {
@@ -2445,9 +2568,9 @@ footer span {
 
         <div class="dashboard-footer">
 
-            <button class="profile-button">
-                PROFILE
-            </button>
+            <button class="profile-button" onclick="openProfile()">
+    PROFILE
+</button>
 
             <button class="signout-button" onclick="signOut()">
                 SIGN OUT →
@@ -2458,6 +2581,46 @@ footer span {
     </div>
 
 </div>
+    
+<!-- ATHLETE PROFILE -->
+
+<div class="profile-overlay" id="profileOverlay">
+    <div class="profile-box">
+
+        <button class="profile-close" onclick="closeProfile()">×</button>
+
+        <div class="profile-label">ALIGN / YOUR IDENTITY</div>
+
+        <h2>ATHLETE PROFILE.</h2>
+
+        <p class="profile-intro">
+            Your journey. Your goals. Your identity beyond the scoreboard.
+        </p>
+
+        <div class="profile-form">
+
+            <label for="profileName">YOUR NAME</label>
+            <input id="profileName" type="text" placeholder="Enter your name">
+
+            <label for="profileSport">YOUR SPORT</label>
+            <input id="profileSport" type="text" placeholder="e.g. Track & Field">
+
+            <label for="profileEvent">POSITION / EVENT</label>
+            <input id="profileEvent" type="text" placeholder="e.g. 100m / 200m">
+
+            <label for="profileGoal">YOUR BIGGEST GOAL</label>
+            <textarea id="profileGoal" rows="3" placeholder="What are you working toward?"></textarea>
+
+            <button class="profile-save" onclick="saveProfile()">SAVE PROFILE</button>
+
+            <p id="profileMessage" class="profile-message"></p>
+
+        </div>
+
+    </div>
+</div>
+
+
 <!-- AUTHENTICATION -->
 
 <div class="auth-overlay" id="authOverlay">
@@ -2959,6 +3122,73 @@ loadAuthState();
 
 function closeDashboard() {
     document.getElementById("dashboardOverlay").classList.remove("active");
+}
+
+async function openProfile() {
+    if (!currentUser) {
+        openAuth();
+        return;
+    }
+
+    document.getElementById("profileOverlay").classList.add("active");
+    document.getElementById("profileMessage").textContent = "Loading your profile...";
+
+    const { data, error } = await supabaseClient
+        .from("Profiles")
+        .select("athlete_name, sport, event_position, biggest_goal")
+        .eq("id", currentUser.id)
+        .maybeSingle();
+
+    if (error) {
+        console.error("Profile loading error:", error);
+        document.getElementById("profileMessage").textContent =
+            "Couldn't load your profile. Please try again.";
+        return;
+    }
+
+    document.getElementById("profileName").value = data?.athlete_name || "";
+    document.getElementById("profileSport").value = data?.sport || "";
+    document.getElementById("profileEvent").value = data?.event_position || "";
+    document.getElementById("profileGoal").value = data?.biggest_goal || "";
+
+    document.getElementById("profileMessage").textContent =
+        "Your athlete profile.";
+}
+
+function closeProfile() {
+    document.getElementById("profileOverlay").classList.remove("active");
+}
+
+async function saveProfile() {
+    if (!currentUser) return;
+
+    const message = document.getElementById("profileMessage");
+    const saveButton = document.querySelector(".profile-save");
+
+    saveButton.disabled = true;
+    message.textContent = "Saving your profile...";
+
+    const profileData = {
+        id: currentUser.id,
+        athlete_name: document.getElementById("profileName").value.trim(),
+        sport: document.getElementById("profileSport").value.trim(),
+        event_position: document.getElementById("profileEvent").value.trim(),
+        biggest_goal: document.getElementById("profileGoal").value.trim()
+    };
+
+    const { error } = await supabaseClient
+        .from("Profiles")
+        .upsert(profileData, { onConflict: "id" });
+
+    saveButton.disabled = false;
+
+    if (error) {
+        console.error("Profile saving error:", error);
+        message.textContent = "Couldn't save your profile. Please try again.";
+        return;
+    }
+
+    message.textContent = "Profile saved successfully!";
 }
 
 function signOut() {
