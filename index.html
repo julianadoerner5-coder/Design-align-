@@ -1021,6 +1021,57 @@ border-color: #82977B;
     letter-spacing: .04em;
 }
 
+/* ATHLETE PROFILE SETUP PROMPT */
+
+.profile-setup-prompt {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 22px 24px;
+    margin-top: 28px;
+    background: #F5F7F1;
+    border: 1px solid #D5DFCF;
+    border-radius: 3px;
+}
+
+.profile-setup-label {
+    display: block;
+    margin-bottom: 7px;
+    color: #52694D;
+    font-family: "DM Sans", sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .17em;
+}
+
+.profile-setup-prompt p {
+    margin: 0;
+    color: #82796E;
+    font-family: "DM Sans", sans-serif;
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+.profile-setup-button {
+    flex-shrink: 0;
+    padding: 12px 14px;
+    border: 1px solid #82977B;
+    border-radius: 3px;
+    background: #82977B;
+    color: #FFFFFF;
+    font-family: "DM Sans", sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: .09em;
+    cursor: pointer;
+    transition: background .2s ease;
+}
+
+.profile-setup-button:hover {
+    background: #52694D;
+}
+
 /* DASHBOARD ATHLETE IDENTITY CARD */
 
 .dashboard-athlete-card {
@@ -2690,6 +2741,20 @@ border-color: #82977B;
         <p class="dashboard-intro">
             Your progress, your goals, your journey.
         </p>
+        
+<!-- ATHLETE PROFILE SETUP PROMPT -->
+
+<div class="profile-setup-prompt">
+    <div>
+        <span class="profile-setup-label">MAKE IT YOURS</span>
+        <p>Your sport. Your goals. Your journey.</p>
+    </div>
+
+    <button class="profile-setup-button" onclick="document.querySelector('.profile-button').click()">
+        SET UP YOUR ATHLETE PROFILE →
+    </button>
+</div>
+
         <!-- ATHLETE IDENTITY CARD -->
 
 <div class="dashboard-athlete-card" id="dashboardAthleteCard">
