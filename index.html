@@ -794,12 +794,14 @@ footer span {
 
    /* DASHBOARD PROGRESS */
 
+
 .dashboard-progress {
     margin: 28px 0 32px;
-    padding: 28px;
-    background: linear-gradient(145deg, #ffffff, #faf8f4);
-    border: 1px solid #e3dbcf;
-    box-shadow: 0 8px 24px rgba(48, 46, 42, 0.035);
+    padding: 30px;
+    background: #F5F3EC;
+    border: 1px solid #E3DBCF;
+    border-radius: 4px;
+    box-shadow: 0 5px 18px rgba(48, 46, 42, 0.035);
 }
 
 .dashboard-progress-label {
@@ -811,48 +813,60 @@ footer span {
     margin-bottom: 24px;
 }
 
+
 .dashboard-progress-stats {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 28px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 32px;
+    align-items: start;
 }
+
+
 
 .dashboard-stat strong {
     display: block;
     font-family: "Playfair Display", serif;
-    font-size: 32px;
-    font-weight: 400;
-    color: var(--charcoal);
-    letter-spacing: -.035em;
+    font-size: clamp(30px, 4vw, 36px);
+    font-weight: 500;
+    color: #52694D;
+    letter-spacing: -.04em;
     line-height: 1.1;
-    margin-bottom: 9px;
+    margin-bottom: 10px;
 }
+
+
 
 .dashboard-stat span {
     display: block;
-    color: #82796e;
+    color: #756E63;
     font-family: "DM Sans", sans-serif;
-    font-size: 9px;
+    font-size: 10px;
     font-weight: 600;
-    letter-spacing: .12em;
-    line-height: 1.7;
+    letter-spacing: .11em;
+    line-height: 1.8;
 }
+
+
 
 .dashboard-progress-track {
     width: 100%;
-    height: 5px;
+    height: 6px;
     margin-top: 26px;
-    background: #eae4da;
+    background: #E5E3D9;
     overflow: hidden;
     border-radius: 10px;
 }
 
+
+
 .dashboard-progress-fill {
     width: 0%;
     height: 100%;
-    background: var(--gold);
+    background: linear-gradient(90deg, #A4B49B, #71896A);
+    border-radius: 10px;
     transition: width .4s ease;
 }
+
 
 .dashboard-progress-caption {
     margin-top: 14px;
@@ -939,22 +953,29 @@ footer span {
     margin-bottom: 18px;
 }
 
+
 .dashboard-box h2 {
     font-family: "Playfair Display", serif;
-    font-size: 54px;
+    font-size: clamp(40px, 7vw, 54px);
     font-weight: 500;
-    line-height: 1;
-    letter-spacing: -.045em;
-    margin-bottom: 14px;
+    line-height: 1.08;
+    letter-spacing: -.04em;
+    margin-top: 0;
+    margin-bottom: 18px;
+    color: var(--charcoal);
 }
 
+
 .dashboard-intro {
-    color: #7c746b;
+    max-width: 470px;
+    color: #82796E;
     font-family: "DM Sans", sans-serif;
     font-size: 13px;
-    letter-spacing: .01em;
-    line-height: 1.8;
-    margin-bottom: 38px;
+    font-weight: 400;
+    letter-spacing: .015em;
+    line-height: 1.9;
+    margin-top: 0;
+    margin-bottom: 32px;
 }
 
 .dashboard-footer {
@@ -1077,18 +1098,21 @@ border-color: #82977B;
 
 /* DASHBOARD ATHLETE IDENTITY CARD */
 
+
 .dashboard-athlete-card {
     display: flex;
     align-items: center;
-    gap: 20px;
-    padding: 28px;
-    margin: 30px 0;
-    background: linear-gradient(135deg, #f2ede4, #eae2d6);
-    border: 1px solid #d8cbb8;
-    border-radius: 3px;
+    gap: 22px;
+    padding: 30px;
+    margin: 18px 0 32px;
+    background: #F2F3EC;
+    border: 1px solid #DDE2D4;
+    border-radius: 4px;
     text-align: left;
-    box-shadow: 0 8px 24px rgba(48, 46, 42, 0.04);
+    box-shadow: 0 5px 18px rgba(48, 46, 42, 0.035);
+    transition: border-color .2s ease;
 }
+
 
 .dashboard-athlete-avatar {
     width: 62px;
@@ -1139,57 +1163,48 @@ border-color: #82977B;
     text-transform: uppercase;
 }
 
+
 /* DASHBOARD MOBILE LAYOUT */
 
 @media (max-width: 500px) {
     .dashboard-box {
-        padding: 30px 22px;
+        width: 100%;
+        max-height: 92vh;
+        padding: 34px 20px;
+        border-radius: 4px;
     }
 
     .dashboard-box h2 {
-        font-size: 42px;
+        font-size: clamp(36px, 10vw, 42px);
+        line-height: 1.1;
+        margin-bottom: 14px;
     }
 
-    .dashboard-progress {
-        padding: 18px;
-    }
-
-    .dashboard-progress-stats {
-        gap: 16px;
-    }
-
-    .dashboard-stat strong {
-        font-size: 24px;
-    }
-
-    .dashboard-stat span {
-        font-size: 8px;
-    }
-
-    .dashboard-grid {
-        gap: 10px;
-    }
-
-    .dashboard-card {
-        min-height: 130px;
-        padding: 18px 14px;
-    }
-
-    .dashboard-icon {
-        margin-bottom: 18px;
-    }
-
-    .dashboard-card strong {
+    .dashboard-intro {
         font-size: 12px;
+        line-height: 1.8;
+        margin-bottom: 24px;
     }
 
-    .dashboard-card small {
-        font-size: 11px;
+    .profile-setup-prompt {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+        padding: 20px 18px;
+        margin-top: 22px;
+    }
+
+    .profile-setup-button {
+        width: 100%;
+        padding: 13px 10px;
+        font-size: 9px;
+        line-height: 1.6;
     }
 
     .dashboard-athlete-card {
         gap: 14px;
         padding: 20px 16px;
+        margin: 16px 0 26px;
     }
 
     .dashboard-athlete-avatar {
@@ -1201,8 +1216,69 @@ border-color: #82977B;
 
     .dashboard-athlete-info h3 {
         font-size: 21px;
+        line-height: 1.3;
+    }
+
+    .dashboard-progress {
+        margin: 22px 0 26px;
+        padding: 22px 18px;
+    }
+
+    .dashboard-progress-label {
+        font-size: 9px;
+        letter-spacing: .16em;
+        margin-bottom: 22px;
+    }
+
+    .dashboard-progress-stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+    }
+
+    .dashboard-stat strong {
+        font-size: 28px;
+        line-height: 1.15;
+        overflow-wrap: anywhere;
+    }
+
+    .dashboard-stat span {
+        font-size: 9px;
+        letter-spacing: .07em;
+        line-height: 1.7;
+        overflow-wrap: anywhere;
+    }
+
+    .dashboard-progress-track {
+        margin-top: 22px;
+    }
+
+    .dashboard-grid {
+        gap: 12px;
+    }
+
+    .dashboard-card {
+        min-width: 0;
+        min-height: 126px;
+        padding: 18px 14px;
+        overflow-wrap: anywhere;
+    }
+
+    .dashboard-icon {
+        margin-bottom: 16px;
+    }
+
+    .dashboard-card strong {
+        font-size: 12px;
+        line-height: 1.5;
+        letter-spacing: .07em;
+    }
+
+    .dashboard-card small {
+        font-size: 11px;
+        line-height: 1.6;
     }
 }
+
 
 /* ATHLETE PROFILE */
 
