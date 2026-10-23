@@ -3959,26 +3959,8 @@ document.getElementById("authForm").addEventListener("submit", async function(ev
                 password: password
             });
 
-        
         if (error) {
-            message.textContent = error.message;
-            button.disabled = false;
-            return;
-        }
-
-        message.textContent = "You're signed in.";
-
-        setTimeout(() => {
-            closeAuth();
-        }, 1000);
-    }
-
-    button.disabled = false;
-
-});
-
-function openJournal() {
-
+      function openJournal() {
 
     if (!currentUser) {
         openAuth();
@@ -3998,6 +3980,7 @@ function closeJournal() {
 }
 
 function openBalancePlanner() {
+alert("Planner button works!");
     if (!currentUser) {
         openAuth();
         return;
