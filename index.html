@@ -2440,6 +2440,138 @@ border-color: #82977B;
     }
 }
 
+/* ALIGN BALANCE PLANNER STYLING */
+
+.balance-planner-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(37, 36, 34, .72);
+    backdrop-filter: blur(8px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 25px;
+    z-index: 1300;
+}
+
+.balance-planner-overlay.active {
+    display: flex;
+}
+
+.balance-planner-box {
+    width: min(720px, 100%);
+    max-height: 90vh;
+    overflow-y: auto;
+    box-sizing: border-box;
+    background: var(--ivory);
+    padding: 55px;
+    position: relative;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, .25);
+}
+
+.balance-planner-close {
+    position: absolute;
+    top: 18px;
+    right: 20px;
+    border: none;
+    background: none;
+    font-size: 28px;
+    cursor: pointer;
+    color: var(--charcoal);
+}
+
+.balance-planner-label {
+    color: var(--gold);
+    font-size: 10px;
+    letter-spacing: .2em;
+    font-weight: 700;
+    margin-bottom: 18px;
+}
+
+.balance-planner-box h2 {
+    font-family: "Playfair Display", serif;
+    font-size: 42px;
+    line-height: 1.05;
+    letter-spacing: -.04em;
+    margin-bottom: 12px;
+}
+
+.balance-planner-intro {
+    color: #716b64;
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+.balance-planner-section {
+    margin-bottom: 22px;
+}
+
+.balance-planner-section label {
+    display: block;
+    color: var(--charcoal);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .15em;
+    margin-bottom: 9px;
+}
+
+.balance-planner-section input,
+.balance-planner-section textarea {
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid var(--gray);
+    background: white;
+    padding: 15px;
+    font-family: inherit;
+    font-size: 14px;
+    outline: none;
+}
+
+.balance-planner-section textarea {
+    resize: vertical;
+    line-height: 1.6;
+}
+
+.balance-planner-section input:focus,
+.balance-planner-section textarea:focus {
+    border-color: var(--gold);
+}
+
+.balance-planner-save {
+    width: 100%;
+    padding: 16px;
+    border: none;
+    background: var(--espresso);
+    color: white;
+    font-family: inherit;
+    font-size: 11px;
+    letter-spacing: .15em;
+    font-weight: 700;
+    cursor: pointer;
+    transition: .25s ease;
+}
+
+#balancePlannerMessage {
+    margin-top: 14px;
+    font-size: 13px;
+}
+
+@media (max-width: 700px) {
+    .balance-planner-overlay {
+        padding: 14px;
+    }
+
+    .balance-planner-box {
+        padding: 38px 24px;
+    }
+
+    .balance-planner-box h2 {
+        font-size: 34px;
+    }
+}
+</style>
+
 </style>
 </head>
 
@@ -2906,33 +3038,41 @@ border-color: #82977B;
 
 </div>
 
-        <div class="dashboard-grid">
+        
+<div class="dashboard-grid">
 
-            <button class="dashboard-card" onclick="openJournal()">
-    <span class="dashboard-icon">01</span>
-    <strong>JOURNAL</strong>
-    <small>Write & reflect</small>
-</button>
+    <button class="dashboard-card" onclick="openJournal()">
+        <span class="dashboard-icon">01</span>
+        <strong>JOURNAL</strong>
+        <small>Write & reflect</small>
+    </button>
 
-            <button class="dashboard-card" onclick="openGoals()">
-                <span class="dashboard-icon">02</span>
-                <strong>GOALS</strong>
-                <small>Set & track</small>
-            </button>
+    <button class="dashboard-card" onclick="openGoals()">
+        <span class="dashboard-icon">02</span>
+        <strong>GOALS</strong>
+        <small>Set & track</small>
+    </button>
 
-            <button class="dashboard-card" onclick="openMindset()">
-    <span class="dashboard-icon">03</span>
-    <strong>MINDSET</strong>
-    <small>Check in with yourself</small>
-</button>
+    <button class="dashboard-card" onclick="openMindset()">
+        <span class="dashboard-icon">03</span>
+        <strong>MINDSET</strong>
+        <small>Check in with yourself</small>
+    </button>
 
-            <button class="dashboard-card" onclick="openChallenges()">
-    <span class="dashboard-icon">04</span>
-    <strong>CHALLENGES</strong>
-    <small>Build your momentum</small>
-</button>
+    <button class="dashboard-card" onclick="openChallenges()">
+        <span class="dashboard-icon">04</span>
+        <strong>CHALLENGES</strong>
+        <small>Build your momentum</small>
+    </button>
 
-        </div>
+    <button class="dashboard-card" onclick="openBalancePlanner()">
+        <span class="dashboard-icon">05</span>
+        <strong>BALANCE PLANNER</strong>
+        <small>Plan your week with intention</small>
+    </button>
+
+</div>
+
 
         <div class="dashboard-footer">
 
@@ -2950,6 +3090,83 @@ border-color: #82977B;
 
 </div>
     
+<!-- ALIGN BALANCE PLANNER -->
+
+<div class="balance-planner-overlay" id="balancePlannerOverlay">
+
+    <div class="balance-planner-box">
+
+        <button
+            class="balance-planner-close"
+            onclick="closeBalancePlanner()"
+        >×</button>
+
+        <div class="balance-planner-label">
+            ALIGN / YOUR WEEK
+        </div>
+
+        <h2>FIND YOUR BALANCE.</h2>
+
+        <p class="balance-planner-intro">
+            Make space for your goals, your responsibilities,
+            and yourself.
+        </p>
+
+        <div class="balance-planner-section">
+            <label for="plannerWeek">WEEK STARTING</label>
+            <input type="date" id="plannerWeek">
+        </div>
+
+        <div class="balance-planner-section">
+            <label for="plannerSchool">SCHOOL PRIORITY</label>
+            <input
+                type="text"
+                id="plannerSchool"
+                placeholder="What needs your attention this week?"
+            >
+        </div>
+
+        <div class="balance-planner-section">
+            <label for="plannerSport">SPORTS PRIORITY</label>
+            <input
+                type="text"
+                id="plannerSport"
+                placeholder="Training, recovery, or a performance goal..."
+            >
+        </div>
+
+        <div class="balance-planner-section">
+            <label for="plannerPersonal">PERSONAL PRIORITY</label>
+            <input
+                type="text"
+                id="plannerPersonal"
+                placeholder="Friends, family, faith, or time for yourself..."
+            >
+        </div>
+
+        <div class="balance-planner-section">
+            <label for="plannerNotes">MY PLAN FOR THE WEEK</label>
+            <textarea
+                id="plannerNotes"
+                rows="5"
+                placeholder="What matters most this week? What do you want to make time for?"
+            ></textarea>
+        </div>
+
+        <button
+            type="button"
+            class="balance-planner-save"
+            onclick="saveBalancePlanner()"
+        >
+            SAVE MY WEEK →
+        </button>
+
+        <div id="balancePlannerMessage"></div>
+
+    </div>
+
+</div>
+
 <!-- ATHLETE PROFILE -->
 
 <div class="profile-overlay" id="profileOverlay">
@@ -3760,6 +3977,29 @@ function closeJournal() {
     document.getElementById("journalOverlay").classList.remove("active");
 
     document.getElementById("journalMessage").textContent = "";
+}
+
+function openBalancePlanner() {
+
+    if (!currentUser) {
+        openAuth();
+        return;
+    }
+
+    document
+        .getElementById("balancePlannerOverlay")
+        .classList.add("active");
+
+    document.getElementById("balancePlannerMessage").textContent = "";
+}
+
+function closeBalancePlanner() {
+
+    document
+        .getElementById("balancePlannerOverlay")
+        .classList.remove("active");
+
+    document.getElementById("balancePlannerMessage").textContent = "";
 }
 
 document.getElementById("journalForm").addEventListener("submit", async function(event) {
