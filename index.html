@@ -3915,32 +3915,23 @@ function toggleAuthMode() {
 }
 
 
-document.getElementById("authForm").addEventListener("submit", async function(event) {
 
+document.getElementById("authForm").addEventListener("submit", async function(event) {
     event.preventDefault();
 
-    const email =
-        document.getElementById("authEmail").value.trim();
-
-    const password =
-        document.getElementById("authPassword").value;
-
-    const message =
-        document.getElementById("authMessage");
-
-    const button =
-        document.getElementById("authSubmit");
+    const email = document.getElementById("authEmail").value.trim();
+    const password = document.getElementById("authPassword").value;
+    const message = document.getElementById("authMessage");
+    const button = document.getElementById("authSubmit");
 
     message.textContent = "";
     button.disabled = true;
 
     if (authMode === "signup") {
-
-        const { error } =
-            await supabaseClient.auth.signUp({
-                email: email,
-                password: password
-            });
+        const { error } = await supabaseClient.auth.signUp({
+            email: email,
+            password: password
+        });
 
         if (error) {
             message.textContent = error.message;
@@ -3950,194 +3941,14 @@ document.getElementById("authForm").addEventListener("submit", async function(ev
 
         message.textContent =
             "Account created! Check your email to confirm your account.";
-
     } else {
-
-        const { error } =
-            await supabaseClient.auth.signInWithPassword({
-                email: email,
-                password: password
-            });
+        const { error } = await supabaseClient.auth.signInWithPassword({
+            email: email,
+            password: password
+        });
 
         if (error) {
-      function openJournal() {
-
-    if (!currentUser) {
-        openAuth();
-        return;
-    }
-
-    document.getElementById("journalOverlay").classList.add("active");
-
-    loadJournalEntries();
-}
-
-function closeJournal() {
-
-    document.getElementById("journalOverlay").classList.remove("active");
-
-    document.getElementById("journalMessage").textContent = "";
-}
-
-function openBalancePlanner() {
-alert("Planner button works!");
-    if (!currentUser) {
-        openAuth();
-        return;
-    }
-
-    document
-        .getElementById("balancePlannerOverlay")
-        .classList.add("active");
-
-    document.getElementById("balancePlannerMessage").textContent = "";
-}
-
-function closeBalancePlanner() {
-
-    document
-        .getElementById("balancePlannerOverlay")
-        .classList.remove("active");
-
-    document.getElementById("balancePlannerMessage").textContent = "";
-}
-
-document.getElementById("journalForm").addEventListener("submit", async function(event) {
-
-    event.preventDefault();
-
-    if (!currentUser) {
-        openAuth();
-        return;
-    }
-
-    const title =
-        document.getElementById("journalTitle").value.trim();
-
-    const content =
-        document.getElementById("journalContent").value.trim();
-
-    const message =
-        document.getElementById("journalMessage");
-
-    const button =
-        document.querySelector(".journal-save");
-
-    if (!title || !content) return;
-
-    button.disabled = true;
-    message.textContent = "SAVING...";
-
-    const { error } =
-        await supabaseClient
-            .from("Journal")
-            .insert({
-                user_id: currentUser.id,
-                title: title,
-                content: content
-            });
-
-    if (error) {
-
-        console.error(error);
-
-        message.textContent =
-            "Something went wrong. Please try again.";
-
-        button.disabled = false;
-
-        return;
-    }
-
-    message.textContent = "ENTRY SAVED.";
-
-    document.getElementById("journalTitle").value = "";
-    document.getElementById("journalContent").value = "";
-
-    await loadJournalEntries();
-
-    button.disabled = false;
-
-});
-
-async function loadJournalEntries() {
-
-    if (!currentUser) return;
-
-    const list =
-        document.getElementById("journalEntriesList");
-
-    list.innerHTML = "<p>Loading entries...</p>";
-
-    const { data, error } =
-        await supabaseClient
-            .from("Journal")
-            .select("*")
-            .eq("user_id", currentUser.id)
-            .order("created_at", { ascending: false });
-
-    if (error) {
-
-        console.error(error);
-
-        list.innerHTML =
-            "<p>Unable to load entries.</p>";
-
-        return;
-    }
-
-    if (!data || data.length === 0) {
-
-        list.innerHTML =
-            "<p>No entries yet. Start writing above.</p>";
-
-        return;
-    }
-
-    list.innerHTML = "";
-
-    data.forEach(entry => {
-
-        const article =
-            document.createElement("article");
-
-        article.className = "journal-entry";
-
-        const title =
-            document.createElement("div");
-
-        title.className = "journal-entry-title";
-        title.textContent = entry.title;
-
-        const date =
-            document.createElement("div");
-
-        date.className = "journal-entry-date";
-
-        date.textContent =
-            new Date(entry.created_at).toLocaleDateString(
-                undefined,
-                {
-                    month: "long",
-                    day: "numeric",
-                    year: "numeric"
-                }
-            );
-
-        const content =
-            document.createElement("div");
-
-        content.className = "journal-entry-content";
-        content.textContent = entry.content;
-
-        article.appendChild(title);
-        article.appendChild(date);
-        article.appendChild(content);
-
-        list.appendChild(article);
-    });
-
-}      message.textContent = error.message;
+            message.textContent = error.message;
             button.disabled = false;
             return;
         }
@@ -4149,9 +3960,131 @@ async function loadJournalEntries() {
         }, 1000);
     }
 
-        button.disabled = false;
-
+    button.disabled = false;
 });
+
+function openJournal() {
+    if (!currentUser) {
+        openAuth();
+        return;
+    }
+
+    document.getElementById("journalOverlay").classList.add("active");
+    loadJournalEntries();
+}
+
+function closeJournal() {
+    document.getElementById("journalOverlay").classList.remove("active");
+    document.getElementById("journalMessage").textContent = "";
+}
+
+function openBalancePlanner() {
+    if (!currentUser) {
+        openAuth();
+        return;
+    }
+
+    document.getElementById("balancePlannerOverlay").classList.add("active");
+    document.getElementById("balancePlannerMessage").textContent = "";
+}
+
+function closeBalancePlanner() {
+    document.getElementById("balancePlannerOverlay").classList.remove("active");
+    document.getElementById("balancePlannerMessage").textContent = "";
+}
+
+document.getElementById("journalForm").addEventListener("submit", async function(event) {
+    event.preventDefault();
+
+    if (!currentUser) {
+        openAuth();
+        return;
+    }
+
+    const title = document.getElementById("journalTitle").value.trim();
+    const content = document.getElementById("journalContent").value.trim();
+    const message = document.getElementById("journalMessage");
+    const button = document.querySelector(".journal-save");
+
+    if (!title || !content) return;
+
+    button.disabled = true;
+    message.textContent = "SAVING...";
+
+    const { error } = await supabaseClient
+        .from("Journal")
+        .insert({
+            user_id: currentUser.id,
+            title: title,
+            content: content
+        });
+
+    if (error) {
+        console.error(error);
+        message.textContent = "Something went wrong. Please try again.";
+        button.disabled = false;
+        return;
+    }
+
+    message.textContent = "ENTRY SAVED.";
+    document.getElementById("journalTitle").value = "";
+    document.getElementById("journalContent").value = "";
+
+    await loadJournalEntries();
+    button.disabled = false;
+});
+
+async function loadJournalEntries() {
+    if (!currentUser) return;
+
+    const list = document.getElementById("journalEntriesList");
+    list.innerHTML = "<p>Loading entries...</p>";
+
+    const { data, error } = await supabaseClient
+        .from("Journal")
+        .select("*")
+        .eq("user_id", currentUser.id)
+        .order("created_at", { ascending: false });
+
+    if (error) {
+        console.error(error);
+        list.innerHTML = "<p>Unable to load entries.</p>";
+        return;
+    }
+
+    if (!data || data.length === 0) {
+        list.innerHTML = "<p>No entries yet. Start writing above.</p>";
+        return;
+    }
+
+    list.innerHTML = "";
+
+    data.forEach(entry => {
+        const article = document.createElement("article");
+        article.className = "journal-entry";
+
+        const title = document.createElement("div");
+        title.className = "journal-entry-title";
+        title.textContent = entry.title;
+
+        const date = document.createElement("div");
+        date.className = "journal-entry-date";
+        date.textContent = new Date(entry.created_at).toLocaleDateString(
+            undefined,
+            { month: "long", day: "numeric", year: "numeric" }
+        );
+
+        const content = document.createElement("div");
+        content.className = "journal-entry-content";
+        content.textContent = entry.content;
+
+        article.appendChild(title);
+        article.appendChild(date);
+        article.appendChild(content);
+        list.appendChild(article);
+    });
+}
+
 function openMindset() {
     if (!currentUser) {
         openAuth();
