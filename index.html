@@ -2440,6 +2440,7 @@ border-color: #82977B;
     }
 }
 
+
 /* ALIGN BALANCE PLANNER STYLING */
 
 .balance-planner-overlay {
@@ -2450,7 +2451,7 @@ border-color: #82977B;
     display: none;
     align-items: center;
     justify-content: center;
-    padding: 25px;
+    padding: 16px;
     z-index: 1300;
 }
 
@@ -2459,20 +2460,21 @@ border-color: #82977B;
 }
 
 .balance-planner-box {
-    width: min(720px, 100%);
-    max-height: 90vh;
+    width: min(900px, 100%);
+    max-height: 92vh;
     overflow-y: auto;
     box-sizing: border-box;
     background: var(--ivory);
-    padding: 55px;
+    padding: 42px;
     position: relative;
     box-shadow: 0 30px 80px rgba(0, 0, 0, .25);
+    color: var(--charcoal);
 }
 
 .balance-planner-close {
     position: absolute;
-    top: 18px;
-    right: 20px;
+    top: 15px;
+    right: 18px;
     border: none;
     background: none;
     font-size: 28px;
@@ -2485,99 +2487,394 @@ border-color: #82977B;
     font-size: 10px;
     letter-spacing: .2em;
     font-weight: 700;
-    margin-bottom: 18px;
+    margin-bottom: 12px;
 }
 
 .balance-planner-box h2 {
     font-family: "Playfair Display", serif;
-    font-size: 42px;
-    line-height: 1.05;
+    font-size: clamp(29px, 4vw, 42px);
+    line-height: 1.1;
     letter-spacing: -.04em;
-    margin-bottom: 12px;
+    margin: 0 30px 12px 0;
 }
 
 .balance-planner-intro {
     color: #716b64;
     font-size: 14px;
     line-height: 1.6;
-    margin-bottom: 30px;
+    margin-bottom: 25px;
 }
 
-.balance-planner-section {
-    margin-bottom: 22px;
+/* MONTH NAVIGATION */
+
+.calendar-header {
+    display: grid;
+    grid-template-columns: 44px 1fr 44px;
+    align-items: center;
+    gap: 12px;
+    margin: 28px 0 16px;
 }
 
-.balance-planner-section label {
+.calendar-header h3 {
+    font-family: "Playfair Display", serif;
+    font-size: 23px;
+    font-weight: 500;
+    text-align: center;
+    margin: 0;
+}
+
+.calendar-header button,
+#calendarGoToday,
+.calendar-editor-actions button {
+    min-height: 40px;
+    border: 1px solid #ded8ce;
+    background: transparent;
+    color: var(--charcoal);
+    cursor: pointer;
+    font-family: inherit;
+    transition: background .2s ease;
+}
+
+.calendar-header button {
+    font-size: 20px;
+}
+
+.calendar-header button:hover,
+#calendarGoToday:hover,
+.calendar-editor-actions button:hover {
+    background: #eee9df;
+}
+
+.calendar-today-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 16px;
+    color: #716b64;
+    font-size: 12px;
+}
+
+#calendarGoToday {
+    min-height: 32px;
+    padding: 0 13px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .12em;
+}
+
+/* MONTH GRID */
+
+.calendar-weekdays,
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+
+.calendar-weekdays {
+    border-top: 1px solid #ded8ce;
+    border-bottom: 1px solid #ded8ce;
+}
+
+.calendar-weekdays span {
+    padding: 12px 2px;
+    text-align: center;
+    color: #716b64;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: .08em;
+}
+
+.calendar-grid {
+    gap: 5px;
+    padding-top: 8px;
+}
+
+.calendar-day {
+    position: relative;
+    min-width: 0;
+    min-height: 76px;
+    padding: 8px 5px;
+    border: 1px solid transparent;
+    background: transparent;
+    color: var(--charcoal);
+    text-align: left;
+    font-family: inherit;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.calendar-day:hover {
+    background: #f0ece4;
+}
+
+.calendar-day-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 27px;
+    height: 27px;
+    border-radius: 50%;
+    font-size: 12px;
+}
+
+.calendar-day.is-today .calendar-day-number {
+    background: #e4e9df;
+    color: #465440;
+    font-weight: 700;
+}
+
+.calendar-day.is-selected {
+    border-color: #9eaa92;
+    background: #f1f3ed;
+}
+
+.calendar-day.is-selected .calendar-day-number {
+    background: #71896a;
+    color: white;
+    font-weight: 700;
+}
+
+.calendar-day.is-outside-month {
+    color: #aaa39a;
+}
+
+.calendar-day-events {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    margin-top: 5px;
+}
+
+.calendar-event-dot {
+    display: block;
+    width: 100%;
+    height: 4px;
+    border-radius: 4px;
+    background: #a4b49b;
+}
+
+.calendar-event-dot.school {
+    background: #b7a5c7;
+}
+
+.calendar-event-dot.sports {
+    background: #8da58a;
+}
+
+.calendar-event-dot.personal {
+    background: #d2b58c;
+}
+
+.calendar-event-dot.other {
+    background: #9ca9b8;
+}
+
+/* SELECTED DAY AND EVENTS */
+
+.calendar-selected-day {
+    margin-top: 30px;
+    padding-top: 25px;
+    border-top: 1px solid #ded8ce;
+}
+
+.calendar-selected-day h3 {
+    font-family: "Playfair Display", serif;
+    font-size: 25px;
+    font-weight: 500;
+    margin: 0 0 16px;
+}
+
+.calendar-event-item {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 0;
+    border-bottom: 1px solid #e5e0d7;
+}
+
+.calendar-event-item strong {
+    display: block;
+    font-size: 13px;
+    margin-bottom: 5px;
+    overflow-wrap: anywhere;
+}
+
+.calendar-event-item p {
+    color: #716b64;
+    font-size: 12px;
+    line-height: 1.5;
+    margin: 4px 0 0;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+.calendar-event-meta {
+    color: #716b64;
+    font-size: 11px;
+}
+
+.calendar-event-actions {
+    display: flex;
+    gap: 6px;
+    flex-shrink: 0;
+}
+
+.calendar-event-actions button {
+    border: 1px solid #ded8ce;
+    background: transparent;
+    padding: 7px 9px;
+    color: var(--charcoal);
+    font-family: inherit;
+    font-size: 10px;
+    cursor: pointer;
+}
+
+.calendar-event-empty {
+    color: #716b64;
+    font-size: 13px;
+    padding: 12px 0;
+}
+
+/* EVENT EDITOR */
+
+.calendar-event-editor {
+    margin-top: 28px;
+    padding: 24px;
+    background: #f4f1ea;
+}
+
+.calendar-event-editor label {
     display: block;
     color: var(--charcoal);
     font-size: 10px;
     font-weight: 700;
-    letter-spacing: .15em;
-    margin-bottom: 9px;
+    letter-spacing: .12em;
+    margin: 16px 0 8px;
 }
 
-.balance-planner-section input,
-.balance-planner-section textarea {
+.calendar-event-editor input,
+.calendar-event-editor textarea,
+.calendar-event-editor select {
+    display: block;
     width: 100%;
+    min-width: 0;
     box-sizing: border-box;
-    border: 1px solid var(--gray);
+    border: 1px solid #ded8ce;
+    border-radius: 0;
     background: white;
-    padding: 15px;
+    color: var(--charcoal);
+    padding: 13px;
     font-family: inherit;
     font-size: 14px;
     outline: none;
 }
 
-.balance-planner-section textarea {
+.calendar-event-editor input:focus,
+.calendar-event-editor textarea:focus,
+.calendar-event-editor select:focus {
+    border-color: #9eaa92;
+}
+
+.calendar-event-editor textarea {
     resize: vertical;
     line-height: 1.6;
 }
 
-.balance-planner-section input:focus,
-.balance-planner-section textarea:focus {
-    border-color: var(--gold);
+.calendar-event-fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
 }
 
-.balance-planner-save {
-    width: 100%;
-    padding: 16px;
-    border: none;
+.calendar-editor-actions {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.calendar-editor-actions button {
+    padding: 13px 16px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .1em;
+}
+
+#calendarSaveEvent {
     background: var(--espresso);
     color: white;
-    font-family: inherit;
-    font-size: 11px;
-    letter-spacing: .15em;
-    font-weight: 700;
-    cursor: pointer;
-    transition: .25s ease;
+    border-color: var(--espresso);
 }
 
+#calendarEventMessage,
 #balancePlannerMessage {
-    margin-top: 14px;
-    font-size: 13px;
+    font-size: 12px;
+    line-height: 1.5;
+    margin-top: 12px;
 }
 
-@media (max-width: 700px) {
+@media (max-width: 600px) {
     .balance-planner-overlay {
-        padding: 14px;
+        padding: 8px;
+        align-items: center;
     }
 
     .balance-planner-box {
-        padding: 38px 24px;
+        padding: 38px 15px 22px;
+        max-height: 94vh;
     }
 
     .balance-planner-box h2 {
-        font-size: 34px;
+        font-size: 29px;
+    }
+
+    .calendar-header h3 {
+        font-size: 19px;
+    }
+
+    .calendar-grid {
+        gap: 2px;
+    }
+
+    .calendar-day {
+        min-height: 54px;
+        padding: 3px 1px;
+    }
+
+    .calendar-day-number {
+        width: 24px;
+        height: 24px;
+        font-size: 11px;
+    }
+
+    .calendar-weekdays span {
+        font-size: 8px;
+        padding: 10px 0;
+    }
+
+    .calendar-event-editor {
+        padding: 17px 12px;
+    }
+
+    .calendar-event-fields {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .calendar-today-row {
+        align-items: flex-start;
+        font-size: 11px;
     }
 }
-</style>
-
-</style>
+    </style>
 </head>
 
 <body>
 
 <nav>
+
     <div class="logo">ALIGN</div>
 
     <div class="nav-links">
@@ -3090,82 +3387,101 @@ border-color: #82977B;
 
 </div>
     
+
 <!-- ALIGN BALANCE PLANNER -->
-
 <div class="balance-planner-overlay" id="balancePlannerOverlay">
-
-    <div class="balance-planner-box">
+    <div class="balance-planner-box balance-calendar-box">
 
         <button
             class="balance-planner-close"
+            type="button"
             onclick="closeBalancePlanner()"
+            aria-label="Close calendar"
         >×</button>
 
-        <div class="balance-planner-label">
-            ALIGN / YOUR WEEK
-        </div>
-
-        <h2>FIND YOUR BALANCE.</h2>
-
+        <div class="balance-planner-label">ALIGN / YOUR BALANCE</div>
+        <h2>MAKE ROOM FOR WHAT MATTERS.</h2>
         <p class="balance-planner-intro">
-            Make space for your goals, your responsibilities,
-            and yourself.
+            Your schedule, your goals, and space for yourself.
         </p>
 
-        <div class="balance-planner-section">
-            <label for="plannerWeek">WEEK STARTING</label>
-            <input type="date" id="plannerWeek">
+        <div class="calendar-header">
+            <button type="button" id="calendarPrevMonth" aria-label="Previous month">←</button>
+            <h3 id="calendarMonthYear">MONTH YEAR</h3>
+            <button type="button" id="calendarNextMonth" aria-label="Next month">→</button>
         </div>
 
-        <div class="balance-planner-section">
-            <label for="plannerSchool">SCHOOL PRIORITY</label>
+        <div class="calendar-today-row">
+            <button type="button" id="calendarGoToday">TODAY</button>
+            <span>Select a day to view or plan events.</span>
+        </div>
+
+        <div class="calendar-weekdays" aria-hidden="true">
+            <span>MON</span>
+            <span>TUE</span>
+            <span>WED</span>
+            <span>THU</span>
+            <span>FRI</span>
+            <span>SAT</span>
+            <span>SUN</span>
+        </div>
+
+        <div class="calendar-grid" id="balanceCalendarGrid"></div>
+
+        <div class="calendar-selected-day">
+            <div class="balance-planner-label">YOUR SCHEDULE</div>
+            <h3 id="calendarSelectedDate">Select a day</h3>
+            <div id="calendarDayEvents"></div>
+        </div>
+
+        <div class="calendar-event-editor">
+            <div class="balance-planner-label" id="calendarEditorLabel">ADD AN EVENT</div>
+
+            <label for="calendarEventTitle">EVENT</label>
             <input
                 type="text"
-                id="plannerSchool"
-                placeholder="What needs your attention this week?"
+                id="calendarEventTitle"
+                placeholder="Practice, homework, appointments..."
             >
-        </div>
 
-        <div class="balance-planner-section">
-            <label for="plannerSport">SPORTS PRIORITY</label>
-            <input
-                type="text"
-                id="plannerSport"
-                placeholder="Training, recovery, or a performance goal..."
-            >
-        </div>
+            <div class="calendar-event-fields">
+                <div>
+                    <label for="calendarEventDate">DATE</label>
+                    <input type="date" id="calendarEventDate">
+                </div>
+                <div>
+                    <label for="calendarEventTime">TIME</label>
+                    <input type="time" id="calendarEventTime">
+                </div>
+            </div>
 
-        <div class="balance-planner-section">
-            <label for="plannerPersonal">PERSONAL PRIORITY</label>
-            <input
-                type="text"
-                id="plannerPersonal"
-                placeholder="Friends, family, faith, or time for yourself..."
-            >
-        </div>
+            <label for="calendarEventCategory">CATEGORY</label>
+            <select id="calendarEventCategory">
+                <option value="school">School</option>
+                <option value="sports">Sports</option>
+                <option value="personal">Personal</option>
+                <option value="other">Other</option>
+            </select>
 
-        <div class="balance-planner-section">
-            <label for="plannerNotes">MY PLAN FOR THE WEEK</label>
+            <label for="calendarEventNotes">NOTES (OPTIONAL)</label>
             <textarea
-                id="plannerNotes"
-                rows="5"
-                placeholder="What matters most this week? What do you want to make time for?"
+                id="calendarEventNotes"
+                rows="3"
+                placeholder="Details, reminders, or what to bring..."
             ></textarea>
+
+            <div class="calendar-editor-actions">
+                <button type="button" id="calendarCancelEdit">CLEAR</button>
+                <button type="button" id="calendarSaveEvent">SAVE EVENT →</button>
+            </div>
+
+            <p id="calendarEventMessage" role="status"></p>
         </div>
 
-        <button
-            type="button"
-            class="balance-planner-save"
-            onclick="saveBalancePlanner()"
-        >
-            SAVE MY WEEK →
-        </button>
-
-        <div id="balancePlannerMessage"></div>
-
+        <div id="balancePlannerMessage" role="status"></div>
     </div>
-
 </div>
+
 
 <!-- ATHLETE PROFILE -->
 
@@ -3978,6 +4294,31 @@ function closeJournal() {
     document.getElementById("journalMessage").textContent = "";
 }
 
+
+/* ALIGN INTERACTIVE CALENDAR */
+
+let balanceCalendarMonth = new Date();
+let balanceSelectedDate = getCalendarDateKey(new Date());
+let balanceCalendarEvents = [];
+let balanceEditingEventId = null;
+
+function getCalendarDateKey(date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+}
+
+function formatCalendarDate(dateKey, options = {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+    year: "numeric"
+}) {
+    const [year, month, day] = dateKey.split("-").map(Number);
+    return new Date(year, month - 1, day).toLocaleDateString(undefined, options);
+}
+
 function openBalancePlanner() {
     if (!currentUser) {
         openAuth();
@@ -3986,12 +4327,299 @@ function openBalancePlanner() {
 
     document.getElementById("balancePlannerOverlay").classList.add("active");
     document.getElementById("balancePlannerMessage").textContent = "";
+
+    balanceCalendarMonth = new Date();
+    balanceSelectedDate = getCalendarDateKey(new Date());
+
+    renderBalanceCalendar();
+    resetCalendarEventForm();
 }
 
 function closeBalancePlanner() {
     document.getElementById("balancePlannerOverlay").classList.remove("active");
     document.getElementById("balancePlannerMessage").textContent = "";
+    document.getElementById("calendarEventMessage").textContent = "";
 }
+
+function renderBalanceCalendar() {
+    const grid = document.getElementById("balanceCalendarGrid");
+    const monthTitle = document.getElementById("calendarMonthYear");
+
+    if (!grid || !monthTitle) return;
+
+    const year = balanceCalendarMonth.getFullYear();
+    const month = balanceCalendarMonth.getMonth();
+
+    monthTitle.textContent = new Date(year, month, 1).toLocaleDateString(
+        undefined,
+        { month: "long", year: "numeric" }
+    );
+
+    grid.innerHTML = "";
+
+    const firstDay = new Date(year, month, 1);
+    const mondayOffset = (firstDay.getDay() + 6) % 7;
+    const gridStart = new Date(year, month, 1 - mondayOffset);
+    const todayKey = getCalendarDateKey(new Date());
+
+    for (let i = 0; i < 42; i++) {
+        const day = new Date(gridStart);
+        day.setDate(gridStart.getDate() + i);
+
+        const dateKey = getCalendarDateKey(day);
+        const dayEvents = balanceCalendarEvents.filter(
+            item => item.date === dateKey
+        );
+
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "calendar-day";
+        button.setAttribute("aria-label", formatCalendarDate(dateKey));
+
+        if (day.getMonth() !== month) {
+            button.classList.add("is-outside-month");
+        }
+
+        if (dateKey === todayKey) {
+            button.classList.add("is-today");
+        }
+
+        if (dateKey === balanceSelectedDate) {
+            button.classList.add("is-selected");
+            button.setAttribute("aria-pressed", "true");
+        } else {
+            button.setAttribute("aria-pressed", "false");
+        }
+
+        const number = document.createElement("span");
+        number.className = "calendar-day-number";
+        number.textContent = day.getDate();
+        button.appendChild(number);
+
+        if (dayEvents.length) {
+            const eventMarks = document.createElement("span");
+            eventMarks.className = "calendar-day-events";
+
+            dayEvents.slice(0, 3).forEach(item => {
+                const dot = document.createElement("span");
+                dot.className = `calendar-event-dot ${item.category}`;
+                eventMarks.appendChild(dot);
+            });
+
+            button.appendChild(eventMarks);
+        }
+
+        button.addEventListener("click", () => {
+            balanceSelectedDate = dateKey;
+            resetCalendarEventForm();
+            renderBalanceCalendar();
+        });
+
+        grid.appendChild(button);
+    }
+
+    renderBalanceDayEvents();
+}
+
+function renderBalanceDayEvents() {
+    const title = document.getElementById("calendarSelectedDate");
+    const list = document.getElementById("calendarDayEvents");
+
+    if (!title || !list) return;
+
+    title.textContent = formatCalendarDate(balanceSelectedDate);
+    list.innerHTML = "";
+
+    const events = balanceCalendarEvents
+        .filter(item => item.date === balanceSelectedDate)
+        .sort((a, b) => (a.time || "").localeCompare(b.time || ""));
+
+    if (!events.length) {
+        const empty = document.createElement("p");
+        empty.className = "calendar-event-empty";
+        empty.textContent = "Nothing planned yet. Add an event below.";
+        list.appendChild(empty);
+        return;
+    }
+
+    events.forEach(item => {
+        const article = document.createElement("div");
+        article.className = "calendar-event-item";
+
+        const details = document.createElement("div");
+
+        const eventTitle = document.createElement("strong");
+        eventTitle.textContent = item.title;
+        details.appendChild(eventTitle);
+
+        const meta = document.createElement("div");
+        meta.className = "calendar-event-meta";
+
+        const timeText = item.time
+            ? new Date(`2000-01-01T${item.time}:00`).toLocaleTimeString(
+                undefined,
+                { hour: "numeric", minute: "2-digit" }
+            )
+            : "Time not set";
+
+        meta.textContent =
+            `${timeText} · ${item.category.charAt(0).toUpperCase()}${item.category.slice(1)}`;
+        details.appendChild(meta);
+
+        if (item.notes) {
+            const notes = document.createElement("p");
+            notes.textContent = item.notes;
+            details.appendChild(notes);
+        }
+
+        const actions = document.createElement("div");
+        actions.className = "calendar-event-actions";
+
+        const editButton = document.createElement("button");
+        editButton.type = "button";
+        editButton.textContent = "EDIT";
+        editButton.addEventListener("click", () => editBalanceCalendarEvent(item.id));
+
+        const deleteButton = document.createElement("button");
+        deleteButton.type = "button";
+        deleteButton.textContent = "DELETE";
+        deleteButton.addEventListener("click", () => deleteBalanceCalendarEvent(item.id));
+
+        actions.appendChild(editButton);
+        actions.appendChild(deleteButton);
+
+        article.appendChild(details);
+        article.appendChild(actions);
+        list.appendChild(article);
+    });
+}
+
+function resetCalendarEventForm() {
+    balanceEditingEventId = null;
+
+    document.getElementById("calendarEditorLabel").textContent = "ADD AN EVENT";
+    document.getElementById("calendarEventTitle").value = "";
+    document.getElementById("calendarEventDate").value = balanceSelectedDate;
+    document.getElementById("calendarEventTime").value = "";
+    document.getElementById("calendarEventCategory").value = "school";
+    document.getElementById("calendarEventNotes").value = "";
+    document.getElementById("calendarEventMessage").textContent = "";
+}
+
+function editBalanceCalendarEvent(id) {
+    const item = balanceCalendarEvents.find(event => event.id === id);
+    if (!item) return;
+
+    balanceEditingEventId = id;
+    balanceSelectedDate = item.date;
+
+    document.getElementById("calendarEditorLabel").textContent = "EDIT EVENT";
+    document.getElementById("calendarEventTitle").value = item.title;
+    document.getElementById("calendarEventDate").value = item.date;
+    document.getElementById("calendarEventTime").value = item.time || "";
+    document.getElementById("calendarEventCategory").value = item.category;
+    document.getElementById("calendarEventNotes").value = item.notes || "";
+    document.getElementById("calendarEventMessage").textContent = "";
+
+    const [year, month] = item.date.split("-").map(Number);
+    balanceCalendarMonth = new Date(year, month - 1, 1);
+
+    renderBalanceCalendar();
+    document.querySelector(".calendar-event-editor").scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+    });
+}
+
+function deleteBalanceCalendarEvent(id) {
+    balanceCalendarEvents = balanceCalendarEvents.filter(item => item.id !== id);
+
+    if (balanceEditingEventId === id) {
+        resetCalendarEventForm();
+    }
+
+    renderBalanceCalendar();
+}
+
+function saveBalanceCalendarEvent() {
+    const title = document.getElementById("calendarEventTitle").value.trim();
+    const date = document.getElementById("calendarEventDate").value;
+    const time = document.getElementById("calendarEventTime").value;
+    const category = document.getElementById("calendarEventCategory").value;
+    const notes = document.getElementById("calendarEventNotes").value.trim();
+    const message = document.getElementById("calendarEventMessage");
+
+    if (!title || !date) {
+        message.textContent = "Please enter an event name and date.";
+        return;
+    }
+
+    const eventData = {
+        id: balanceEditingEventId || (
+            Date.now().toString(36) + Math.random().toString(36).slice(2)
+        ),
+        title,
+        date,
+        time,
+        category,
+        notes
+    };
+
+    if (balanceEditingEventId) {
+        balanceCalendarEvents = balanceCalendarEvents.map(item =>
+            item.id === balanceEditingEventId ? eventData : item
+        );
+    } else {
+        balanceCalendarEvents.push(eventData);
+    }
+
+    balanceSelectedDate = date;
+
+    const [year, month] = date.split("-").map(Number);
+    balanceCalendarMonth = new Date(year, month - 1, 1);
+
+    renderBalanceCalendar();
+    resetCalendarEventForm();
+    message.textContent = "Event added.";
+}
+
+document.getElementById("calendarPrevMonth").addEventListener("click", () => {
+    balanceCalendarMonth.setMonth(balanceCalendarMonth.getMonth() - 1);
+    renderBalanceCalendar();
+});
+
+document.getElementById("calendarNextMonth").addEventListener("click", () => {
+    balanceCalendarMonth.setMonth(balanceCalendarMonth.getMonth() + 1);
+    renderBalanceCalendar();
+});
+
+document.getElementById("calendarGoToday").addEventListener("click", () => {
+    const today = new Date();
+    balanceCalendarMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+    balanceSelectedDate = getCalendarDateKey(today);
+    resetCalendarEventForm();
+    renderBalanceCalendar();
+});
+
+document.getElementById("calendarEventDate").addEventListener("change", event => {
+    if (!event.target.value) return;
+
+    balanceSelectedDate = event.target.value;
+    const [year, month] = balanceSelectedDate.split("-").map(Number);
+    balanceCalendarMonth = new Date(year, month - 1, 1);
+
+    renderBalanceCalendar();
+});
+
+document.getElementById("calendarSaveEvent").addEventListener(
+    "click",
+    saveBalanceCalendarEvent
+);
+
+document.getElementById("calendarCancelEdit").addEventListener("click", () => {
+    resetCalendarEventForm();
+    document.getElementById("calendarEventMessage").textContent = "";
+});
 
 document.getElementById("journalForm").addEventListener("submit", async function(event) {
     event.preventDefault();
