@@ -885,52 +885,61 @@ footer span {
     gap: 12px;
 }
 
+
 .dashboard-card {
     min-height: 145px;
     padding: 26px;
-    border: 1px solid #e3dbcf;
-    background: linear-gradient(145deg, #ffffff, #faf8f4);
+    border: 1px solid #E3DBCF;
+    border-radius: 4px;
+    background: #F8F5EF;
     text-align: left;
     cursor: pointer;
-    transition: .25s ease;
+    transition: background .25s ease, border-color .25s ease, transform .25s ease, box-shadow .25s ease;
 }
 
 .dashboard-card:hover {
-    transform: translateY(-3px);
-    border-color: #c5ad83;
-    box-shadow: 0 10px 24px rgba(48, 46, 42, 0.07);
+    background: #F2F3EC;
+    transform: translateY(-2px);
+    border-color: #C8D5C2;
+    box-shadow: 0 6px 18px rgba(48, 46, 42, 0.05);
 }
+
+
 
 .dashboard-icon {
     display: block;
-    color: #9b8057;
+    color: #71896A;
     font-family: "DM Sans", sans-serif;
     font-size: 9px;
     font-weight: 700;
-    letter-spacing: .18em;
-    line-height: 1.6;
+    letter-spacing: .16em;
+    line-height: 1.7;
     margin-bottom: 22px;
 }
+
+
 
 .dashboard-card strong {
     display: block;
     font-family: "DM Sans", sans-serif;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 700;
-    letter-spacing: .09em;
-    line-height: 1.5;
-    margin-bottom: 9px;
-    color: #82977B;
+    letter-spacing: .08em;
+    line-height: 1.6;
+    margin-bottom: 10px;
+    color: #52694D;
 }
 
 .dashboard-card small {
     display: block;
-    color: #82796e;
+    color: #756E63;
     font-family: "DM Sans", sans-serif;
     font-size: 12px;
-    line-height: 1.7;
-    letter-spacing: .01em;
+    font-weight: 400;
+    line-height: 1.8;
+    letter-spacing: .015em;
 }
+
 
 /* DASHBOARD HEADER AND FOOTER */
 
@@ -1045,64 +1054,73 @@ border-color: #82977B;
     letter-spacing: .04em;
 }
 
+
 /* ATHLETE PROFILE SETUP PROMPT */
 
 .profile-setup-prompt {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 20px;
-    padding: 22px 24px;
+    gap: 24px;
+    padding: 24px 26px;
     margin-top: 28px;
-    background: #F5F7F1;
-    border: 1px solid #D5DFCF;
-    border-radius: 3px;
+    background: #F2F3EC;
+    border: 1px solid #DDE2D4;
+    border-radius: 4px;
+    box-shadow: 0 4px 14px rgba(48, 46, 42, 0.025);
 }
 
 .profile-setup-label {
     display: block;
-    margin-bottom: 7px;
+    margin-bottom: 8px;
     color: #52694D;
     font-family: "DM Sans", sans-serif;
     font-size: 10px;
     font-weight: 700;
-    letter-spacing: .17em;
+    letter-spacing: .16em;
+    line-height: 1.6;
 }
 
 .profile-setup-prompt p {
     margin: 0;
-    color: #82796E;
+    color: #756E63;
     font-family: "DM Sans", sans-serif;
     font-size: 12px;
-    line-height: 1.7;
+    font-weight: 400;
+    letter-spacing: .01em;
+    line-height: 1.8;
 }
 
 .profile-setup-button {
     flex-shrink: 0;
-    padding: 12px 14px;
-    border: 1px solid #82977B;
+    padding: 13px 16px;
+    border: 1px solid #71896A;
     border-radius: 3px;
-    background: #82977B;
+    background: #71896A;
     color: #FFFFFF;
     font-family: "DM Sans", sans-serif;
     font-size: 9px;
     font-weight: 700;
-    letter-spacing: .09em;
+    letter-spacing: .08em;
+    line-height: 1.6;
     cursor: pointer;
-    transition: background .2s ease;
+    transition: background .25s ease, border-color .25s ease, transform .25s ease;
 }
 
 .profile-setup-button:hover {
     background: #52694D;
+    border-color: #52694D;
+    transform: translateY(-1px);
 }
 
-/* DASHBOARD ATHLETE IDENTITY CARD */
 
+
+/* DASHBOARD ATHLETE IDENTITY CARD */
 
 .dashboard-athlete-card {
     display: flex;
     align-items: center;
-    gap: 22px;
+    gap: 24px;
     padding: 30px;
     margin: 18px 0 32px;
     background: #F2F3EC;
@@ -1110,59 +1128,66 @@ border-color: #82977B;
     border-radius: 4px;
     text-align: left;
     box-shadow: 0 5px 18px rgba(48, 46, 42, 0.035);
-    transition: border-color .2s ease;
+    transition: background .25s ease, border-color .25s ease;
 }
 
+.dashboard-athlete-card:hover {
+    background: #EEF0E7;
+    border-color: #C8D5C2;
+}
 
 .dashboard-athlete-avatar {
-    width: 62px;
-    height: 62px;
-    min-width: 62px;
+    width: 64px;
+    height: 64px;
+    min-width: 64px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid #c5ad83;
+    border: 1px solid #A4B49B;
     border-radius: 50%;
-    background: #f8f5ef;
-    color: var(--charcoal);
-    font-family: "Playfair Display", serif;
-    font-size: 23px;
-    letter-spacing: .04em;
-    box-shadow: inset 0 0 0 4px rgba(197, 173, 131, .10);
-}
-
-.dashboard-athlete-info h3 {
-    margin: 0 0 9px;
-    color: var(--charcoal);
+    background: #F8F5EF;
+    color: #52694D;
     font-family: "Playfair Display", serif;
     font-size: 24px;
     font-weight: 500;
-    letter-spacing: -.03em;
-    line-height: 1.15;
+    letter-spacing: .02em;
+    box-shadow: inset 0 0 0 4px rgba(130, 151, 123, 0.08);
+}
+
+.dashboard-athlete-info h3 {
+    margin: 0 0 10px;
+    color: var(--charcoal);
+    font-family: "Playfair Display", serif;
+    font-size: 25px;
+    font-weight: 500;
+    letter-spacing: -.035em;
+    line-height: 1.2;
+    overflow-wrap: anywhere;
 }
 
 .dashboard-athlete-info p {
     margin: 0 0 10px;
-    color: #716b64;
+    color: #756E63;
     font-family: "DM Sans", sans-serif;
     font-size: 10px;
-    font-weight: 500;
-    letter-spacing: .12em;
-    line-height: 1.7;
+    font-weight: 600;
+    letter-spacing: .10em;
+    line-height: 1.8;
     text-transform: uppercase;
+    overflow-wrap: anywhere;
 }
 
 .dashboard-athlete-info span {
     display: block;
-    color: #8b7759;
+    color: #52694D;
     font-family: "DM Sans", sans-serif;
     font-size: 9px;
-    font-weight: 600;
-    letter-spacing: .13em;
+    font-weight: 700;
+    letter-spacing: .12em;
     line-height: 1.8;
     text-transform: uppercase;
+    overflow-wrap: anywhere;
 }
-
 
 /* DASHBOARD MOBILE LAYOUT */
 
