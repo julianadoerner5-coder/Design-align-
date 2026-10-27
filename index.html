@@ -4541,47 +4541,100 @@ function deleteBalanceCalendarEvent(id) {
     renderBalanceCalendar();
 }
 
-function saveBalanceCalendarEvent() {
+
+async function saveBalanceCalendarEvent() {
     const title = document.getElementById("calendarEventTitle").value.trim();
     const date = document.getElementById("calendarEventDate").value;
     const time = document.getElementById("calendarEventTime").value;
     const category = document.getElementById("calendarEventCategory").value;
     const notes = document.getElementById("calendarEventNotes").value.trim();
     const message = document.getElementById("calendarEventMessage");
+    const saveButton = document.getElementById("calendarSaveEvent");
 
     if (!title || !date) {
         message.textContent = "Please enter an event name and date.";
         return;
     }
 
-    const eventData = {
-        id: balanceEditingEventId || (
-            Date.now().toString(36) + Math.random().toString(36).slice(2)
-        ),
-        title,
-        date,
-        time,
-        category,
-        notes
-    };
-
-    if (balanceEditingEventId) {
-        balanceCalendarEvents = balanceCalendarEvents.map(item =>
-            item.id === balanceEditingEventId ? eventData : item
-        );
-    } else {
-        balanceCalendarEvents.push(eventData);
+    if (!currentUser) {
+        message.textContent = "Please sign in to save your events.";
+        return;
     }
 
-    balanceSelectedDate = date;
+    saveButton.disabled = true;
+    message.textContent = "Saving event...";
 
-    const [year, month] = date.split("-").map(Number);
-    balanceCalendarMonth = new Date(year, month - 1, 1);
+    const eventData = {
+        title,
+        event_date: date,
+        event_time: time || null,
+        category,
+        notes: notes || null,
+        user_id: currentUser.id
+    };
 
-    renderBalanceCalendar();
-    resetCalendarEventForm();
-    message.textContent = "Event added.";
+    try {
+        let result;
+
+        if (balanceEditingEventId) {
+            result = await supabaseClient
+                .from("calendar_events")
+                .update(eventData)
+                .eq("id", balanceEditingEventId)
+                .eq("user_id", currentUser.id)
+                .select()
+                .single();
+        } else {
+            result = await supabaseClient
+                .from("calendar_events")
+                .insert(eventData)
+                .select()
+                .single();
+        }
+
+        if (result.error) {
+            throw result.error;
+        }
+
+        const savedRow = result.data;
+
+        const savedEvent = {
+            id: savedRow.id,
+            title: savedRow.title,
+            date: savedRow.event_date,
+            time: savedRow.event_time
+                ? savedRow.event_time.slice(0, 5)
+                : "",
+            category: savedRow.category,
+            notes: savedRow.notes || ""
+        };
+
+        if (balanceEditingEventId) {
+            balanceCalendarEvents = balanceCalendarEvents.map(item =>
+                item.id === balanceEditingEventId ? savedEvent : item
+            );
+        } else {
+            balanceCalendarEvents.push(savedEvent);
+        }
+
+        balanceSelectedDate = date;
+
+        const [year, month] = date.split("-").map(Number);
+        balanceCalendarMonth = new Date(year, month - 1, 1);
+
+        renderBalanceCalendar();
+        resetCalendarEventForm();
+        message.textContent = "Event saved successfully!";
+
+    } catch (error) {
+        console.error("Error saving calendar event:", error);
+        message.textContent =
+            "Couldn't save your event. Please try again.";
+    } finally {
+        saveButton.disabled = false;
+    }
 }
+
 
 document.getElementById("calendarPrevMonth").addEventListener("click", () => {
     balanceCalendarMonth.setMonth(balanceCalendarMonth.getMonth() - 1);
