@@ -4313,6 +4313,7 @@ function formatCalendarDate(dateKey, options = {
     return new Date(year, month - 1, day).toLocaleDateString(undefined, options);
 }
 
+
 function openBalancePlanner() {
     if (!currentUser) {
         openAuth();
@@ -4325,9 +4326,46 @@ function openBalancePlanner() {
     balanceCalendarMonth = new Date();
     balanceSelectedDate = getCalendarDateKey(new Date());
 
-    renderBalanceCalendar();
     resetCalendarEventForm();
+    renderBalanceCalendar();
+    loadBalanceCalendarEvents();
 }
+
+async function loadBalanceCalendarEvents() {
+    if (!currentUser) return;
+
+    const message = document.getElementById("balancePlannerMessage");
+    message.textContent = "Loading your saved events...";
+
+    try {
+        const { data, error } = await supabaseClient
+            .from("calendar_events")
+            .select("id, title, event_date, event_time, category, notes")
+            .eq("user_id", currentUser.id)
+            .order("event_date", { ascending: true });
+
+        if (error) throw error;
+
+        balanceCalendarEvents = (data || []).map(row => ({
+            id: row.id,
+            title: row.title,
+            date: row.event_date,
+            time: row.event_time
+                ? row.event_time.slice(0, 5)
+                : "",
+            category: row.category,
+            notes: row.notes || ""
+        }));
+
+        renderBalanceCalendar();
+        message.textContent = "";
+    } catch (error) {
+        console.error("Error loading calendar events:", error);
+        message.textContent =
+            "Couldn't load saved events. Please try again.";
+    }
+}
+
 
 function closeBalancePlanner() {
     document.getElementById("balancePlannerOverlay").classList.remove("active");
