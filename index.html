@@ -3417,14 +3417,8 @@ border-color: #82977B;
         </div>
 
         <div class="calendar-weekdays" aria-hidden="true">
-            <span>MON</span>
-            <span>TUE</span>
-            <span>WED</span>
-            <span>THU</span>
-            <span>FRI</span>
-            <span>SAT</span>
-            <span>SUN</span>
-        </div>
+    <span>SUN</span><span>MON</span><span>TUE</span><span>WED</span><span>THU</span><span>FRI</span><span>SAT</span>
+</div>
 
         <div class="calendar-grid" id="balanceCalendarGrid"></div>
 
@@ -4358,8 +4352,8 @@ function renderBalanceCalendar() {
     grid.innerHTML = "";
 
     const firstDay = new Date(year, month, 1);
-    const mondayOffset = (firstDay.getDay() + 6) % 7;
-    const gridStart = new Date(year, month, 1 - mondayOffset);
+    const sundayOffset = firstDay.getDay();
+    const gridStart = new Date(year, month, 1 - sundayOffset);
     const todayKey = getCalendarDateKey(new Date());
 
     for (let i = 0; i < 42; i++) {
