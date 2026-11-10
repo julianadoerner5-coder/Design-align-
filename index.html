@@ -4412,6 +4412,7 @@ function toggleAuthMode() {
 
 
 
+
 document.getElementById("authForm").addEventListener("submit", async function(event) {
     event.preventDefault();
 
@@ -4423,40 +4424,57 @@ document.getElementById("authForm").addEventListener("submit", async function(ev
     message.textContent = "";
     button.disabled = true;
 
-    if (authMode === "signup") {
-        const { error } = await supabaseClient.auth.signUp({
-            email: email,
-            password: password
+    let timeoutId;
+
+    try {
+        const authRequest = authMode === "signup"
+            ? supabaseClient.auth.signUp({
+                email: email,
+                password: password
+            })
+            : supabaseClient.auth.signInWithPassword({
+                email: email,
+                password: password
+            });
+
+        const timeoutRequest = new Promise((resolve, reject) => {
+            timeoutId = setTimeout(() => {
+                reject(new Error(
+                    "This is taking too long. Please check your connection and try again."
+                ));
+            }, 20000);
         });
 
-        if (error) {
-            message.textContent = error.message;
-            button.disabled = false;
-            return;
-        }
-
-        message.textContent =
-            "Account created! Check your email to confirm your account.";
-    } else {
-        const { error } = await supabaseClient.auth.signInWithPassword({
-            email: email,
-            password: password
-        });
+        const { data, error } = await Promise.race([
+            authRequest,
+            timeoutRequest
+        ]);
 
         if (error) {
-            message.textContent = error.message;
-            button.disabled = false;
-            return;
+            throw error;
         }
 
-        message.textContent = "You're signed in.";
+        if (authMode === "signup") {
+            message.textContent =
+                "Account created! Check your email to confirm your account.";
+        } else {
+            message.textContent = "You're signed in.";
 
-        setTimeout(() => {
-            closeAuth();
-        }, 1000);
+            setTimeout(() => {
+                closeAuth();
+            }, 1000);
+        }
+
+    } catch (error) {
+        console.error("ALIGN authentication error:", error);
+
+        message.textContent = error.message ||
+            "Something went wrong. Please try again.";
+
+    } finally {
+        clearTimeout(timeoutId);
+        button.disabled = false;
     }
-
-    button.disabled = false;
 });
 
 function openJournal() {
