@@ -2925,6 +2925,95 @@ border-color: #82977B;
     font-style: italic;
     line-height: 1.5;
 }
+    
+
+/* ALIGN FOOTER */
+
+.site-footer {
+    background: var(--espresso);
+    color: var(--ivory);
+    padding: 75px 8% 25px;
+}
+
+.footer-main {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 60px;
+    padding-bottom: 65px;
+}
+
+.footer-logo {
+    font-size: 27px;
+    font-weight: 700;
+    letter-spacing: .2em;
+    margin-bottom: 16px;
+}
+
+.footer-brand p {
+    font-size: 10px;
+    letter-spacing: .17em;
+    font-weight: 700;
+    margin-bottom: 14px;
+}
+
+.footer-brand span {
+    display: block;
+    max-width: 290px;
+    color: #c5bcb1;
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+.footer-navigation {
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+}
+
+.footer-heading {
+    color: #b9a88f;
+    font-size: 10px;
+    letter-spacing: .2em;
+    margin-bottom: 8px;
+    font-weight: 700;
+}
+
+.footer-navigation a {
+    font-size: 10px;
+    letter-spacing: .13em;
+    color: #e5dfd6;
+    transition: color .25s ease;
+}
+
+.footer-navigation a:hover {
+    color: #c4a878;
+}
+
+.footer-bottom {
+    border-top: 1px solid rgba(247,244,238,.2);
+    padding-top: 22px;
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    color: #b9b0a5;
+    font-size: 9px;
+    letter-spacing: .12em;
+}
+
+@media (max-width: 600px) {
+    .footer-main {
+        flex-direction: column;
+        gap: 45px;
+    }
+
+    .footer-bottom {
+        flex-direction: column;
+        line-height: 1.8;
+    }
+}
+
+
     </style>
 </head>
 
@@ -5799,6 +5888,38 @@ card.appendChild(completeButton);
     });
 
 }
+
 </script>
+
+<!-- ALIGN FOOTER -->
+<footer class="site-footer">
+    <div class="footer-main">
+        <div class="footer-brand">
+            <div class="footer-logo">ALIGN</div>
+            <p>MORE THAN YOUR PERFORMANCE.</p>
+            <span>
+                A space for student-athletes to grow
+                beyond the sport.
+            </span>
+        </div>
+
+        <div class="footer-navigation">
+            <div class="footer-heading">EXPLORE</div>
+            <a href="#experience">HOME</a>
+            <a href="#journal">JOURNAL</a>
+            <a href="#mindset">MINDSET</a>
+            <a href="#goals">GOALS</a>
+            <a href="#beyond">BEYOND</a>
+            <a href="#about">ABOUT ALIGN</a>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <span>© 2026 ALIGN. ALL RIGHTS RESERVED.</span>
+        <span>BUILT FOR THE ATHLETE BEYOND THE ATHLETE.</span>
+    </div>
+</footer>
+
 </body>
 </html>
+
