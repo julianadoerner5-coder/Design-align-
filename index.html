@@ -4455,9 +4455,15 @@ document.getElementById("authForm").addEventListener("submit", async function(ev
         }
 
         if (authMode === "signup") {
-            message.textContent =
-                "Account created! Check your email to confirm your account.";
-        } else {
+    message.textContent =
+        "Your ALIGN account is ready. Welcome!";
+
+    setTimeout(() => {
+        closeAuth();
+        openDashboard();
+    }, 1200);
+
+} else {
             message.textContent = "You're signed in.";
 
             setTimeout(() => {
