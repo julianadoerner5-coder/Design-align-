@@ -3014,6 +3014,111 @@ border-color: #82977B;
 }
 
 
+/* MY DAY */
+
+.my-day {
+    background: var(--ivory);
+    padding: 85px 8%;
+    border-bottom: 1px solid var(--gray);
+}
+
+.my-day-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.my-day-heading {
+    margin-bottom: 35px;
+}
+
+.my-day-heading .section-label {
+    margin-bottom: 12px;
+}
+
+.my-day-heading h2 {
+    font-family: "DM Sans", sans-serif;
+    font-size: clamp(36px, 5vw, 52px);
+    font-weight: 700;
+    letter-spacing: -.04em;
+    line-height: 1;
+    color: var(--espresso);
+    margin-bottom: 15px;
+}
+
+.my-day-heading p {
+    max-width: 520px;
+    color: var(--taupe);
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+.my-day-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+.my-day-card {
+    min-height: 175px;
+    padding: 28px;
+    background: #ffffff;
+    border: 1px solid var(--gray);
+    border-radius: 2px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    text-align: left;
+    color: var(--espresso);
+    font-family: "DM Sans", sans-serif;
+    cursor: pointer;
+    transition: border-color .25s ease, transform .25s ease;
+}
+
+.my-day-card:hover {
+    border-color: var(--gold);
+    transform: translateY(-3px);
+}
+
+.my-day-number {
+    font-size: 9px;
+    letter-spacing: .17em;
+    color: var(--taupe);
+}
+
+.my-day-title {
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: .04em;
+}
+
+.my-day-link {
+    font-size: 9px;
+    letter-spacing: .13em;
+    color: var(--gold);
+    font-weight: 700;
+}
+
+.my-day-card-wide {
+    grid-column: 1 / -1;
+    min-height: 145px;
+    background: #f0ede6;
+}
+
+@media (max-width: 600px) {
+    .my-day {
+        padding: 65px 7%;
+    }
+
+    .my-day-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .my-day-card-wide {
+        grid-column: auto;
+    }
+}
+
     </style>
 </head>
 
@@ -3069,6 +3174,40 @@ border-color: #82977B;
 
 </section>
 
+
+<!-- MY DAY -->
+<section class="my-day" id="myDay" style="display: none;">
+    <div class="my-day-inner">
+
+        <div class="my-day-heading">
+            <div class="section-label">YOUR PERSONAL ALIGN SPACE</div>
+            <h2>MY DAY.</h2>
+            <p>A little space to stay connected to your goals, growth, and everyday progress.</p>
+        </div>
+
+        <div class="my-day-grid">
+
+            <button class="my-day-card" type="button" onclick="openChallenges()">
+                <span class="my-day-number">01 / GROW</span>
+                <span class="my-day-title">ACTIVE CHALLENGES</span>
+                <span class="my-day-link">CONTINUE YOUR PROGRESS →</span>
+            </button>
+
+            <button class="my-day-card" type="button" onclick="openJournal()">
+                <span class="my-day-number">02 / REFLECT</span>
+                <span class="my-day-title">DAILY JOURNAL</span>
+                <span class="my-day-link">MAKE SPACE TO REFLECT →</span>
+            </button>
+
+            <button class="my-day-card my-day-card-wide" type="button" onclick="openBalancePlanner()">
+                <span class="my-day-number">03 / FIND BALANCE</span>
+                <span class="my-day-title">TODAY'S SCHEDULE</span>
+                <span class="my-day-link">VIEW YOUR BALANCE PLANNER →</span>
+            </button>
+
+        </div>
+    </div>
+</section>
 
 <!-- INTRO -->
 
@@ -4133,7 +4272,26 @@ async function loadAuthState() {
     updateAccountButton();
 }
 
+
 function updateAccountButton() {
+
+    const button =
+        document.querySelector(".account-button");
+
+    if (button) {
+        if (currentUser) {
+            button.textContent = "MY ALIGN · ACCOUNT";
+        } else {
+            button.textContent = "MY ALIGN";
+        }
+    }
+
+    const myDay = document.getElementById("myDay");
+
+    if (myDay) {
+        myDay.style.display = currentUser ? "block" : "none";
+    }
+}
 
     const button =
         document.querySelector(".account-button");
