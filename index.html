@@ -4273,6 +4273,7 @@ async function loadAuthState() {
 }
 
 
+
 function updateAccountButton() {
 
     const button =
@@ -4293,17 +4294,6 @@ function updateAccountButton() {
     }
 }
 
-    const button =
-        document.querySelector(".account-button");
-
-    if (!button) return;
-
-    if (currentUser) {
-        button.textContent = "MY ALIGN · ACCOUNT";
-    } else {
-        button.textContent = "MY ALIGN";
-    }
-}
 
 supabaseClient.auth.onAuthStateChange((event, session) => {
 
